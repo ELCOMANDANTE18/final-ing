@@ -14,8 +14,14 @@ def create_app(config_class=Config):
     mail.init_app(app)
     cors.init_app(app, resources={r"/*": {"origins": app.config["CORS_ORIGIN"]}})
 
+    from app.services.notification_service import NotificationService
+
+    NotificationService.get_instance().init_app(mail)
+
     from app.controllers.auth_controller import auth_bp
+    from app.controllers.amistad_controller import amistad_bp
 
     app.register_blueprint(auth_bp)
+    app.register_blueprint(amistad_bp)
 
     return app
