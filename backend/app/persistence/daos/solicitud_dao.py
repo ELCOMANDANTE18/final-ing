@@ -1,5 +1,5 @@
 from app.extensions import db
-from app.persistence.models import Amistad, SolicitudAmistad
+from app.persistence.models import Amistad, SolicitudAmistad, Usuario
 
 
 class SolicitudDao:
@@ -39,3 +39,16 @@ class AmistadDao:
         return (
             Amistad.query.filter_by(usuario1_id=a, usuario2_id=b).first() is not None
         )
+
+    @staticmethod
+    def listar_amigos(usuario_id: int) -> list[Usuario]:
+        amistades = Amistad.query.filter(
+            db.or_(Amistad.usuario1_id == usuario_id, Amistad.usuario2_id == usuario_id)
+        ).all()
+        otros_ids = [
+            a.usuario2_id if a.usuario1_id == usuario_id else a.usuario1_id
+            for a in amistades
+        ]
+        if not otros_ids:
+            return []
+        return Usuario.query.filter(Usuario.id.in_(otros_ids)).all()

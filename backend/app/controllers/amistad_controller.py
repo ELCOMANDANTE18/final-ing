@@ -58,6 +58,13 @@ def solicitudes_pendientes():
     return jsonify([_solicitud_a_dict(s) for s in pendientes]), 200
 
 
+@amistad_bp.get("/amigos")
+@token_required
+def listar_amigos():
+    amigos = AmistadService.amigos_de(g.current_user.id)
+    return jsonify([{"id": a.id, "name": a.name} for a in amigos]), 200
+
+
 def _responder(solicitud_id: int, aceptar: bool):
     try:
         solicitud = AmistadService.responder_solicitud(

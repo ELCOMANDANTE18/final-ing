@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>UMBook</title>
+  </head>
+  <body style="margin:0; padding:0; background:#ECEAE3; font-family: Arial, Helvetica, sans-serif;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#ECEAE3; padding:32px 16px;">
+      <tr>
+        <td align="center">
+          <table role="presentation" width="480" cellpadding="0" cellspacing="0" style="max-width:480px; width:100%; background:#FFFFFF; border-radius:20px; overflow:hidden;">
+            <tr>
+              <td style="padding:28px 32px 0 32px;">
+                <table role="presentation" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td style="width:40px; height:40px; border-radius:12px; background:#7E9E76; text-align:center; vertical-align:middle;">
+                      <span style="color:#ffffff; font-weight:bold; font-size:18px; font-family: Arial, sans-serif;">U</span>
+                    </td>
+                    <td style="padding-left:10px; font-size:16px; font-weight:bold; color:#1B1D1C;">UMBook</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:24px 32px 32px 32px; color:#1B1D1C;">
+                {% block contenido %}{% endblock %}
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:16px 32px; background:#F7F5EE; border-top:1px solid #E9E6DD;">
+                <p style="margin:0; font-size:12px; color:#8A8B85;">
+                  Recibiste este mail porque tenés una cuenta en UMBook. Si no reconocés esta
+                  actividad, podés ignorar el mensaje.
+                </p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

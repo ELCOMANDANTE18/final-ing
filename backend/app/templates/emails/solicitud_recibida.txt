@@ -1,0 +1,11 @@
+UMBook
+
+Tenés una nueva solicitud de amistad.
+
+{{ emisor_nombre }} te envió una solicitud de amistad en UMBook.
+
+Ingresá a la app e iniciá sesión para aceptarla o rechazarla desde tu pantalla
+principal.
+
+--
+Recibiste este mail porque tenés una cuenta en UMBook.

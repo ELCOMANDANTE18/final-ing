@@ -1,5 +1,6 @@
 import threading
 
+from flask import render_template
 from flask_mail import Message
 
 from app.services.observer import Observador
@@ -37,11 +38,29 @@ class NotificationService(Observador):
         un Usuario. Hoy el único evento que dispara acción es
         "solicitud_recibida" (CU Notificar Solicitud de Amistad Recibida)."""
         if evento.get("tipo") == "solicitud_recibida":
-            destinatario = evento["receptor_email"]
-            mensaje = (
-                f"{evento['emisor_nombre']} te envió una solicitud de amistad en UMBook."
+            self._enviar_email_plantilla(
+                destinatario=evento["receptor_email"],
+                asunto=f"{evento['emisor_nombre']} te envió una solicitud de amistad",
+                plantilla="solicitud_recibida",
+                contexto={"emisor_nombre": evento["emisor_nombre"]},
             )
-            self.enviar_email(destinatario, mensaje)
+
+    def _enviar_email_plantilla(
+        self, destinatario: str, asunto: str, plantilla: str, contexto: dict
+    ) -> None:
+        """Renderiza `templates/emails/<plantilla>.html` y `.txt` (mismo
+        contexto para las dos) y arma el mail con ambas versiones — la
+        mayoría de los clientes de mail muestran la HTML, la .txt es el
+        fallback para los que no rendereizan HTML."""
+        if self._mail is None:
+            raise RuntimeError("NotificationService no inicializado: falta init_app(mail).")
+        msg = Message(
+            subject=asunto,
+            recipients=[destinatario],
+            body=render_template(f"emails/{plantilla}.txt", **contexto),
+            html=render_template(f"emails/{plantilla}.html", **contexto),
+        )
+        self._mail.send(msg)
 
     # --- API preexistente (CU0010), no se le cambia la firma ---
     def enviar_email(self, destinatario: str, mensaje: str) -> None:

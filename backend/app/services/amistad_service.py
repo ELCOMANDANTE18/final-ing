@@ -79,3 +79,7 @@ class AmistadService:
     @staticmethod
     def pendientes_para(usuario_id: int):
         return SolicitudDao.pendientes_para(usuario_id)
+
+    @staticmethod
+    def amigos_de(usuario_id: int):
+        return AmistadDao.listar_amigos(usuario_id)
