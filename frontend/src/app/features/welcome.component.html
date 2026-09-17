@@ -1,0 +1,27 @@
+<h1>UMBook</h1>
+<button (click)="logout()">Cerrar sesión</button>
+
+<section>
+  <h2>Solicitar amistad</h2>
+  <form (ngSubmit)="enviarSolicitud()" #solicitudForm="ngForm">
+    <label>
+      Email del usuario
+      <input type="email" name="emailReceptor" [(ngModel)]="emailReceptor" required />
+    </label>
+    <button type="submit">Enviar solicitud</button>
+  </form>
+  <p *ngIf="mensaje" class="success">{{ mensaje }}</p>
+  <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+</section>
+
+<section>
+  <h2>Solicitudes de amistad recibidas</h2>
+  <p *ngIf="pendientes.length === 0">No tenés solicitudes pendientes.</p>
+  <ul>
+    <li *ngFor="let s of pendientes">
+      {{ s.emisor.name }} te quiere agregar como amigo.
+      <button (click)="responder(s, true)">Aceptar</button>
+      <button (click)="responder(s, false)">Rechazar</button>
+    </li>
+  </ul>
+</section>
