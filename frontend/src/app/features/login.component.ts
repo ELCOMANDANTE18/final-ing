@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../core/auth.service';
@@ -13,7 +13,7 @@ export class LoginComponent {
   password = '';
   errorMessage = '';
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(private auth: AuthService, private router: Router, private cdr: ChangeDetectorRef) {}
 
   submit(): void {
     this.errorMessage = '';
@@ -28,6 +28,7 @@ export class LoginComponent {
       next: () => this.router.navigate(['/welcome']),
       error: (err) => {
         this.errorMessage = err.error?.error ?? 'Credenciales incorrectas.';
+        this.cdr.detectChanges();
       },
     });
   }

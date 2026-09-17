@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../core/auth.service';
@@ -15,7 +15,7 @@ export class RegisterComponent {
   errorMessage = '';
   successMessage = '';
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(private auth: AuthService, private router: Router, private cdr: ChangeDetectorRef) {}
 
   submit(): void {
     this.errorMessage = '';
@@ -29,10 +29,12 @@ export class RegisterComponent {
     this.auth.register(this.name, this.email, this.password).subscribe({
       next: () => {
         this.successMessage = 'Cuenta creada con éxito. Ya podés iniciar sesión.';
+        this.cdr.detectChanges();
         setTimeout(() => this.router.navigate(['/login']), 1200);
       },
       error: (err) => {
         this.errorMessage = err.error?.error ?? 'No se pudo completar el registro.';
+        this.cdr.detectChanges();
       },
     });
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Amigo, AmistadService, Solicitud } from '../core/amistad.service';
@@ -20,7 +20,8 @@ export class WelcomeComponent implements OnInit {
   constructor(
     private amistadService: AmistadService,
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -34,13 +35,19 @@ export class WelcomeComponent implements OnInit {
   }
 
   cargarAmigos(): void {
-    this.amistadService.amigos().subscribe((amigos) => (this.amigos = amigos));
+    this.amistadService.amigos().subscribe((amigos) => {
+      this.amigos = amigos;
+      this.cdr.detectChanges();
+    });
   }
 
   cargarPendientes(): void {
     // Consulta derivada: no hay una entidad Notificacion separada, esta
     // lista ES la notificación de "solicitud de amistad recibida".
-    this.amistadService.pendientes().subscribe((pendientes) => (this.pendientes = pendientes));
+    this.amistadService.pendientes().subscribe((pendientes) => {
+      this.pendientes = pendientes;
+      this.cdr.detectChanges();
+    });
   }
 
   enviarSolicitud(): void {
@@ -56,9 +63,11 @@ export class WelcomeComponent implements OnInit {
       next: () => {
         this.mensaje = 'Solicitud enviada.';
         this.emailReceptor = '';
+        this.cdr.detectChanges();
       },
       error: (err) => {
         this.errorMessage = err.error?.error ?? 'No se pudo enviar la solicitud.';
+        this.cdr.detectChanges();
       },
     });
   }
@@ -77,6 +86,7 @@ export class WelcomeComponent implements OnInit {
       },
       error: (err) => {
         this.errorMessage = err.error?.error ?? 'No se pudo procesar la solicitud.';
+        this.cdr.detectChanges();
       },
     });
   }
