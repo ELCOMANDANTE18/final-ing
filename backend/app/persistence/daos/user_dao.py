@@ -9,7 +9,7 @@ class UserDao:
 
     @staticmethod
     def get_by_id(user_id: int) -> Usuario | None:
-        return Usuario.query.get(user_id)
+        return db.session.get(Usuario, user_id)
 
     @staticmethod
     def create(name: str, email: str, password_hash: str) -> Usuario:

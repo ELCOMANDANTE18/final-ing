@@ -5,7 +5,7 @@ from app.persistence.models import Amistad, SolicitudAmistad, Usuario
 class SolicitudDao:
     @staticmethod
     def get_by_id(solicitud_id: int) -> SolicitudAmistad | None:
-        return SolicitudAmistad.query.get(solicitud_id)
+        return db.session.get(SolicitudAmistad, solicitud_id)
 
     @staticmethod
     def existe_pendiente(emisor_id: int, receptor_id: int) -> bool:
