@@ -103,3 +103,34 @@ def test_solicitud_a_email_inexistente_devuelve_404(client):
 def test_endpoints_de_amistad_requieren_token(client):
     resp = client.get("/amistad/solicitudes/pendientes")
     assert resp.status_code == 401
+
+
+def test_token_vencido_devuelve_401(app, client, crear_usuario):
+    """El front (token.interceptor.ts) desloguea automáticamente ante un 401
+    o 422 en una request que sí llevaba token, para el caso de sesión
+    vencida. Esto confirma qué status code dispara ese flujo en la práctica:
+    un JWT vencido de verdad da 401 (no 422, que es solo para tokens
+    corruptos/con formato inválido)."""
+    from datetime import timedelta
+
+    from flask_jwt_extended import create_access_token
+
+    with app.app_context():
+        usuario = crear_usuario(email="ana@test.com")
+        token_vencido = create_access_token(
+            identity=str(usuario.id), expires_delta=timedelta(seconds=-10)
+        )
+
+    resp = client.get(
+        "/amistad/solicitudes/pendientes", headers=auth_headers(token_vencido)
+    )
+
+    assert resp.status_code == 401
+
+
+def test_token_corrupto_devuelve_422(client):
+    resp = client.get(
+        "/amistad/solicitudes/pendientes", headers=auth_headers("esto-no-es-un-jwt")
+    )
+
+    assert resp.status_code == 422
