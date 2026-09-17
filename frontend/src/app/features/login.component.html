@@ -1,19 +1,38 @@
-<h1>Iniciar sesión</h1>
+<div class="auth-shell">
+  <div class="brand-panel">
+    <div class="brand-mark">
+      <span>U</span>
+    </div>
+    <h2>Bienvenido de<br />vuelta a UMBook</h2>
+    <p>Conectá con tus amigos, enviá solicitudes de amistad y enterate al toque cuando alguien te quiere agregar.</p>
+    <ul class="feature-list">
+      <li><span class="check">✓</span> Solicitudes de amistad en tiempo real</li>
+      <li><span class="check">✓</span> Notificaciones por email</li>
+      <li><span class="check">✓</span> Tus datos, siempre protegidos</li>
+    </ul>
+  </div>
 
-<form (ngSubmit)="submit()" #loginForm="ngForm">
-  <label>
-    Email
-    <input type="email" name="email" [(ngModel)]="email" required />
-  </label>
+  <div class="auth-page">
+    <div class="auth-card">
+      <h1>Iniciar sesión</h1>
 
-  <label>
-    Contraseña
-    <input type="password" name="password" [(ngModel)]="password" required />
-  </label>
+      <p *ngIf="errorMessage" class="form-message error">{{ errorMessage }}</p>
 
-  <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+      <form (ngSubmit)="submit()" #loginForm="ngForm">
+        <label class="field">
+          Email
+          <input type="email" name="email" [(ngModel)]="email" required />
+        </label>
 
-  <button type="submit">Ingresar</button>
-</form>
+        <label class="field">
+          Contraseña
+          <input type="password" name="password" [(ngModel)]="password" required />
+        </label>
 
-<a routerLink="/register">Crear una cuenta</a>
+        <button type="submit" class="btn-primary">Ingresar</button>
+      </form>
+
+      <a routerLink="/register" class="switch-link">Crear una cuenta</a>
+    </div>
+  </div>
+</div>

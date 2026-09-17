@@ -53,6 +53,7 @@
               }
             ],
             "styles": [
+              "src/styles/chamba.css",
               "src/styles.css"
             ]
           },

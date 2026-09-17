@@ -4,6 +4,7 @@ import { Observable, tap } from 'rxjs';
 
 const API_URL = 'http://localhost:5000';
 const TOKEN_KEY = 'umbook_token';
+const NAME_KEY = 'umbook_user_name';
 
 export interface LoginResponse {
   token: string;
@@ -15,9 +16,12 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(email: string, password: string): Observable<LoginResponse> {
-    return this.http
-      .post<LoginResponse>(`${API_URL}/auth/login`, { email, password })
-      .pipe(tap((res) => localStorage.setItem(TOKEN_KEY, res.token)));
+    return this.http.post<LoginResponse>(`${API_URL}/auth/login`, { email, password }).pipe(
+      tap((res) => {
+        localStorage.setItem(TOKEN_KEY, res.token);
+        localStorage.setItem(NAME_KEY, res.user.name);
+      })
+    );
   }
 
   register(name: string, email: string, password: string): Observable<unknown> {
@@ -26,10 +30,15 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(NAME_KEY);
   }
 
   getToken(): string | null {
     return localStorage.getItem(TOKEN_KEY);
+  }
+
+  getUserName(): string {
+    return localStorage.getItem(NAME_KEY) ?? 'Vos';
   }
 
   isAuthenticated(): boolean {

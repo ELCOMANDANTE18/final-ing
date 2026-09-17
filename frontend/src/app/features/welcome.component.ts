@@ -14,6 +14,7 @@ export class WelcomeComponent implements OnInit {
   emailReceptor = '';
   mensaje = '';
   errorMessage = '';
+  userName = '';
 
   constructor(
     private amistadService: AmistadService,
@@ -22,7 +23,12 @@ export class WelcomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.userName = this.auth.getUserName();
     this.cargarPendientes();
+  }
+
+  get userInitial(): string {
+    return this.userName.charAt(0).toUpperCase();
   }
 
   cargarPendientes(): void {

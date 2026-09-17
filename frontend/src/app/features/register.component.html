@@ -1,25 +1,44 @@
-<h1>Registrarme</h1>
+<div class="auth-shell">
+  <div class="brand-panel">
+    <div class="brand-mark">
+      <span>U</span>
+    </div>
+    <h2>Sumate a<br />UMBook</h2>
+    <p>Creá tu cuenta en un minuto y empezá a armar tu red de amigos.</p>
+    <ul class="feature-list">
+      <li><span class="check">✓</span> Registro rápido y simple</li>
+      <li><span class="check">✓</span> Contraseñas siempre hasheadas</li>
+      <li><span class="check">✓</span> Sin spam, sin vueltas</li>
+    </ul>
+  </div>
 
-<form (ngSubmit)="submit()" #registerForm="ngForm">
-  <label>
-    Nombre
-    <input type="text" name="name" [(ngModel)]="name" required />
-  </label>
+  <div class="auth-page">
+    <div class="auth-card">
+      <h1>Registrarme</h1>
 
-  <label>
-    Email
-    <input type="email" name="email" [(ngModel)]="email" required />
-  </label>
+      <p *ngIf="errorMessage" class="form-message error">{{ errorMessage }}</p>
+      <p *ngIf="successMessage" class="form-message success">{{ successMessage }}</p>
 
-  <label>
-    Contraseña
-    <input type="password" name="password" [(ngModel)]="password" required minlength="8" />
-  </label>
+      <form (ngSubmit)="submit()" #registerForm="ngForm">
+        <label class="field">
+          Nombre
+          <input type="text" name="name" [(ngModel)]="name" required />
+        </label>
 
-  <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
-  <p *ngIf="successMessage" class="success">{{ successMessage }}</p>
+        <label class="field">
+          Email
+          <input type="email" name="email" [(ngModel)]="email" required />
+        </label>
 
-  <button type="submit">Registrarme</button>
-</form>
+        <label class="field">
+          Contraseña
+          <input type="password" name="password" [(ngModel)]="password" required minlength="8" />
+        </label>
 
-<a routerLink="/login">Ya tengo una cuenta</a>
+        <button type="submit" class="btn-primary">Registrarme</button>
+      </form>
+
+      <a routerLink="/login" class="switch-link">Ya tengo una cuenta</a>
+    </div>
+  </div>
+</div>
