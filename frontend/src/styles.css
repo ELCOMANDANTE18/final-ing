@@ -259,3 +259,7 @@
   font-size: 13px;
   padding: 8px 4px;
 }
+
+.empty-state p {
+  margin: 0;
+}

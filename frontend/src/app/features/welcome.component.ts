@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AmistadService, Solicitud } from '../core/amistad.service';
+import { Amigo, AmistadService, Solicitud } from '../core/amistad.service';
 import { AuthService } from '../core/auth.service';
 
 @Component({
@@ -11,6 +11,7 @@ import { AuthService } from '../core/auth.service';
 })
 export class WelcomeComponent implements OnInit {
   pendientes: Solicitud[] = [];
+  amigos: Amigo[] = [];
   emailReceptor = '';
   mensaje = '';
   errorMessage = '';
@@ -25,10 +26,15 @@ export class WelcomeComponent implements OnInit {
   ngOnInit(): void {
     this.userName = this.auth.getUserName();
     this.cargarPendientes();
+    this.cargarAmigos();
   }
 
   get userInitial(): string {
     return this.userName.charAt(0).toUpperCase();
+  }
+
+  cargarAmigos(): void {
+    this.amistadService.amigos().subscribe((amigos) => (this.amigos = amigos));
   }
 
   cargarPendientes(): void {
@@ -63,7 +69,12 @@ export class WelcomeComponent implements OnInit {
       : this.amistadService.rechazar(solicitud.id);
 
     accion.subscribe({
-      next: () => this.cargarPendientes(),
+      next: () => {
+        this.cargarPendientes();
+        if (aceptar) {
+          this.cargarAmigos();
+        }
+      },
       error: (err) => {
         this.errorMessage = err.error?.error ?? 'No se pudo procesar la solicitud.';
       },

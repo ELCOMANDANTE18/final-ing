@@ -34,15 +34,34 @@
       </div>
       <div class="spacer"></div>
 
-      <div class="icon-btn" [class.active]="pendientes.length > 0">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
-          <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-        </svg>
-        <span class="dot" *ngIf="pendientes.length > 0"></span>
+      <div class="avatar-btn">{{ userInitial }}</div>
+    </div>
+
+    <div class="card">
+      <div class="head">
+        <h3>Tus amigos</h3>
+        <span class="chip" *ngIf="amigos.length > 0">
+          <span class="dotc" style="background: var(--sage)"></span>
+          {{ amigos.length }}
+        </span>
       </div>
 
-      <div class="avatar-btn">{{ userInitial }}</div>
+      <div class="empty-state" *ngIf="amigos.length === 0">
+        <p>Todavía no tenés amigos agregados. Enviá una solicitud para empezar. 🤝</p>
+      </div>
+
+      <ul class="request-list" *ngIf="amigos.length > 0">
+        <li class="request-row" *ngFor="let a of amigos">
+          <span class="av">{{ a.name.charAt(0) }}</span>
+          <span class="who">
+            <strong>{{ a.name }}</strong>
+            <span class="status-pill ok">
+              <span class="b-dot"></span>
+              amigos
+            </span>
+          </span>
+        </li>
+      </ul>
     </div>
 
     <div class="card">
@@ -71,7 +90,9 @@
         </span>
       </div>
 
-      <p *ngIf="pendientes.length === 0" class="empty-state">No tenés solicitudes pendientes.</p>
+      <div class="empty-state" *ngIf="pendientes.length === 0">
+        <p>No tenés solicitudes pendientes. Cuando alguien te agregue, te va a aparecer acá y te llega un mail. ✉️</p>
+      </div>
 
       <ul class="request-list">
         <li class="request-row" *ngFor="let s of pendientes">
@@ -89,6 +110,11 @@
           </span>
         </li>
       </ul>
+    </div>
+
+    <div class="page-footer">
+      <span>UMBook · Ingeniería de Software</span>
+      <span>Victor Gimenez</span>
     </div>
   </div>
 </div>

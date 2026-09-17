@@ -12,6 +12,11 @@ export interface Solicitud {
   fecha_creacion: string;
 }
 
+export interface Amigo {
+  id: number;
+  name: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class AmistadService {
   constructor(private http: HttpClient) {}
@@ -32,5 +37,9 @@ export class AmistadService {
 
   rechazar(id: number): Observable<Solicitud> {
     return this.http.post<Solicitud>(`${API_URL}/solicitudes/${id}/rechazar`, {});
+  }
+
+  amigos(): Observable<Amigo[]> {
+    return this.http.get<Amigo[]>(`${API_URL}/amigos`);
   }
 }
