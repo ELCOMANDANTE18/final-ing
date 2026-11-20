@@ -1,5 +1,6 @@
-# Solicitar Amistad — Diagrama de secuencia
+# CU0011 — Solicitar Amistad — Diagrama de secuencia
 
+<!-- png: 3. Diseño/Diagramas de Secuencia/CU0011 - Solicitar Amistad.png -->
 ```mermaid
 sequenceDiagram
     actor A as Usuario A (emisor)

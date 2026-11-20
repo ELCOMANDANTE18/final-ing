@@ -1,10 +1,11 @@
-# Aceptar / Rechazar Solicitud — Diagrama de secuencia
+# CU0012 — Aceptar / Rechazar Solicitud — Diagrama de secuencia
 
 Muestra las tres cosas que `PROMPT_CONSTRUCCION.md` pedía explícitas: la
 autorización (solo el receptor puede responder), la delegación al patrón State, y
 la transacción única (estado + vínculo `Amistad` se confirman o se revierten
 juntos).
 
+<!-- png: 3. Diseño/Diagramas de Secuencia/CU0012 - Aceptar - Rechazar Solicitud.png -->
 ```mermaid
 sequenceDiagram
     actor B as Usuario B (receptor)

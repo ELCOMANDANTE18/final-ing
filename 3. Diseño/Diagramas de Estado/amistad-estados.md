@@ -1,9 +1,10 @@
-# Solicitar Amistad / Aceptar-Rechazar — Diagrama de estados
+# SolicitudAmistad (CU0011 y CU0012) — Diagrama de estados
 
 `Aceptada` y `Rechazada` son estados terminales: cualquier transición nueva desde
 ahí es inválida (`EstadoInvalidoError`, 409 en la API). No hay forma de volver a
 `Pendiente` ni de pasar de un estado terminal a otro.
 
+<!-- png: 3. Diseño/Diagramas de Estado/Diagrama de Estados - SolicitudAmistad.png -->
 ```mermaid
 stateDiagram-v2
     [*] --> Pendiente : solicitar_amistad(emisor, receptor)

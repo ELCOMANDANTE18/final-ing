@@ -1,11 +1,12 @@
-# Login — Diagrama de secuencia
+# CU0001 — Iniciar Sesión — Diagrama de secuencia
 
 Curso normal + los dos alternativos de CU0001, unificados en un solo `alt` para
 mostrar el punto exacto del fix: `check_password_hash` se evalúa **antes** de
 decidir la rama (a diferencia del diagrama original de la compañera, donde
 aparecía adentro de la rama "éxito" — ver
-[`../construccion.md` sección 1](../construccion.md#1-login--corrección-de-un-bypass-de-autenticación)).
+[`../construccion.md` sección 1](../../docs/construccion.md#1-login--corrección-de-un-bypass-de-autenticación)).
 
+<!-- png: 3. Diseño/Diagramas de Secuencia/CU0001 - Iniciar Sesión.png -->
 ```mermaid
 sequenceDiagram
     actor U as Usuario

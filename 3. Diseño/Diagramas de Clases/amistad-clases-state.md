@@ -3,8 +3,9 @@
 `SolicitudAmistad` es el **contexto** del patrón: `aceptar()`/`rechazar()` son una
 línea cada una, delegan siempre en `_estado_obj`. Nunca decide ella misma si la
 transición es válida — eso lo sabe cada estado. Código real en
-[`estado_solicitud.py`](../backend.md) y `persistence/models.py`.
+[`estado_solicitud.py`](../../docs/backend.md) y `persistence/models.py`.
 
+<!-- png: 3. Diseño/Diagramas de Clases/Diagrama de clases - Patrón State.png -->
 ```mermaid
 classDiagram
     class SolicitudAmistad {

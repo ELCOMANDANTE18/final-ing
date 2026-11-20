@@ -1,10 +1,11 @@
-# Notificar Solicitud de Amistad Recibida — Diagrama de secuencia
+# CU0013 — Notificar Solicitud de Amistad Recibida — Diagrama de secuencia
 
 Continúa exactamente donde termina
 [`amistad-secuencia-solicitar.md`](./amistad-secuencia-solicitar.md): el punto
 que hace válido el patrón es que `AmistadService` publica el evento en el
 `Usuario` receptor y nunca llama al `NotificationService` directo.
 
+<!-- png: 3. Diseño/Diagramas de Secuencia/CU0013 - Notificar Solicitud Recibida.png -->
 ```mermaid
 sequenceDiagram
     participant SVC as AmistadService
@@ -32,6 +33,6 @@ sequenceDiagram
 ```
 
 **No hay entidad `Notificacion` separada** (decisión documentada en
-[`../proyecto.md`](../proyecto.md)): el mail es la notificación "push" en tiempo
+[`../proyecto.md`](../../docs/proyecto.md)): el mail es la notificación "push" en tiempo
 real, y la lista de `solicitudes/pendientes` es la notificación "pull" que ve la
 home — la misma consulta que ya usa el CU de Solicitar Amistad.
