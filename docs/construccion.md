@@ -1,5 +1,7 @@
 # Construcción de UMBook — paso a paso
 
+**Versión:** 1.1 · **Última modificación:** 20/11/2026 · **Etapa:** Implementación
+
 Este documento explica cómo se construyó el proyecto y por qué, organizado en las
 3 implementaciones definidas en `prompt-construccion.md`. No es un tutorial genérico
 de Flask/Angular: son las decisiones concretas que se tomaron en este repo.
@@ -319,7 +321,7 @@ de Angular moderno.
 
 ## 7. Tests automáticos
 
-`backend/tests/` (pytest, 30 tests, correr con `pip install -r
+`backend/tests/` (pytest, 32 tests, correr con `pip install -r
 requirements-dev.txt && pytest` desde `backend/`) — detalle completo en
 [`backend.md`](./backend.md#tests). En resumen, separados por lo que cada uno
 prueba:
@@ -364,3 +366,11 @@ prueba:
   implementaciones" tal como las define la sección 1 de `prompt-construccion.md`.
 - Manejo de sesión expirada en el front (JWT vencido → redirect automático a
   `/login`, hoy solo se ve un mensaje de error genérico).
+
+---
+
+## Control del documento
+
+| Versión | Fecha | Etapa / Chat | Cambios |
+|---|---|---|---|
+| 1.1 | 20/11/2026 | Implementación | Se agrega el control de versiones; la cantidad de pruebas pasa de 30 a 32 |

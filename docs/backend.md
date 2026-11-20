@@ -1,5 +1,7 @@
 # Backend — UMBook
 
+**Versión:** 1.1 · **Última modificación:** 20/11/2026 · **Etapa:** Implementación
+
 Flask + SQLAlchemy + SQLite. Patrón en capas: **controller → service → DAO →
 model**. El detalle de por qué está armado así (patrones State/Observer/Singleton,
 el fix del bug de login, la transacción de aceptar solicitud) está en
@@ -11,7 +13,7 @@ convenciones para seguir tocando el código.
 ```bash
 cd backend
 python3 -m venv venv && source venv/bin/activate
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 cp .env.example .env   # completar JWT_SECRET_KEY y credenciales de mail reales
 python run.py           # sirve en :5000, crea instance/umbook.db si no existe
 ```
@@ -29,8 +31,8 @@ credenciales reales).
 ```bash
 cd backend
 source venv/bin/activate
-pip install -r requirements-dev.txt   # agrega pytest sobre requirements.txt
-pytest                                  # o: pytest -v
+python -m pip install -r requirements-dev.txt   # agrega pytest sobre requirements.txt
+python -m pytest                                  # o: python -m pytest -v
 ```
 
 `tests/conftest.py` fuerza las variables de entorno necesarias (JWT secret de
@@ -156,3 +158,11 @@ retome CU0010.
 4. Crear `Schema` de marshmallow + Blueprint en `controllers/`, usando
    `@token_required` si el CU requiere sesión.
 5. Registrar el blueprint en `app/__init__.py`.
+
+---
+
+## Control del documento
+
+| Versión | Fecha | Etapa / Chat | Cambios |
+|---|---|---|---|
+| 1.1 | 20/11/2026 | Implementación | Se agrega el control de versiones |

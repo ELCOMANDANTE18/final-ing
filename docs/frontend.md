@@ -1,5 +1,7 @@
 # Frontend — UMBook
 
+**Versión:** 1.1 · **Última modificación:** 20/11/2026 · **Etapa:** Implementación
+
 Angular, con módulos NgModule (sin componentes standalone, sin lazy loading —
 convención deliberada, ver nota de versión más abajo). Todo declarado en
 `app.module.ts`.
@@ -75,3 +77,11 @@ no está implementado, ver [`proyecto.md`](./proyecto.md)).
    `http://localhost:5000/...`).
 3. Declarar el componente y agregar la ruta en `app.module.ts`.
 4. Si la pantalla requiere sesión, agregar `canActivate: [AuthGuard]` en la ruta.
+
+---
+
+## Control del documento
+
+| Versión | Fecha | Etapa / Chat | Cambios |
+|---|---|---|---|
+| 1.1 | 20/11/2026 | Implementación | Se agrega el control de versiones |

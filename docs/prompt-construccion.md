@@ -1,5 +1,7 @@
 # Prompt de construcción — UMBook (Login fixes + Solicitar/Aceptar Amistad + Notificar Solicitud)
 
+**Versión:** 1.1 · **Última modificación:** 20/11/2026 · **Etapa:** Gestión del proyecto
+
 > **Documento histórico**: esta es la especificación que se usó como input para
 > construir el proyecto. Ya está ejecutada — para ver qué se implementó
 > efectivamente y por qué, ir a [`construccion.md`](./construccion.md). Se conserva
@@ -101,3 +103,11 @@ Cada funcionalidad se valida contra los Casos de Prueba ya escritos (Login: `CP 
 Solicitar Amistad: `CP SA.1–SA.3`; Aceptar/Rechazar: `CP AR.1–AR.3`; Notificar: `CP NT.1–NT.3`).
 `CP 3.1` de Login es el que confirma o descarta el bug de bypass de contraseña — correrlo primero,
 antes de dar Login por cerrado.
+
+---
+
+## Control del documento
+
+| Versión | Fecha | Etapa / Chat | Cambios |
+|---|---|---|---|
+| 1.1 | 20/11/2026 | Gestión del proyecto | Se agrega el control de versiones. Documento histórico: el contenido no se modifica |

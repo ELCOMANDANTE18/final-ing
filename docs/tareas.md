@@ -1,5 +1,7 @@
 # Tareas — UMBook
 
+**Versión:** 1.1 · **Última modificación:** 20/11/2026 · **Etapa:** Gestión del proyecto
+
 Actualizado tras construir el proyecto desde cero (no había código previo de la
 compañera en este repo — ver [`construccion.md`](./construccion.md)).
 
@@ -42,11 +44,11 @@ compañera en este repo — ver [`construccion.md`](./construccion.md)).
   `ChangeDetectorRef.detectChanges()` explícito después de cada respuesta
   HTTP en `WelcomeComponent`/`LoginComponent`/`RegisterComponent` — ver
   `construccion.md`.
-- [x] Suite de tests con `pytest` (`backend/tests/`, 30 tests): patrón State en
+- [x] Suite de tests con `pytest` (`backend/tests/`, 32 tests): patrón State en
   aislamiento, Observer + Singleton, regresión del bug de login, y flujo
   completo de amistad tanto a nivel service como HTTP end-to-end. Correr con
   `pip install -r requirements-dev.txt && pytest` desde `backend/`.
-- [x] Diagramas de las 3 implementaciones en `docs/diagramas/` (Mermaid):
+- [x] Diagramas de las 3 implementaciones en `3. Diseño/` (Mermaid):
   secuencia de Login, clases State + diagrama de estados + 2 secuencias de
   Solicitar/Aceptar-Rechazar Amistad, clases Observer+Singleton + secuencia de
   Notificar.
@@ -74,3 +76,37 @@ compañera en este repo — ver [`construccion.md`](./construccion.md)).
   Node 24, incompatible con Angular CLI 15) — ver
   [`construccion.md` sección 0](./construccion.md#0-desviaciones-respecto-a-la-especificación-original).
   No es necesario resolverlo salvo que la cátedra pida específicamente Angular 15.
+
+## Pendientes de consistencia (revisión del 20/11/2026)
+
+- [ ] **Resolver los choques de códigos de CU** (CU0006, CU0011, CU0012 y CU0013) con el grupo.
+  Ver [`CATALOGO_CASOS_DE_USO_UMBook.md`](./CATALOGO_CASOS_DE_USO_UMBook.md) §3 y §5.
+- [x] **Casos y procedimientos de prueba alineados con el comportamiento real**, en
+  [`PRUEBAS_UMBook.md`](./PRUEBAS_UMBook.md): sin "Buscar usuarios", sin botón que se oculta y sin
+  correo con enlace; con casos y procedimiento para CU0006 y trazados a las pruebas automáticas.
+- [x] **Entregables de Pruebas generados** desde `PRUEBAS_UMBook.md` con
+  `python docs/generar_entregables.py`: plan, 31 casos (`.xlsx`) y procedimientos (`.docx`) en
+  `5. Pruebas/`. `Modelo_Plan_de_Pruebas.docx` es el modelo del grupo y se conserva.
+- [x] **Fichas `.docx` regeneradas** con el texto 1.1 de `ESPECIFICACIONES_CASOS_DE_USO_UMBook.md`.
+- [x] **Diagrama de casos de uso único:** `0-CU_General.pdf` cumple (un solo diagrama para toda la
+  aplicación) pero no lleva códigos; se agrega `Diagrama de Casos de Uso - Implementados.png`.
+- [ ] **Pruebas automáticas que faltan:** reenvío tras un rechazo (H1), contraseña corta en el
+  registro y reversión de la transacción al aceptar (RNF-12). El frontend no tiene pruebas
+  automáticas.
+- [ ] Decidir qué diagrama de clases de diseño se entrega: el integral de este repo (solo lo
+  implementado) o `UMBook_Diagrama_Clases_Diseno_Integrado.png` del grupo (Álbum, Strategy,
+  Factory, Composite: clases que no existen en el código).
+- [ ] **Defecto H1:** volver a solicitar amistad a quien rechazó una solicitud devuelve 500
+  (restricción única `(emisor_id, receptor_id)`). Decidir si se reabre la solicitud o se responde
+  409. Ver [`DISEÑO_UMBook.md`](./DISEÑO_UMBook.md) §9. Agregar una prueba que lo cubra.
+- [ ] Avisar al grupo de los códigos repetidos dentro de sus propias fichas (CU0005 y CU0007).
+- [ ] Reemplazar o archivar `Diseño de Arquitectura - UMBook.docx`: describe un sistema distinto
+  del implementado (ver `DISEÑO_UMBook.md` §8).
+
+---
+
+## Control del documento
+
+| Versión | Fecha | Etapa / Chat | Cambios |
+|---|---|---|---|
+| 1.1 | 20/11/2026 | Gestión del proyecto | Se agrega el control de versiones; la cantidad de pruebas pasa de 30 a 32; pendientes de consistencia (códigos de CU, procedimientos de prueba, defecto H1) |
