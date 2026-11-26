@@ -75,3 +75,29 @@ def test_login_con_campos_vacios_devuelve_400(client):
     resp = client.post('/auth/login', json={'email': '', 'password': ''})
     assert resp.status_code == 400
     assert resp.get_json()['msg'] == 'Por favor complete todos los campos correctamente.'
+
+
+# --- H8: registro simultáneo con el mismo correo ---
+
+def test_registro_simultaneo_con_el_mismo_correo_devuelve_409(app, client, monkeypatch):
+    """Dos registros simultáneos pueden pasar los dos la búsqueda del correo.
+    Se simula el segundo: la búsqueda no encuentra nada (porque el primero
+    todavía no se había guardado) y el alta choca con la restricción única.
+    Antes respondía 500; ahora responde 409 como el ca 6.1 de CU0006."""
+    from app.persistence.models import User
+
+    registrar(client)
+    monkeypatch.setattr(UserDAO, 'get_by_email', staticmethod(lambda email: None))
+
+    resp = registrar(client, name='Otra Ana')
+
+    assert resp.status_code == 409
+    assert resp.get_json()['msg'] == 'Este correo ya está registrado.'
+    assert User.query.count() == 1
+
+
+def test_crear_un_usuario_con_correo_repetido_devuelve_none_y_la_base_sigue_usable(app):
+    """UserDAO.create deshace la transacción fallida: la sesión sigue sirviendo."""
+    assert UserDAO.create('Ana', 'ana@test.com', 'hash') is not None
+    assert UserDAO.create('Ana bis', 'ANA@test.com', 'hash') is None
+    assert UserDAO.create('Beto', 'beto@test.com', 'hash') is not None

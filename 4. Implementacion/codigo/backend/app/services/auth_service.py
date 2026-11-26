@@ -9,6 +9,9 @@ class AuthService:
             return None, 'Email already registered'
         pw_hash = generate_password_hash(password)
         user = UserDAO.create(name=name, email=email, password_hash=pw_hash)
+        if user is None:
+            # Otro registro con el mismo correo se guardó entre la búsqueda y el alta.
+            return None, 'Email already registered'
         return user, None
 
     @staticmethod

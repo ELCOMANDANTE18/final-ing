@@ -125,3 +125,69 @@ def test_sin_sesion_o_con_correo_invalido_no_se_guarda_ninguna_invitacion(client
     token = token_de(client)
     client.post('/invite', json={'email': 'esto-no-es-un-correo'}, headers=auth(token))
     assert Invitation.query.count() == 0
+
+
+# --- H7: el envío SMTP tiene timeout ---
+
+class _SMTPFalso:
+    """Reemplaza a smtplib.SMTP: guarda con qué se abrió la conexión y los
+    correos que se le pidió enviar, sin conectarse a ningún servidor."""
+
+    conexiones = []
+
+    def __init__(self, servidor, puerto, timeout=None):
+        _SMTPFalso.conexiones.append({'servidor': servidor, 'puerto': puerto, 'timeout': timeout})
+        self.enviados = []
+
+    def set_debuglevel(self, nivel):
+        pass
+
+    def starttls(self):
+        pass
+
+    def login(self, usuario, clave):
+        pass
+
+    def sendmail(self, remitente, destinatarios, mensaje, *opciones):
+        self.enviados.append(destinatarios)
+
+    def quit(self):
+        pass
+
+
+def _envio_real(app, monkeypatch, smtp):
+    """Activa el envío (las pruebas lo tienen apagado) con un SMTP falso."""
+    import smtplib
+    monkeypatch.setattr(app.extensions['mail'], 'suppress', False)
+    monkeypatch.setattr(smtplib, 'SMTP', smtp)
+
+
+def test_la_conexion_smtp_se_abre_con_timeout(app, client, monkeypatch):
+    """H7: Flask-Mail abría la conexión sin timeout; ahora usa MAIL_TIMEOUT."""
+    _SMTPFalso.conexiones = []
+    _envio_real(app, monkeypatch, _SMTPFalso)
+    registrar(client)
+    token = token_de(client)
+
+    resp = client.post('/invite', json={'email': 'beto@test.com'}, headers=auth(token))
+
+    assert resp.status_code == 200
+    assert len(_SMTPFalso.conexiones) == 1
+    assert _SMTPFalso.conexiones[0]['timeout'] == app.config['MAIL_TIMEOUT'] == 5
+
+
+def test_si_el_servidor_de_correo_no_responde_la_invitacion_queda_fallida(app, client, monkeypatch):
+    """H7 y CU0010 ca 5.1: al vencer el timeout, se responde 500 y la
+    invitación queda fallida, en lugar de dejar la petición esperando."""
+    def smtp_que_no_responde(servidor, puerto, timeout=None):
+        raise TimeoutError('timed out')
+
+    _envio_real(app, monkeypatch, smtp_que_no_responde)
+    registrar(client)
+    token = token_de(client)
+
+    resp = client.post('/invite', json={'email': 'beto@test.com'}, headers=auth(token))
+
+    assert resp.status_code == 500
+    assert resp.get_json() == {'msg': 'No se pudo enviar la invitación. Intentá de nuevo.'}
+    assert [i.status for i in Invitation.query.all()] == [Invitation.FALLIDA]

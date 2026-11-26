@@ -1,16 +1,16 @@
 from flask import Flask
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
-from flask_mail import Mail
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
 from .config import Config
+from .utils.mail import MailConTimeout
 
 db = SQLAlchemy()
 migrate = Migrate()
 jwt = JWTManager()
-mail = Mail()
+mail = MailConTimeout()  # Flask-Mail con timeout SMTP (hallazgo H7)
 
 # Claves que nunca deben firmar tokens: la que estaba fija en el código y la
 # del archivo de ejemplo.

@@ -1,3 +1,5 @@
+from sqlalchemy.exc import IntegrityError
+
 from ... import db
 from ..models import User
 
@@ -18,7 +20,18 @@ class UserDAO:
 
     @staticmethod
     def create(name, email, password_hash):
+        """Crea el usuario, o devuelve None si el correo ya está registrado.
+
+        AuthService ya busca el correo antes de crear, pero dos registros
+        simultáneos pueden pasar los dos esa búsqueda. En ese caso la
+        restricción única de la base rechaza el segundo: se deshace la
+        transacción y se devuelve None, en vez de dejar subir el error como
+        un 500 (hallazgo H8)."""
         user = User(name=name, email=_normalizar(email), password_hash=password_hash)
         db.session.add(user)
-        db.session.commit()
+        try:
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+            return None
         return user

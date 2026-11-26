@@ -31,6 +31,10 @@ class Config:
     MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
     MAIL_DEFAULT_SENDER = os.getenv('MAIL_DEFAULT_SENDER') or os.getenv('MAIL_USERNAME')
     MAIL_SUPPRESS_SEND = _env_bool('MAIL_SUPPRESS_SEND')
+    # Segundos que espera cada operación SMTP antes de cortar. Sin esto, un
+    # servidor de correo que no responde dejaba /invite esperando para siempre
+    # (rnf 2.2 de CU0010: el envío debe completarse en menos de 5 segundos).
+    MAIL_TIMEOUT = float(os.getenv('MAIL_TIMEOUT', '5'))
 
     CORS_ORIGIN = os.getenv('CORS_ORIGIN', 'http://localhost:4200')
     # Dirección del frontend: arma el enlace de registro del correo de invitación.
