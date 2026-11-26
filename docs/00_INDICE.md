@@ -1,6 +1,6 @@
 # 00 — ÍNDICE DEL PROYECTO (leer primero)
 
-**Versión:** 2.0 · **Última modificación:** 26/11/2026 · **Etapa:** Gestión del proyecto
+**Versión:** 2.1 · **Última modificación:** 26/11/2026 · **Etapa:** Gestión del proyecto
 
 **Materia:** Ingeniería de Software · **Alumno:** Victor Gimenez (legajo 61.174) · **Proyecto:** UMBook
 
@@ -47,10 +47,10 @@ El repositorio contiene **dos clases de documentos**:
 | `ESPECIFICACIONES_CASOS_DE_USO_UMBook.md` | Requisitos | 2.0 | Fichas generadas de CU0001 y CU0006 con la plantilla de la cátedra |
 | `REQUISITOS_NO_FUNCIONALES_UMBook.md` | Requisitos | 3.0 | RNF-01 a RNF-25, con su estado contra el código |
 | `ANALISIS_UMBook.md` | Análisis | 2.1 | Clases de análisis, paquetes y colaboraciones de los tres casos |
-| `DISEÑO_UMBook.md` | Diseño | 2.0 | Capas, estructura, mecanismos, patrones, despliegue, subsistemas, diferencias con la propuesta y hallazgos |
-| `PRUEBAS_UMBook.md` | Prueba | 2.0 | Plan, casos y procedimientos de los tres casos y de seguridad, trazados a las 33 pruebas automáticas |
-| `OBSERVACIONES_POR_ETAPA_UMBook.md` | Gestión del proyecto | 1.4 | Revisión de cada etapa contra el código y cómo se resolvió cada observación |
-| `tareas.md` | Gestión del proyecto | 1.5 | Lo resuelto y lo pendiente |
+| `DISEÑO_UMBook.md` | Diseño | 2.1 | Capas, estructura, mecanismos, patrones, despliegue, subsistemas, diferencias con la propuesta y hallazgos |
+| `PRUEBAS_UMBook.md` | Prueba | 2.1 | Plan, casos y procedimientos de los tres casos y de seguridad, trazados a las 37 pruebas automáticas |
+| `OBSERVACIONES_POR_ETAPA_UMBook.md` | Gestión del proyecto | 1.5 | Revisión de cada etapa contra el código y cómo se resolvió cada observación |
+| `tareas.md` | Gestión del proyecto | 1.6 | Lo resuelto y lo pendiente |
 
 Los documentos técnicos de la implementación anterior (`proyecto.md`, `backend.md`, `frontend.md`, `construccion.md` y `prompt-construccion.md`) están en `_version_anterior/docs/`. Lo vigente está en `4. Implementacion/README.md` y `4. Implementacion/codigo/README.md`.
 
@@ -110,7 +110,7 @@ Fuente: `correccion_catedra_grupo3.pdf` (corrección del 8/6/25). Dentro de cada
 
 | Artefacto que pide la cátedra | Dónde | Corrección | Estado actual |
 |---|---|---|---|
-| Implementar una parte (por ejemplo, el login) | `4. Implementacion/` | OK | ✅ CU0001, CU0006 y CU0010 (código de la compañera con 10 correcciones de seguridad, invitación guardada y frontend nuevo), 33 pruebas automáticas. Sus fichas (`1_Casos de Uso/`) y secuencias (`2_Diagramas de Secuencia/`) se conservan tal cual; el README anota en qué difieren del código |
+| Implementar una parte (por ejemplo, el login) | `4. Implementacion/` | OK | ✅ CU0001, CU0006 y CU0010 (código de la compañera con 10 correcciones de seguridad, invitación guardada y frontend nuevo), 37 pruebas automáticas. Sus fichas (`1_Casos de Uso/`) y secuencias (`2_Diagramas de Secuencia/`) se conservan tal cual; el README anota en qué difieren del código |
 
 ### 5. Prueba
 
@@ -118,7 +118,7 @@ Fuente: `correccion_catedra_grupo3.pdf` (corrección del 8/6/25). Dentro de cada
 |---|---|---|---|---|
 | 1 | Plan de prueba | `1_Plan de Pruebas/` | OK | ✅ `UMBook_Plan_de_Pruebas.docx` (generado). `Modelo_Plan_de_Pruebas.docx` es el modelo del grupo y se conserva sin tocar |
 | 2 | Procedimientos de prueba | `2_Procedimientos de Prueba.docx` | OK, falta completar | ✅ PR 0001, PR 0006, PR 0010 y PR SEG (generado) |
-| 3 | Casos de prueba | `3_Casos de Prueba.xlsx` | OK, falta completar | ✅ 27 casos (CU0001, CU0006, CU0010 y seguridad) trazados a las 33 pruebas automáticas (generado) |
+| 3 | Casos de prueba | `3_Casos de Prueba.xlsx` | OK, falta completar | ✅ 29 casos (CU0001, CU0006, CU0010 y seguridad) trazados a las 37 pruebas automáticas (generado) |
 
 ---
 
@@ -156,7 +156,7 @@ Aplica a todos los documentos de `docs/`.
 
 | Versión | Fecha | Etapa / Chat | Cambios |
 |---|---|---|---|
+| 2.1 | 26/11/2026 | Gestión del proyecto | H7 y H8 resueltos en el código; 37 pruebas y 29 casos de prueba |
 | 2.0 | 26/11/2026 | Gestión del proyecto | Todas las etapas alineadas con la implementación actual (Etapas 4 y 5: pruebas rehechas para CU0001, CU0006, CU0010 y seguridad; documentos técnicos viejos archivados). Se reescriben §1 a §4 |
 | 1.4 | 26/11/2026 | Gestión del proyecto | Diagrama de clases de diseño, despliegue, subsistemas, secuencias y estados rehechos a partir del código actual (D-01 a D-05); propuesta de arquitectura, `7_Implementacion.docx` y `DISEÑO_UMBook.md` realineados (D-06 a D-08): Etapa 3 corregida |
 | 1.3 | 25/11/2026 | Gestión del proyecto | La implementación pasa a ser la del repositorio de la compañera (CU0001, CU0006, CU0010); se marcan los documentos desactualizados |
-| 1.2 | 25/11/2026 | Gestión del proyecto | Artefactos numerados con el orden de la corrección de la cátedra; §4 pasa a ser la tabla por etapa con la corrección y el estado actual |

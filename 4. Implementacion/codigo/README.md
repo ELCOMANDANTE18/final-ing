@@ -57,6 +57,7 @@ Se crea copiando `backend/.env.example`. No se sube al repositorio.
 | `MAIL_SERVER`, `MAIL_PORT`, `MAIL_USE_TLS` | Para enviar correo | Por defecto Gmail: `smtp.gmail.com`, 587, TLS activado |
 | `MAIL_USERNAME`, `MAIL_PASSWORD`, `MAIL_DEFAULT_SENDER` | Para enviar correo | `MAIL_PASSWORD` es una *app password* de Gmail (https://myaccount.google.com/apppasswords), no la clave de la cuenta |
 | `MAIL_SUPPRESS_SEND` | No | `true` simula el envío: sirve para probar sin mandar correos |
+| `MAIL_TIMEOUT` | No | Segundos que espera cada operación SMTP antes de dar el envío por fallido. Por defecto 5 |
 | `CORS_ORIGIN` | No | Origen del frontend. Por defecto `http://localhost:4200` |
 | `FRONTEND_URL` | No | Dirección del frontend, para el enlace de registro del correo de invitación. Por defecto `http://localhost:4200` |
 | `FLASK_DEBUG` | No | `1` activa el modo debug. Por defecto apagado |
@@ -75,15 +76,15 @@ Desde `backend/`, con el entorno virtual activo:
 
 ```bash
 python -m pip install -r requirements-dev.txt   # agrega pytest
-python -m pytest                                # tiene que decir "33 passed"
+python -m pytest                                # tiene que decir "37 passed"
 ```
 
 `tests/conftest.py` fija una clave de prueba, apaga el envío de correo y usa una base SQLite temporal, así que las pruebas no tocan el `.env` real ni mandan correos.
 
 | Archivo | Qué cubre |
 |---|---|
-| `test_auth.py` | CU0006 (registro, correo duplicado aun con mayúsculas, clave corta, clave guardada con hash) y CU0001 (login correcto, clave incorrecta, mismo mensaje para correo inexistente, campos vacíos) |
-| `test_invite.py` | CU0010: envío correcto, enlace de registro en el correo, invitación guardada como enviada o fallida, sin sesión, correo inválido o de más de 254 caracteres, falla del servidor de correo sin filtrar detalles, token vencido, inválido o de un usuario inexistente |
+| `test_auth.py` | CU0006 (registro, correo duplicado aun con mayúsculas, clave corta, clave guardada con hash, registro simultáneo con el mismo correo) y CU0001 (login correcto, clave incorrecta, mismo mensaje para correo inexistente, campos vacíos) |
+| `test_invite.py` | CU0010: envío correcto, enlace de registro en el correo, invitación guardada como enviada o fallida, sin sesión, correo inválido o de más de 254 caracteres, falla del servidor de correo sin filtrar detalles, token vencido, inválido o de un usuario inexistente, conexión SMTP con timeout y servidor de correo que no responde |
 | `test_seguridad.py` | Que un token firmado con la clave vieja `super-secret` no sirva, que la app no arranque sin una clave segura, que `MAIL_USE_TLS=true` active TLS, que `run.py` no exponga el depurador y que `NotificationService` sea Singleton |
 
 El frontend no tiene pruebas automáticas.
@@ -104,6 +105,7 @@ backend/
 │   │                           notification_service (Singleton, envía el correo)
 │   ├── persistence/            models.py (User, Invitation) y daos/ (user_dao.py, invitation_dao.py)
 │   └── utils/decorators.py     @token_required
+│       utils/mail.py           Flask-Mail con timeout SMTP
 └── tests/                    pruebas automáticas (pytest)
 
 frontend/src/
@@ -140,4 +142,4 @@ En capas: controller → service → DAO → base de datos (SQLite).
 - **Servidor de desarrollo:** corre sobre el servidor de desarrollo de Flask y de Angular, en local, para la demostración.
 - **Sin HTTPS:** las credenciales viajan por HTTP local (RNF-10, "No cumplido"). Para producción hace falta un servidor con TLS delante.
 - **Frontend sin pruebas automáticas:** las pantallas se prueban a mano (procedimientos de `5. Pruebas/`).
-- **Hallazgos de diseño** (`docs/DISEÑO_UMBook.md` §9): el guard no detecta el token vencido (H6), el envío SMTP no tiene timeout (H7), un registro simultáneo con el mismo correo responde 500 (H8), la dirección del backend está fija en el frontend (H10) y no hay migraciones (H11).
+- **Hallazgos de diseño** (`docs/DISEÑO_UMBook.md` §9): el guard no detecta el token vencido (H6), la dirección del backend está fija en el frontend (H10) y no hay migraciones (H11). El envío SMTP sin timeout (H7) y el registro simultáneo con el mismo correo (H8) están resueltos.

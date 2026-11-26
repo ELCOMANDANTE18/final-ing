@@ -1,6 +1,6 @@
 # Tareas — UMBook
 
-**Versión:** 1.5 · **Última modificación:** 26/11/2026 · **Etapa:** Gestión del proyecto
+**Versión:** 1.6 · **Última modificación:** 26/11/2026 · **Etapa:** Gestión del proyecto
 
 Actualizado tras construir el proyecto desde cero (no había código previo de la
 compañera en este repo — ver [`construccion.md`](../_version_anterior/docs/construccion.md)).
@@ -130,12 +130,14 @@ CU0001 Iniciar Sesión, CU0006 Registrar Usuario y CU0010 Invitación. Detalle e
 - [ ] **Avisarle a la compañera** que revoque la *app password* de Gmail que quedó escrita en
   `backend/test_smtp.py` de su repositorio público, y que saque ese archivo y `instance/umbook.db`.
 - [x] **Documentos de etapa realineados** con la implementación nueva (26/11/2026): las cinco
-  etapas, con sus diagramas y entregables generados. Pruebas: 27 casos trazados a las 33 pruebas.
+  etapas, con sus diagramas y entregables generados. Pruebas: 29 casos trazados a las 37 pruebas.
   Los documentos técnicos viejos (`proyecto.md`, `backend.md`, `frontend.md`, `construccion.md`,
   `prompt-construccion.md`) pasaron a `_version_anterior/docs/`. Detalle en
   `OBSERVACIONES_POR_ETAPA_UMBook.md`.
-- [ ] Hallazgos de diseño H6 a H11 (`DISEÑO_UMBook.md` §9): anotados, sin corregir. Los que más
-  conviene poder explicar en la defensa son H7 (SMTP sin timeout) y H8 (registro simultáneo).
+- [x] **H7 y H8 resueltos (26/11/2026):** timeout en la conexión SMTP (`MAIL_TIMEOUT`, 5 s) y
+  registro simultáneo con el mismo correo respondiendo 409. 4 pruebas nuevas, 37 en total.
+- [ ] Hallazgos de diseño H6, H9, H10 y H11 (`DISEÑO_UMBook.md` §9): anotados, aceptados para la
+  demostración.
 - [ ] Los pendientes de arriba sobre amistad (H1, H2, H5, recrear la base, migración) quedan sin
   efecto: ese código ya no está. El respaldo del código anterior está en el historial de git
   (último commit) salvo los arreglos del 25/11, que no se commitearon.
@@ -148,7 +150,7 @@ CU0001 Iniciar Sesión, CU0006 Registrar Usuario y CU0010 Invitación. Detalle e
 
 | Versión | Fecha | Etapa / Chat | Cambios |
 |---|---|---|---|
+| 1.6 | 26/11/2026 | Gestión del proyecto | H7 y H8 resueltos con sus pruebas (37) |
 | 1.5 | 26/11/2026 | Gestión del proyecto | Etapas 4 y 5 realineadas; documentos técnicos viejos archivados; hallazgos H6 a H11 como pendiente |
 | 1.4 | 26/11/2026 | Gestión del proyecto | Diagrama de clases de diseño del código actual (D-03); Etapa 3 realineada (D-01 a D-08) |
 | 1.3 | 25/11/2026 | Gestión del proyecto | Cambio de implementación al código de la compañera (CU0001, CU0006, CU0010) con correcciones de seguridad; documentos de etapa pendientes de realinear |
-| 1.2 | 25/11/2026 | Gestión del proyecto | H1, H2 y H5 resueltos con sus pruebas; la cantidad de pruebas pasa de 32 a 39 y los casos de prueba de 31 a 33; pendiente de recrear la base local |

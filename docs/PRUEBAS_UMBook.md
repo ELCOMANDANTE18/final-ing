@@ -1,8 +1,8 @@
 # PRUEBAS — UMBook (casos implementados)
 
-**Versión:** 2.0 · **Última modificación:** 26/11/2026 · **Etapa:** Prueba
+**Versión:** 2.1 · **Última modificación:** 26/11/2026 · **Etapa:** Prueba
 
-Plan, casos y procedimientos de prueba de los tres casos de uso implementados (**CU0001 Iniciar Sesión, CU0006 Registrar Usuario y CU0010 Invitación a la aplicación**), trazados a las 33 pruebas automáticas de `4. Implementacion/codigo/backend/tests/`. Los códigos de caso de uso están en [`CATALOGO_CASOS_DE_USO_UMBook.md`](./CATALOGO_CASOS_DE_USO_UMBook.md) y los cursos alternativos citados (ca 4.1, ca 5.1, …) son los de las fichas de `1. Requerimientos/4_Casos de Uso/`.
+Plan, casos y procedimientos de prueba de los tres casos de uso implementados (**CU0001 Iniciar Sesión, CU0006 Registrar Usuario y CU0010 Invitación a la aplicación**), trazados a las 37 pruebas automáticas de `4. Implementacion/codigo/backend/tests/`. Los códigos de caso de uso están en [`CATALOGO_CASOS_DE_USO_UMBook.md`](./CATALOGO_CASOS_DE_USO_UMBook.md) y los cursos alternativos citados (ca 4.1, ca 5.1, …) son los de las fichas de `1. Requerimientos/4_Casos de Uso/`.
 
 La versión anterior, de la implementación de amistad (CU0011 a CU0013), está en `_version_anterior/docs/PRUEBAS_UMBook (amistad).md`. La columna **Antes** de cada caso indica el caso equivalente de esa versión, si lo había.
 
@@ -37,8 +37,8 @@ El sistema se prueba a nivel de **integración y de sistema** (automático, cont
 | Subsistema | Funcionalidad | Casos de prueba |
 |---|---|---|
 | Gestión de Usuarios | Iniciar Sesión (CU0001) | CP 0001.1 a CP 0001.6 |
-| Gestión de Usuarios | Registrar Usuario (CU0006) | CP 0006.1 a CP 0006.6 |
-| Gestión de Usuarios | Invitación a la aplicación (CU0010) | CP 0010.1 a CP 0010.9 |
+| Gestión de Usuarios | Registrar Usuario (CU0006) | CP 0006.1 a CP 0006.7 |
+| Gestión de Usuarios | Invitación a la aplicación (CU0010) | CP 0010.1 a CP 0010.10 |
 | Autenticación y Seguridad | Sesión, configuración y patrones (transversal) | CP SEG.1 a CP SEG.6 |
 
 ### Estrategia de prueba
@@ -53,7 +53,7 @@ El sistema se prueba a nivel de **integración y de sistema** (automático, cont
 
 | Herramienta | Para qué |
 |---|---|
-| pytest 8.3.3 | Pruebas automáticas del backend (`python -m pytest`, 33 pruebas) |
+| pytest 8.3.3 | Pruebas automáticas del backend (`python -m pytest`, 37 pruebas) |
 | Cliente de pruebas de Flask | Pedidos HTTP sin levantar el servidor |
 | `mail.record_messages()` de Flask-Mail | Ver los correos que se habrían enviado, sin enviarlos |
 | Navegador web actual | Pruebas manuales de las pantallas |
@@ -62,7 +62,7 @@ No hay pruebas automáticas del frontend.
 
 ### Criterios de éxito
 
-La prueba se completa cuando se ejecutaron todos los casos definidos, pasan las 33 pruebas automáticas y no quedan defectos bloqueantes, críticos ni mayores sin resolver. Hoy pasan las 33. Los hallazgos de diseño anotados (H6 a H11 de `DISEÑO_UMBook.md` §9) no son defectos bloqueantes.
+La prueba se completa cuando se ejecutaron todos los casos definidos, pasan las 37 pruebas automáticas y no quedan defectos bloqueantes, críticos ni mayores sin resolver. Hoy pasan las 37. H7 y H8 están resueltos; los demás hallazgos de diseño (H6, H9 a H11 de `DISEÑO_UMBook.md` §9) no son defectos bloqueantes.
 
 ### Entregables
 
@@ -106,6 +106,7 @@ La prueba se completa cuando se ejecutaron todos los casos definidos, pasan las 
 | CP 0006.4 | El correo no distingue mayúsculas (ca 6.1, RNF-23) | `ana@test.com` registrado | `ANA@Test.com` | 409: es la misma cuenta | Auto (`test_el_correo_no_distingue_mayusculas`) | — |
 | CP 0006.5 | Contraseña corta (ca 5.1) | — | Contraseña de menos de 8 caracteres | 400 "Por favor complete todos los campos correctamente." y el usuario no se crea | Auto (`test_clave_corta_devuelve_400_y_no_crea_el_usuario`) y Manual | CP 0006.3 |
 | CP 0006.6 | Campos faltantes (ca 5.1) | — | Solo el correo, sin nombre ni contraseña | En la pantalla: el aviso, sin llamar al servidor. En la API: 400 | Auto (`test_registro_con_campos_faltantes_devuelve_400`) y Manual | CP 0006.4 |
+| CP 0006.7 | Registro simultáneo con el mismo correo (ca 6.1, RNF-23) | `ana@test.com` registrado; un segundo registro pasa la búsqueda del correo antes de que el primero se guarde | El mismo correo | 409 "Este correo ya está registrado." (no 500) y queda un solo usuario; la base sigue aceptando registros | Auto (`test_registro_simultaneo_con_el_mismo_correo_devuelve_409`, `test_crear_un_usuario_con_correo_repetido_devuelve_none_y_la_base_sigue_usable`) | — |
 
 ### CU0010 — Invitación a la aplicación
 
@@ -120,6 +121,7 @@ La prueba se completa cuando se ejecutaron todos los casos definidos, pasan las 
 | CP 0010.7 | El fallo queda registrado (ca 5.1, RNF-24) | Igual que CP 0010.6 | Correo válido | La invitación queda guardada con estado `fallida` | Auto (`test_si_falla_el_envio_la_invitacion_queda_guardada_como_fallida`) | — |
 | CP 0010.8 | Invitar exige sesión | Sin sesión | `POST /invite` sin token | 401 | Auto (`test_invitar_sin_token_devuelve_401`) | — |
 | CP 0010.9 | Sin sesión o con correo inválido no se guarda nada | — | Pedido sin token; pedido con correo inválido | La tabla `invitations` queda vacía | Auto (`test_sin_sesion_o_con_correo_invalido_no_se_guarda_ninguna_invitacion`) | — |
+| CP 0010.10 | El envío no queda esperando a un servidor que no responde (ca 5.1, rnf 2.2) | Ana con sesión; el servidor de correo acepta la conexión y no contesta | Correo válido | La conexión SMTP se abre con `MAIL_TIMEOUT` (5 s); al vencer, 500 "No se pudo enviar la invitación. Intentá de nuevo." y la invitación queda `fallida` | Auto (`test_la_conexion_smtp_se_abre_con_timeout`, `test_si_el_servidor_de_correo_no_responde_la_invitacion_queda_fallida`) | — |
 
 ### Transversal — Seguridad y configuración
 
@@ -143,7 +145,7 @@ Pasos numerados = curso normal; cada bloque "Alternativo N.M" reemplaza o contin
 1. Backend: `cd "4. Implementacion/codigo/backend"`, activar el entorno (`source venv/bin/activate`) y ejecutar `python run.py` (puerto 5000). Requiere `backend/.env` con `JWT_SECRET_KEY` (ver `.env.example`).
 2. Frontend: `cd "4. Implementacion/codigo/frontend"` y `npx ng serve` (puerto 4200).
 3. Para probar sin enviar correo: `MAIL_SUPPRESS_SEND=true` en `backend/.env`.
-4. Pruebas automáticas: en `backend/`, `python -m pytest` (deben pasar las 33).
+4. Pruebas automáticas: en `backend/`, `python -m pytest` (deben pasar las 37).
 
 ### PR 0001 — Iniciar Sesión (CP 0001.1 a 0001.6)
 
@@ -161,7 +163,7 @@ Pasos numerados = curso normal; cada bloque "Alternativo N.M" reemplaza o contin
 
 **Alternativo 6.2 — Cerrar sesión (CP 0001.6).** Con sesión, presionar "Cerrar sesión". Verificar que se vuelve a `/login`, que el token ya no está en el almacenamiento local y que `/welcome` redirige a `/login`.
 
-### PR 0006 — Registrar Usuario (CP 0006.1 a 0006.6)
+### PR 0006 — Registrar Usuario (CP 0006.1 a 0006.7)
 
 1. Abrir `http://localhost:4200/register`.
 2. Completar nombre, un correo nuevo y una contraseña de 8 o más caracteres.
@@ -174,7 +176,9 @@ Pasos numerados = curso normal; cada bloque "Alternativo N.M" reemplaza o contin
 
 **Alternativo 6.1 — Correo ya registrado (CP 0006.3 y 0006.4).** Repetir el registro con el mismo correo y luego con el mismo correo en mayúsculas. Verificar en los dos casos "Este correo ya está registrado.".
 
-### PR 0010 — Invitación a la aplicación (CP 0010.1 a 0010.9)
+**Alternativo 6.2 — Registro simultáneo (CP 0006.7).** Es una prueba automática: `python -m pytest tests/test_auth.py -k "simultaneo or repetido" -v`.
+
+### PR 0010 — Invitación a la aplicación (CP 0010.1 a 0010.10)
 
 1. Con `MAIL_SUPPRESS_SEND=false` y credenciales de correo válidas en `.env`, iniciar sesión (PR 0001).
 2. En la pantalla principal, abrir "Invitar amigos".
@@ -186,6 +190,8 @@ Pasos numerados = curso normal; cada bloque "Alternativo N.M" reemplaza o contin
 **Alternativo 4.1 — Correo inválido (CP 0010.4).** Escribir `esto-no-es-un-correo` y enviar. Verificar "Ingresá un correo válido." y que no se hizo ninguna petición de red.
 
 **Alternativo 5.1 — Falla el correo (CP 0010.6 y 0010.7).** Poner un `MAIL_PASSWORD` inválido en `.env` y reiniciar el backend. Repetir los pasos 2 y 3. Verificar "No se pudo enviar la invitación. Intentá de nuevo.", que el formulario sigue disponible y que en la consola del backend aparece "No se pudo enviar la invitación a …". Restaurar la clave correcta al terminar.
+
+**Alternativo 5.2 — El servidor de correo no responde (CP 0010.10).** Es una prueba automática: en `backend/`, `python -m pytest tests/test_invite.py -k "timeout or no_responde" -v`. A mano: poner `MAIL_SERVER` apuntando a una máquina que no responde y `MAIL_TIMEOUT=2` en `.env`, reiniciar el backend y enviar una invitación. Verificar que el aviso de fallo aparece a los pocos segundos.
 
 **Alternativo 1.1 — Sesión vencida (CP SEG.1).** Iniciar sesión, esperar más de 15 minutos (o borrar a mano el token del almacenamiento local y poner uno inválido) e intentar enviar una invitación. Verificar que la aplicación vuelve a `/login`.
 
@@ -199,14 +205,14 @@ Son pruebas automáticas: en `backend/`, `python -m pytest tests/test_seguridad.
 
 | Tema | Estado |
 |---|---|
-| API de los tres casos de uso: códigos, mensajes, token, estado de las invitaciones y correo | Cubiertos por las 33 pruebas automáticas |
+| API de los tres casos de uso: códigos, mensajes, token, estado de las invitaciones y correo | Cubiertos por las 37 pruebas automáticas |
 | Configuración segura (clave JWT, TLS, depurador) y Singleton | Cubiertos por las pruebas automáticas (`test_seguridad.py`) |
 | Pantallas: validaciones del navegador, mensajes, redirecciones, cierre de sesión | Solo **manual**: no hay pruebas automáticas del frontend |
 | `AuthGuard` con el token vencido (H6) | Solo manual: deja abrir las pantallas hasta la primera petición |
 | Envío real del correo | Solo manual (PR 0010, pasos 1 a 6) |
-| Registro simultáneo con el mismo correo (H8) y servidor de correo que no responde (H7) | **Sin prueba**: anotados como hallazgos de diseño |
+| Registro simultáneo con el mismo correo (H8) y servidor de correo que no responde (H7) | Cubiertos por pruebas automáticas (CP 0006.7 y CP 0010.10), con la carrera y el servidor simulados |
 
-Trazabilidad: las 33 pruebas automáticas están citadas en algún caso (27 funciones; dos de ellas se ejecutan con 4 valores cada una).
+Trazabilidad: las 37 pruebas automáticas están citadas en algún caso (31 funciones; dos de ellas se ejecutan con 4 valores cada una).
 
 ---
 
@@ -217,3 +223,4 @@ Trazabilidad: las 33 pruebas automáticas están citadas en algún caso (27 func
 | 1.0 | 20/11/2026 | Prueba | Versión inicial: plan, casos y procedimientos alineados con el comportamiento real y trazados a las pruebas automáticas |
 | 1.1 | 25/11/2026 | Prueba | Se resuelven H1, H2 y H5: CP 0011.7 pasa a automático; se agregan CP 0011.8 (solicitud cruzada) y CP 0013.7 (falla del correo) con sus procedimientos; 39 pruebas automáticas |
 | 2.0 | 26/11/2026 | Prueba | Realineado con la implementación actual: CU0001, CU0006 y CU0010 (nuevo) más casos transversales de seguridad, trazados a las 33 pruebas. Token corrupto: 401 (antes 422). Se quitan los casos de amistad, que pasan a `_version_anterior/docs/` |
+| 2.1 | 26/11/2026 | Prueba | CP 0006.7 (registro simultáneo, H8) y CP 0010.10 (servidor de correo que no responde, H7); 29 casos trazados a las 37 pruebas |

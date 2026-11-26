@@ -244,6 +244,7 @@ Otros mecanismos que se ven en el diagrama, sin ser patrones del catálogo de la
 
 - `create_app()` (`backend/app/__init__.py`): arma la aplicación, inicializa las extensiones (`db`, `mail`, `jwt`, `migrate`) y registra los Blueprints.
 - `Config` (`backend/app/config.py`): lee el `.env`.
+- `MailConTimeout` (`backend/app/utils/mail.py`): la extensión Flask-Mail con timeout en la conexión SMTP, que usa `NotificationService` a través de `mail.send`.
 - `AppModule` y las rutas de Angular (`app.module.ts`).
 - La función `_normalizar(email)` de `user_dao.py`, que no pertenece a ninguna clase.
 

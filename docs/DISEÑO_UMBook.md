@@ -1,6 +1,6 @@
 # DISEÑO — UMBook (casos implementados)
 
-**Versión:** 2.0 · **Última modificación:** 26/11/2026 · **Etapa:** Diseño
+**Versión:** 2.1 · **Última modificación:** 26/11/2026 · **Etapa:** Diseño
 
 Diseño de los tres casos de uso implementados (**CU0001 Iniciar Sesión, CU0006 Registrar Usuario y CU0010 Invitación a la aplicación**), tal como quedó **en el código** de `4. Implementacion/codigo/`. Los diagramas están en `3. Diseño/` (índice en `3. Diseño/README.md`); sus fuentes son los `.md` de cada carpeta y los scripts `docs/generar_*.py`. **Si una imagen y su texto difieren, manda el texto.**
 
@@ -61,7 +61,8 @@ flowchart TB
 | `app/services/` | `auth_service.py`, `invitation_service.py`, `notification_service.py` |
 | `app/persistence/` | `models.py` (`User`, `Invitation`) y `daos/` (`user_dao.py`, `invitation_dao.py`) |
 | `app/utils/decorators.py` | `@token_required` |
-| `tests/` | 33 pruebas de pytest: `test_auth.py`, `test_invite.py`, `test_seguridad.py` |
+| `app/utils/mail.py` | `MailConTimeout`: Flask-Mail con timeout en la conexión SMTP (H7) |
+| `tests/` | 37 pruebas de pytest: `test_auth.py`, `test_invite.py`, `test_seguridad.py` |
 
 **Frontend** (rutas relativas a `4. Implementacion/codigo/frontend/src/app/`):
 
@@ -90,9 +91,9 @@ Los códigos de requisito son los de `docs/REQUISITOS_NO_FUNCIONALES_UMBook.md`.
 | Mensaje único de error de acceso | `authenticate` devuelve `None` tanto si el correo no existe como si la clave no coincide; el controller responde siempre "Credenciales incorrectas." | RNF-18 |
 | Validación de entrada | Esquemas de marshmallow en los controllers; el navegador repite las validaciones simples | RNF-19 |
 | Persistencia | Flask-SQLAlchemy sobre SQLite; acceso solo a través de los DAO | RNF-16, RNF-25 |
-| Integridad | Correo con restricción única en la base y normalizado (minúsculas, sin espacios) en `UserDAO` | RNF-23 |
+| Integridad | Correo con restricción única en la base y normalizado (minúsculas, sin espacios) en `UserDAO`; si dos registros simultáneos chocan con la restricción, `UserDAO.create` deshace la transacción y el segundo recibe 409 | RNF-23 |
 | Transacciones | Cada operación del DAO confirma con `db.session.commit()`; la invitación se guarda antes del envío y su estado se actualiza después | — |
-| Correo | Flask-Mail por SMTP con TLS (Gmail); `NotificationService` «Singleton» es el único que envía. `MAIL_SUPPRESS_SEND=true` desactiva el envío real para probar | RNF-17, RNF-25 |
+| Correo | Flask-Mail por SMTP con TLS (Gmail), con `MAIL_TIMEOUT` segundos de espera por operación (5 por defecto); `NotificationService` «Singleton» es el único que envía. `MAIL_SUPPRESS_SEND=true` desactiva el envío real para probar | RNF-17, RNF-25 |
 | Fallo del correo | La invitación queda `fallida`, el detalle va al log y el cliente recibe un 500 con un mensaje genérico | RNF-22, RNF-24 |
 | Configuración | Variables de entorno (`.env`, fuera del repositorio); la aplicación no arranca sin una clave JWT segura y el modo debug solo se activa con `FLASK_DEBUG=1` | RNF-21 |
 | CORS | Flask-Cors, con `CORS_ORIGIN` configurable | — |
@@ -213,8 +214,8 @@ Numeración continua con la versión anterior (H1 a H5 eran de amistad y quedaro
 | # | Hallazgo | Dónde | Estado |
 |---|---|---|---|
 | H6 | **`AuthGuard` no detecta el token vencido:** `isAuthenticated()` solo mira si hay token guardado, así que con el token vencido se abren `/welcome` e `/invite` hasta la primera petición, que responde 401 y cierra la sesión. | `auth.guard.ts`, `auth.service.ts` | Aceptado: el backend nunca acepta el token vencido. Documentado en el diagrama de estados de la sesión |
-| H7 | **Sin timeout en el envío del correo:** Flask-Mail 0.9.1 abre la conexión con `smtplib.SMTP(servidor, puerto)`, sin timeout. Si el servidor de correo no responde, la petición `/invite` queda esperando y no se garantiza el rnf 2.2 de CU0010 (menos de 5 segundos). | `notification_service.py` (vía Flask-Mail) | Anotado, no reproducido |
-| H8 | **Registro simultáneo con el mismo correo:** `register_user` primero busca y después inserta. Si dos pedidos llegan a la vez, la restricción única de la base impide el duplicado, pero el `IntegrityError` no se atrapa y la respuesta es 500 en lugar de 409. | `auth_service.py`, `user_dao.py` | Anotado, no reproducido (requiere dos pedidos simultáneos) |
+| H7 | **Sin timeout en el envío del correo:** Flask-Mail 0.9.1 abría la conexión con `smtplib.SMTP(servidor, puerto)`, sin timeout. Si el servidor de correo no respondía, la petición `/invite` quedaba esperando y no se garantizaba el rnf 2.2 de CU0010 (menos de 5 segundos). | `notification_service.py` (vía Flask-Mail) | **Resuelto (26/11/2026).** `MailConTimeout` (`app/utils/mail.py`) abre la conexión con `MAIL_TIMEOUT` segundos (5 por defecto); al vencer, el envío falla por el camino del ca 5.1 y la invitación queda `fallida`. Verificado contra un servidor que no responde: corta a los 1,0 s con `MAIL_TIMEOUT=1`. Pruebas: `test_la_conexion_smtp_se_abre_con_timeout`, `test_si_el_servidor_de_correo_no_responde_la_invitacion_queda_fallida` |
+| H8 | **Registro simultáneo con el mismo correo:** `register_user` primero busca y después inserta. Si dos pedidos llegaban a la vez, la restricción única impedía el duplicado, pero el `IntegrityError` no se atrapaba y la respuesta era 500 en lugar de 409. | `auth_service.py`, `user_dao.py` | **Resuelto (26/11/2026).** `UserDAO.create` atrapa el `IntegrityError`, deshace la transacción y devuelve `None`; `register_user` lo trata como correo ya registrado (409, ca 6.1). Pruebas: `test_registro_simultaneo_con_el_mismo_correo_devuelve_409`, `test_crear_un_usuario_con_correo_repetido_devuelve_none_y_la_base_sigue_usable` |
 | H9 | **Dos convenciones de resultado en `AuthService`:** `register_user` devuelve una tupla `(User, error)` y `authenticate` devuelve `User` o `None`. El texto del error (`'Email already registered'`) no se usa: el controller muestra su propio mensaje. | `auth_service.py` | Anotado |
 | H10 | **Dirección del backend fija en el frontend:** `AuthService` y `NotificationService` de Angular usan `http://localhost:5000` en el código, sin un archivo de entorno. | `core/auth.service.ts`, `core/notification.service.ts` | Anotado: alcanza para el despliegue de demostración |
 | H11 | **Sin migraciones:** `db.create_all()` crea las tablas que faltan pero no modifica las existentes; cambiar una columna obliga a recrear la base local. | `run.py` | Anotado (ver §8) |
@@ -225,7 +226,7 @@ Numeración continua con la versión anterior (H1 a H5 eran de amistad y quedaro
 
 | Versión | Fecha | Etapa / Chat | Cambios |
 |---|---|---|---|
+| 2.1 | 26/11/2026 | Diseño | H7 y H8 resueltos con sus pruebas: timeout SMTP (`MailConTimeout`) y registro simultáneo con el mismo correo (409); 37 pruebas |
 | 2.0 | 26/11/2026 | Diseño | Documento realineado con el código actual (CU0001, CU0006, CU0010): capas, estructura, mecanismos con los RNF vigentes, patrones Singleton, DAO y Decorator, diferencias con la propuesta y hallazgos H6 a H11. Se quita el aviso de desactualizado. La versión de amistad pasa a `_version_anterior/docs/` |
 | 1.3 | 26/11/2026 | Diseño | §4 remite al diagrama de clases de diseño del código actual; el de amistad deja de regenerarse y pasa a `_version_anterior/`. §5 y §6: despliegue y subsistemas rehechos con el código actual, con la forma de los del grupo. §7: secuencias y estados del código actual |
 | 1.2 | 25/11/2026 | Diseño | Rutas numeradas según la corrección de la cátedra. Capas, despliegue, subsistemas y estados se entregan en la versión del grupo y dejan de regenerarse; el diagrama de clases de diseño integral pasa a `3_Diagramas de Clases/` |
-| 1.1 | 25/11/2026 | Diseño | H1, H2 y H5 (nuevo) resueltos: índice único parcial en `SolicitudAmistad`, control de solicitud cruzada y tolerancia a fallos del correo. Se actualizan los diagramas de secuencia de CU0011 y CU0013 y las notas del diagrama de estados |

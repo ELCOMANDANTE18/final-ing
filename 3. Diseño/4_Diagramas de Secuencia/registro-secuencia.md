@@ -65,6 +65,7 @@ sequenceDiagram
 
 ## Notas
 
+- **Registro simultáneo con el mismo correo** (ca 6.1): si dos registros pasan a la vez la búsqueda del mensaje 9, la restricción única de la base rechaza el segundo en el `INSERT`; `UserDAO.create` deshace la transacción y devuelve `None`, y la respuesta es la misma rama de 409.
 - **Email duplicado sin distinguir mayúsculas** (ca 6.1): `UserDAO` normaliza el email al buscar y al guardar, así `ana@x.com` y `ANA@X.COM` son la misma cuenta.
 - **La contraseña se cifra en el servidor** con `generate_password_hash` (Werkzeug) dentro de `register_user`; la base nunca guarda la contraseña en texto plano (rnf 1.3).
 - **No inicia sesión automáticamente:** después del registro el usuario va a la pantalla de inicio de sesión (paso 7 de la ficha).
