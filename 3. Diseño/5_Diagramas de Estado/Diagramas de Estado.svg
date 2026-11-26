@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1300" height="600" viewBox="0 0 1300 600" font-family="Noto Sans, DejaVu Sans, Verdana, sans-serif"><rect width="1300" height="600" fill="#fff"/><text x="20.0" y="32.0" font-size="19" text-anchor="start" font-weight="bold" fill="#181818">Diagramas de Estado</text>
+<text x="290.0" y="75.0" font-size="18" text-anchor="middle" fill="#181818">Invitación</text>
+<circle cx="290" cy="110" r="10" fill="#222"/>
+<rect x="220.0" y="175" width="140" height="50" rx="12.5" fill="#F1F1F1" stroke="#181818" stroke-width="0.6"/><line x1="220.0" y1="201" x2="360.0" y2="201" stroke="#181818" stroke-width="0.6"/>
+<text x="290.0" y="193.0" font-size="14" text-anchor="middle" fill="#181818">Pendiente</text>
+<polyline points="290,120 290,175" fill="none" stroke="#181818" stroke-width="1"/>
+<polygon points="290,175 286.0,165.0 290.0,169.0 294.0,165.0" fill="#181818"/>
+<text x="300.0" y="140.0" font-size="13" text-anchor="start" fill="#181818">create(email, inviter_id)</text>
+<text x="300.0" y="156.0" font-size="13" text-anchor="start" fill="#181818">[email válido, sesión iniciada]</text>
+<rect x="50.0" y="345" width="140" height="50" rx="12.5" fill="#F1F1F1" stroke="#181818" stroke-width="0.6"/><line x1="50.0" y1="371" x2="190.0" y2="371" stroke="#181818" stroke-width="0.6"/>
+<text x="120.0" y="363.0" font-size="14" text-anchor="middle" fill="#181818">Enviada</text>
+<rect x="390.0" y="345" width="140" height="50" rx="12.5" fill="#F1F1F1" stroke="#181818" stroke-width="0.6"/><line x1="390.0" y1="371" x2="530.0" y2="371" stroke="#181818" stroke-width="0.6"/>
+<text x="460.0" y="363.0" font-size="14" text-anchor="middle" fill="#181818">Fallida</text>
+<polyline points="250,225 140,345" fill="none" stroke="#181818" stroke-width="1"/>
+<polygon points="140,345 143.8,334.9 144.1,340.6 149.7,340.3" fill="#181818"/>
+<text x="198.0" y="262.0" font-size="13" text-anchor="end" fill="#181818">correo aceptado por el servidor</text>
+<text x="198.0" y="278.0" font-size="13" text-anchor="end" fill="#181818">/ update_status('enviada')</text>
+<polyline points="330,225 440,345" fill="none" stroke="#181818" stroke-width="1"/>
+<polygon points="440,345 430.3,340.3 435.9,340.6 436.2,334.9" fill="#181818"/>
+<text x="382.0" y="262.0" font-size="13" text-anchor="start" fill="#181818">el servidor rechaza o no responde</text>
+<text x="382.0" y="278.0" font-size="13" text-anchor="start" fill="#181818">/ update_status('fallida')</text>
+<polyline points="120,395 120,449" fill="none" stroke="#181818" stroke-width="1"/>
+<polygon points="120,449 116.0,439.0 120.0,443.0 124.0,439.0" fill="#181818"/>
+<circle cx="120" cy="460" r="11" fill="none" stroke="#222" stroke-width="1.2"/><circle cx="120" cy="460" r="6" fill="#222"/>
+<polyline points="460,395 460,449" fill="none" stroke="#181818" stroke-width="1"/>
+<polygon points="460,449 456.0,439.0 460.0,443.0 464.0,439.0" fill="#181818"/>
+<circle cx="460" cy="460" r="11" fill="none" stroke="#222" stroke-width="1.2"/><circle cx="460" cy="460" r="6" fill="#222"/>
+<path d="M40,500 L530,500 L540,510 L540,562 L40,562 Z" fill="#FEFFDD" stroke="#181818" stroke-width="0.6"/><path d="M530,500 L530,510 L540,510" fill="none" stroke="#181818" stroke-width="0.6"/>
+<text x="48.0" y="520.0" font-size="13" text-anchor="start" fill="#181818">Enviada y Fallida son finales: no hay transición entre ellas ni vuelta</text>
+<text x="48.0" y="536.0" font-size="13" text-anchor="start" fill="#181818">a Pendiente. Reintentar crea una invitación nueva (la fallida queda</text>
+<text x="48.0" y="552.0" font-size="13" text-anchor="start" fill="#181818">como registro). Un rebote posterior del correo no cambia el estado.</text>
+<text x="1020.0" y="75.0" font-size="18" text-anchor="middle" fill="#181818">Sesión del usuario (frontend)</text>
+<circle cx="930" cy="110" r="10" fill="#222"/>
+<rect x="860.0" y="175" width="140" height="50" rx="12.5" fill="#F1F1F1" stroke="#181818" stroke-width="0.6"/><line x1="860.0" y1="201" x2="1000.0" y2="201" stroke="#181818" stroke-width="0.6"/>
+<text x="930.0" y="193.0" font-size="14" text-anchor="middle" fill="#181818">Sin sesión</text>
+<polyline points="930,120 930,175" fill="none" stroke="#181818" stroke-width="1"/>
+<polygon points="930,175 926.0,165.0 930.0,169.0 934.0,165.0" fill="#181818"/>
+<text x="940.0" y="140.0" font-size="13" text-anchor="start" fill="#181818">abre la aplicación</text>
+<text x="940.0" y="156.0" font-size="13" text-anchor="start" fill="#181818">[sin access_token]</text>
+<polyline points="860.0,190 820.0,190 820.0,212 860.0,212" fill="none" stroke="#181818" stroke-width="1"/>
+<polygon points="860.0,212 850.0,216.0 854.0,212.0 850.0,208.0" fill="#181818"/>
+<text x="812.0" y="195.0" font-size="13" text-anchor="end" fill="#181818">pide /welcome o /invite</text>
+<text x="812.0" y="211.0" font-size="13" text-anchor="end" fill="#181818">/ AuthGuard redirige a /login</text>
+<rect x="860.0" y="375" width="140" height="50" rx="12.5" fill="#F1F1F1" stroke="#181818" stroke-width="0.6"/><line x1="860.0" y1="401" x2="1000.0" y2="401" stroke="#181818" stroke-width="0.6"/>
+<text x="930.0" y="393.0" font-size="14" text-anchor="middle" fill="#181818">Sesión iniciada</text>
+<polyline points="895,225 895,375" fill="none" stroke="#181818" stroke-width="1"/>
+<polygon points="895,375 891.0,365.0 895.0,369.0 899.0,365.0" fill="#181818"/>
+<text x="887.0" y="285.0" font-size="13" text-anchor="end" fill="#181818">login() responde 200</text>
+<text x="887.0" y="301.0" font-size="13" text-anchor="end" fill="#181818">/ guarda access_token</text>
+<text x="887.0" y="317.0" font-size="13" text-anchor="end" fill="#181818">y nombre en localStorage</text>
+<polyline points="945,375 945,225" fill="none" stroke="#181818" stroke-width="1"/>
+<polygon points="945,225 949.0,235.0 945.0,231.0 941.0,235.0" fill="#181818"/>
+<text x="953.0" y="330.0" font-size="13" text-anchor="start" fill="#181818">logout()</text>
+<text x="953.0" y="346.0" font-size="13" text-anchor="start" fill="#181818">(Cerrar sesión)</text>
+<rect x="1150.0" y="375" width="140" height="50" rx="12.5" fill="#F1F1F1" stroke="#181818" stroke-width="0.6"/><line x1="1150.0" y1="401" x2="1290.0" y2="401" stroke="#181818" stroke-width="0.6"/>
+<text x="1220.0" y="393.0" font-size="14" text-anchor="middle" fill="#181818">Token vencido</text>
+<polyline points="1000.0,400 1150.0,400" fill="none" stroke="#181818" stroke-width="1"/>
+<polygon points="1150.0,400 1140.0,404.0 1144.0,400.0 1140.0,396.0" fill="#181818"/>
+<text x="1075.0" y="392.0" font-size="13" text-anchor="middle" fill="#181818">pasan 15 minutos</text>
+<polyline points="1220,375 1220,200 1000.0,200" fill="none" stroke="#181818" stroke-width="1"/>
+<polygon points="1000.0,200 1010.0,196.0 1006.0,200.0 1010.0,204.0" fill="#181818"/>
+<text x="1212.0" y="260.0" font-size="13" text-anchor="end" fill="#181818">una petición responde 401</text>
+<text x="1212.0" y="276.0" font-size="13" text-anchor="end" fill="#181818">/ TokenInterceptor: logout()</text>
+<text x="1212.0" y="292.0" font-size="13" text-anchor="end" fill="#181818">y navega a /login</text>
+<path d="M780,500 L1240,500 L1250,510 L1250,562 L780,562 Z" fill="#FEFFDD" stroke="#181818" stroke-width="0.6"/><path d="M1240,500 L1240,510 L1250,510" fill="none" stroke="#181818" stroke-width="0.6"/>
+<text x="788.0" y="520.0" font-size="13" text-anchor="start" fill="#181818">AuthGuard solo mira si hay un token guardado (isAuthenticated()),</text>
+<text x="788.0" y="536.0" font-size="13" text-anchor="start" fill="#181818">no si venció: con el token vencido deja abrir las pantallas hasta</text>
+<text x="788.0" y="552.0" font-size="13" text-anchor="start" fill="#181818">la primera petición al backend, que responde 401.</text></svg>

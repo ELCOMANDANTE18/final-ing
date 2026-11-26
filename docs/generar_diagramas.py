@@ -9,8 +9,10 @@ Uso (desde cualquier carpeta):
     python3 docs/generar_diagramas.py            # genera todos
     python3 docs/generar_diagramas.py CU0011     # solo los que tengan ese texto en la ruta
 
-Requisito: Mermaid CLI (`npm install -g @mermaid-js/mermaid-cli`). Si `mmdc`
-no está en el PATH, indicar su ruta con la variable de entorno MMDC.
+Requisito: Mermaid CLI 12 (`npm install -g @mermaid-js/mermaid-cli@12`), que trae
+el tema `redux-color` de los diagramas de secuencia de la compañera. Si `mmdc`
+no está en el PATH, indicar su ruta con la variable de entorno MMDC (por
+ejemplo, un script que ejecute `npx -y @mermaid-js/mermaid-cli@12 "$@"`).
 """
 import json
 import os
@@ -50,7 +52,7 @@ def main(filtro: str = "") -> int:
                 fuente.write_text(codigo, encoding="utf-8")
                 r = subprocess.run(
                     [mmdc, "-i", str(fuente), "-o", str(salida), "-p", str(config),
-                     "-b", "white", "-s", "2", "-w", "1800"],
+                     "-b", "white", "-s", "2", "--size", "1800"],
                     capture_output=True, text=True,
                 )
                 if r.returncode == 0:

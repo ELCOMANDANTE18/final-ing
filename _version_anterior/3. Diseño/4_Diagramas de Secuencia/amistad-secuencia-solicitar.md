@@ -1,6 +1,6 @@
 # CU0011 — Solicitar Amistad — Diagrama de secuencia
 
-<!-- png: 3. Diseño/Diagramas de Secuencia/CU0011 - Solicitar Amistad.png -->
+<!-- implementación anterior, no se regenera: _version_anterior/3. Diseño/4_Diagramas de Secuencia/CU0011 - Solicitar Amistad.png -->
 ```mermaid
 sequenceDiagram
     actor A as Usuario A (emisor)
@@ -33,10 +33,17 @@ sequenceDiagram
         end
         SVC->>SDAO: existe_pendiente(emisor.id, receptor.id)
         SDAO-->>SVC: true/false
-        opt ya existe una pendiente
+        opt ya existe una pendiente de A a B
             SVC-->>API: raise SolicitudInvalidaError
             API-->>FE: 409
         end
+        SVC->>SDAO: existe_pendiente(receptor.id, emisor.id)
+        SDAO-->>SVC: true/false
+        opt B ya le envió una pendiente a A (solicitud cruzada)
+            SVC-->>API: raise SolicitudInvalidaError
+            API-->>FE: 409 "Este usuario ya te envió una solicitud…"
+        end
+        Note over SVC,SDAO: una solicitud rechazada no bloquea:<br/>se crea una nueva (la rechazada queda como historial)
         SVC->>SDAO: create(emisor.id, receptor.id)
         SDAO-->>SVC: SolicitudAmistad (estado="pendiente")
         SVC->>B: receptor.notificar_observadores({tipo: "solicitud_recibida", ...})

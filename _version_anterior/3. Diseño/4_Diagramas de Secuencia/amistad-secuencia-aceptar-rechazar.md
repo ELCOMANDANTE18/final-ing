@@ -5,7 +5,7 @@ autorización (solo el receptor puede responder), la delegación al patrón Stat
 la transacción única (estado + vínculo `Amistad` se confirman o se revierten
 juntos).
 
-<!-- png: 3. Diseño/Diagramas de Secuencia/CU0012 - Aceptar - Rechazar Solicitud.png -->
+<!-- implementación anterior, no se regenera: _version_anterior/3. Diseño/4_Diagramas de Secuencia/CU0012 - Aceptar - Rechazar Solicitud.png -->
 ```mermaid
 sequenceDiagram
     actor B as Usuario B (receptor)

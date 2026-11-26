@@ -5,7 +5,7 @@ línea cada una, delegan siempre en `_estado_obj`. Nunca decide ella misma si la
 transición es válida — eso lo sabe cada estado. Código real en
 [`estado_solicitud.py`](../../docs/backend.md) y `persistence/models.py`.
 
-<!-- png: 3. Diseño/Diagramas de Clases/Diagrama de clases - Patrón State.png -->
+<!-- implementación anterior, no se regenera: _version_anterior/3. Diseño/3_Diagramas de Clases/Diagrama de clases - Patrón State.png -->
 ```mermaid
 classDiagram
     class SolicitudAmistad {

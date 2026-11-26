@@ -5,7 +5,7 @@
 `Observador` y es también el único Singleton del sistema — las dos cosas
 conviven en la misma clase.
 
-<!-- png: 3. Diseño/Diagramas de Clases/Diagrama de clases - Observer y Singleton.png -->
+<!-- implementación anterior, no se regenera: _version_anterior/3. Diseño/3_Diagramas de Clases/Diagrama de clases - Observer y Singleton.png -->
 ```mermaid
 classDiagram
     class Observador {

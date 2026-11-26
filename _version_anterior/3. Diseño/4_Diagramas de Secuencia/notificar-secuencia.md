@@ -5,7 +5,7 @@ Continúa exactamente donde termina
 que hace válido el patrón es que `AmistadService` publica el evento en el
 `Usuario` receptor y nunca llama al `NotificationService` directo.
 
-<!-- png: 3. Diseño/Diagramas de Secuencia/CU0013 - Notificar Solicitud Recibida.png -->
+<!-- implementación anterior, no se regenera: _version_anterior/3. Diseño/4_Diagramas de Secuencia/CU0013 - Notificar Solicitud Recibida.png -->
 ```mermaid
 sequenceDiagram
     participant SVC as AmistadService
@@ -24,7 +24,13 @@ sequenceDiagram
     OBS->>TPL: render_template(solicitud_recibida.html / .txt, emisor_nombre)
     TPL-->>OBS: HTML + texto plano
     OBS->>MAIL: Message(subject, body, html) → mail.send(msg)
-    MAIL-->>B: llega el mail (canal "push")
+    alt envío correcto
+        MAIL-->>B: llega el mail (canal "push")
+    else falla el servidor de correo
+        MAIL-->>OBS: excepción
+        OBS->>OBS: logger.exception(...) — se registra y NO se propaga
+        Note over OBS: la solicitud ya está guardada:<br/>la petición responde 201 igual (RNF-11)
+    end
 
     Note over FE,API: canal "pull": la próxima vez que B entra a /welcome
     FE->>API: GET /amistad/solicitudes/pendientes (JWT de B)
@@ -36,3 +42,8 @@ sequenceDiagram
 [`../proyecto.md`](../../docs/proyecto.md)): el mail es la notificación "push" en tiempo
 real, y la lista de `solicitudes/pendientes` es la notificación "pull" que ve la
 home — la misma consulta que ya usa el CU de Solicitar Amistad.
+
+**Si el correo falla** (servidor SMTP caído, credenciales inválidas),
+`NotificationService.actualizar()` registra el error en el log y no lo propaga:
+la solicitud ya creada se conserva y el receptor la ve igual por el canal "pull"
+(RNF-11, CU0013 ca 4.2).
