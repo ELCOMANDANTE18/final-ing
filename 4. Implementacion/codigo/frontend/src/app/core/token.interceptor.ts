@@ -25,12 +25,9 @@ export class TokenInterceptor implements HttpInterceptor {
 
     return next.handle(cloned).pipe(
       catchError((err: HttpErrorResponse) => {
-        // Solo acá: esta request SÍ llevaba token y el backend la rechazó
-        // igual — el JWT venció (401, "Token has expired") o quedó corrupto/
-        // manipulado (422, Flask-JWT-Extended lo distingue así). No confundir
-        // con el 401 de /auth/login, que va sin token porque el usuario
-        // todavía no inició sesión (ese nunca pasa por acá).
-        if (err.status === 401 || err.status === 422) {
+        // La petición llevaba token y el servidor lo rechazó (vencido o
+        // inválido): se cierra la sesión local en vez de dejar un token muerto.
+        if (err.status === 401) {
           this.auth.logout();
           this.router.navigate(['/login']);
         }

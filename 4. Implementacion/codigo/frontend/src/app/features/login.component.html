@@ -1,38 +1,34 @@
-<div class="auth-shell">
-  <div class="brand-panel">
-    <div class="brand-mark">
-      <span>U</span>
-    </div>
-    <h2>Bienvenido de<br />vuelta a UMBook</h2>
-    <p>Conectá con tus amigos, enviá solicitudes de amistad y enterate al toque cuando alguien te quiere agregar.</p>
-    <ul class="feature-list">
-      <li><span class="check">✓</span> Solicitudes de amistad en tiempo real</li>
-      <li><span class="check">✓</span> Notificaciones por email</li>
-      <li><span class="check">✓</span> Tus datos, siempre protegidos</li>
-    </ul>
-  </div>
-
-  <div class="auth-page">
-    <div class="auth-card">
+<main class="auth-page">
+  <section class="auth-card">
+    <header class="auth-header">
+      <span class="brand-mark" aria-hidden="true">U</span>
       <h1>Iniciar sesión</h1>
+      <p class="muted">Entrá a tu cuenta de UMBook.</p>
+    </header>
 
-      <p *ngIf="errorMessage" class="form-message error">{{ errorMessage }}</p>
+    <form (ngSubmit)="login()" #loginForm="ngForm" novalidate>
+      <label class="field">
+        <span>Correo electrónico</span>
+        <input name="email" type="email" [(ngModel)]="email" required autocomplete="email"
+               placeholder="vos@ejemplo.com" />
+      </label>
 
-      <form (ngSubmit)="submit()" #loginForm="ngForm">
-        <label class="field">
-          Email
-          <input type="email" name="email" [(ngModel)]="email" required />
-        </label>
+      <label class="field">
+        <span>Contraseña</span>
+        <input name="password" type="password" [(ngModel)]="password" required
+               autocomplete="current-password" placeholder="Tu contraseña" />
+      </label>
 
-        <label class="field">
-          Contraseña
-          <input type="password" name="password" [(ngModel)]="password" required />
-        </label>
+      <p class="alert alert-error" *ngIf="errorMessage" role="alert">{{ errorMessage }}</p>
 
-        <button type="submit" class="btn-primary">Ingresar</button>
-      </form>
+      <button class="btn btn-primary btn-block" type="submit" [disabled]="loading">
+        {{ loading ? 'Ingresando…' : 'Ingresar' }}
+      </button>
+    </form>
 
-      <a routerLink="/register" class="switch-link">Crear una cuenta</a>
-    </div>
-  </div>
-</div>
+    <p class="auth-switch">
+      ¿No tenés cuenta?
+      <button type="button" class="link" (click)="goToRegister()">Registrate</button>
+    </p>
+  </section>
+</main>

@@ -1,0 +1,26 @@
+<main class="page">
+  <section class="panel">
+    <header class="panel-header">
+      <span class="action-icon" aria-hidden="true">✉</span>
+      <div>
+        <h1>Invitar amigos</h1>
+        <p class="muted">Le mandamos un correo con tu invitación para que se registre en UMBook.</p>
+      </div>
+    </header>
+
+    <form (ngSubmit)="sendInvite()" #inviteForm="ngForm" novalidate>
+      <label class="field">
+        <span>Correo del invitado</span>
+        <input name="email" type="email" [(ngModel)]="email" required maxlength="254"
+               placeholder="amigo@ejemplo.com" />
+      </label>
+
+      <p class="alert alert-error" *ngIf="errorMessage" role="alert">{{ errorMessage }}</p>
+      <p class="alert alert-success" *ngIf="successMessage" role="status">{{ successMessage }}</p>
+
+      <button class="btn btn-primary" type="submit" [disabled]="loading">
+        {{ loading ? 'Enviando…' : 'Enviar invitación' }}
+      </button>
+    </form>
+  </section>
+</main>

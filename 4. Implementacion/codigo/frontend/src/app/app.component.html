@@ -1,1 +1,18 @@
+<header class="topbar" *ngIf="auth.isAuthenticated()">
+  <a class="brand" routerLink="/welcome">
+    <span class="brand-mark" aria-hidden="true">U</span>
+    <span>UMBook</span>
+  </a>
+
+  <nav class="topnav">
+    <a routerLink="/welcome" routerLinkActive="active">Inicio</a>
+    <a routerLink="/invite" routerLinkActive="active">Invitar</a>
+  </nav>
+
+  <div class="topbar-user">
+    <span class="avatar" aria-hidden="true">{{ userInitial }}</span>
+    <button type="button" class="btn btn-ghost" (click)="logout()">Cerrar sesión</button>
+  </div>
+</header>
+
 <router-outlet></router-outlet>

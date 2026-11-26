@@ -1,44 +1,41 @@
-<div class="auth-shell">
-  <div class="brand-panel">
-    <div class="brand-mark">
-      <span>U</span>
-    </div>
-    <h2>Sumate a<br />UMBook</h2>
-    <p>Creá tu cuenta en un minuto y empezá a armar tu red de amigos.</p>
-    <ul class="feature-list">
-      <li><span class="check">✓</span> Registro rápido y simple</li>
-      <li><span class="check">✓</span> Contraseñas siempre hasheadas</li>
-      <li><span class="check">✓</span> Sin spam, sin vueltas</li>
-    </ul>
-  </div>
+<main class="auth-page">
+  <section class="auth-card">
+    <header class="auth-header">
+      <span class="brand-mark" aria-hidden="true">U</span>
+      <h1>Crear cuenta</h1>
+      <p class="muted">Sumate a UMBook en un minuto.</p>
+    </header>
 
-  <div class="auth-page">
-    <div class="auth-card">
-      <h1>Registrarme</h1>
+    <form (ngSubmit)="register()" #regForm="ngForm" novalidate>
+      <label class="field">
+        <span>Nombre</span>
+        <input name="name" type="text" [(ngModel)]="name" required autocomplete="name"
+               placeholder="Tu nombre completo" />
+      </label>
 
-      <p *ngIf="errorMessage" class="form-message error">{{ errorMessage }}</p>
-      <p *ngIf="successMessage" class="form-message success">{{ successMessage }}</p>
+      <label class="field">
+        <span>Correo electrónico</span>
+        <input name="email" type="email" [(ngModel)]="email" required autocomplete="email"
+               placeholder="vos@ejemplo.com" />
+      </label>
 
-      <form (ngSubmit)="submit()" #registerForm="ngForm">
-        <label class="field">
-          Nombre
-          <input type="text" name="name" [(ngModel)]="name" required />
-        </label>
+      <label class="field">
+        <span>Contraseña</span>
+        <input name="password" type="password" [(ngModel)]="password" required minlength="8"
+               autocomplete="new-password" placeholder="Mínimo 8 caracteres" />
+      </label>
 
-        <label class="field">
-          Email
-          <input type="email" name="email" [(ngModel)]="email" required />
-        </label>
+      <p class="alert alert-error" *ngIf="errorMessage" role="alert">{{ errorMessage }}</p>
+      <p class="alert alert-success" *ngIf="successMessage" role="status">{{ successMessage }}</p>
 
-        <label class="field">
-          Contraseña
-          <input type="password" name="password" [(ngModel)]="password" required minlength="8" />
-        </label>
+      <button class="btn btn-primary btn-block" type="submit" [disabled]="loading">
+        {{ loading ? 'Creando cuenta…' : 'Registrarse' }}
+      </button>
+    </form>
 
-        <button type="submit" class="btn-primary">Registrarme</button>
-      </form>
-
-      <a routerLink="/login" class="switch-link">Ya tengo una cuenta</a>
-    </div>
-  </div>
-</div>
+    <p class="auth-switch">
+      ¿Ya tenés cuenta?
+      <button type="button" class="link" (click)="goToLogin()">Iniciá sesión</button>
+    </p>
+  </section>
+</main>
