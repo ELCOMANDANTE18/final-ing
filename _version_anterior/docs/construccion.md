@@ -1,6 +1,8 @@
 # Construcción de UMBook — paso a paso
 
-**Versión:** 1.1 · **Última modificación:** 20/11/2026 · **Etapa:** Implementación
+**Versión:** 1.2 · **Última modificación:** 25/11/2026 · **Etapa:** Implementación
+
+> ⚠️ **Desactualizado respecto del código (25/11/2026).** La implementación de `4. Implementacion/` pasó a ser la del repositorio de una compañera del grupo: **CU0001 Iniciar Sesión, CU0006 Registrar Usuario y CU0010 Invitación**, con correcciones de seguridad y frontend nuevo (ver `4. Implementacion/README.md`). Este documento describe la implementación anterior (amistad y notificaciones: CU0011, CU0012 y CU0013), que ya no está en el código. Queda pendiente de realinear: ver `docs/tareas.md`.
 
 Este documento explica cómo se construyó el proyecto y por qué, organizado en las
 3 implementaciones definidas en `prompt-construccion.md`. No es un tutorial genérico
@@ -321,7 +323,7 @@ de Angular moderno.
 
 ## 7. Tests automáticos
 
-`backend/tests/` (pytest, 32 tests, correr con `pip install -r
+`backend/tests/` (pytest, 39 tests, correr con `pip install -r
 requirements-dev.txt && pytest` desde `backend/`) — detalle completo en
 [`backend.md`](./backend.md#tests). En resumen, separados por lo que cada uno
 prueba:
@@ -373,4 +375,5 @@ prueba:
 
 | Versión | Fecha | Etapa / Chat | Cambios |
 |---|---|---|---|
+| 1.2 | 25/11/2026 | Implementación | La cantidad de pruebas pasa de 32 a 39 (corrección de H1, H2 y solicitud cruzada) |
 | 1.1 | 20/11/2026 | Implementación | Se agrega el control de versiones; la cantidad de pruebas pasa de 30 a 32 |

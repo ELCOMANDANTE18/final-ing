@@ -1,6 +1,8 @@
 # Backend — UMBook
 
-**Versión:** 1.1 · **Última modificación:** 20/11/2026 · **Etapa:** Implementación
+**Versión:** 1.2 · **Última modificación:** 25/11/2026 · **Etapa:** Implementación
+
+> ⚠️ **Desactualizado respecto del código (25/11/2026).** La implementación de `4. Implementacion/` pasó a ser la del repositorio de una compañera del grupo: **CU0001 Iniciar Sesión, CU0006 Registrar Usuario y CU0010 Invitación**, con correcciones de seguridad y frontend nuevo (ver `4. Implementacion/README.md`). Este documento describe la implementación anterior (amistad y notificaciones: CU0011, CU0012 y CU0013), que ya no está en el código. Queda pendiente de realinear: ver `docs/tareas.md`.
 
 Flask + SQLAlchemy + SQLite. Patrón en capas: **controller → service → DAO →
 model**. El detalle de por qué está armado así (patrones State/Observer/Singleton,
@@ -45,17 +47,21 @@ destruye por test) **antes** de importar `app`, así los tests no dependen del
   rechacen cualquier transición nueva.
 - `test_observer.py` — que `Usuario.notificar_observadores()` llegue a todos
   sus observadores, que `NotificationService` esté registrado por defecto, y
-  que sea Singleton (`get_instance()` siempre devuelve la misma instancia).
+  que sea Singleton (`get_instance()` siempre devuelve la misma instancia), y
+  que una falla del envío de correo se registre en el log sin propagarse.
 - `test_auth_service.py` — regresión del bug de bypass de login (contraseña
   incorrecta / email inexistente / contraseña correcta).
 - `test_amistad_service.py` — integración con DB real: que
   `solicitar_amistad` dispare el Observer (y no llame al Notificador
-  directo), las validaciones (auto-solicitud, duplicada, ya amigos,
-  receptor inexistente), la transacción de `aceptar` (estado + vínculo
+  directo), las validaciones (auto-solicitud, duplicada, solicitud cruzada,
+  ya amigos, receptor inexistente), el reenvío tras un rechazo, el índice
+  único de pendientes, la transacción de `aceptar` (estado + vínculo
   juntos) y la autorización (`responder_solicitud` solo por el receptor).
 - `test_api.py` — el mismo flujo pero a través del cliente de test de Flask
   (HTTP real, códigos de estado incluidos), replicando la prueba manual con
-  curl que se corrió al construir el proyecto.
+  curl que se corrió al construir el proyecto. Incluye el reenvío tras un
+  rechazo (201), la solicitud cruzada (409) y la solicitud con el servidor de
+  correo caído (201).
 
 ## Estructura
 
@@ -111,6 +117,10 @@ backend/
 - **SolicitudAmistad**: `emisor_id, receptor_id, estado (string), fecha_creacion`.
   Contexto del patrón State: `aceptar()`/`rechazar()` delegan siempre en el objeto
   State actual (`_estado_obj`, no persistido, reconstruido igual que arriba).
+  Unicidad: índice único **parcial** `uq_solicitud_pendiente_par` sobre
+  `(emisor_id, receptor_id)` solo para `estado = 'pendiente'` — una sola
+  pendiente por par, y las rechazadas/aceptadas quedan como historial (se puede
+  volver a solicitar tras un rechazo).
 - **Amistad**: `usuario1_id, usuario2_id (id menor primero), fecha_creacion`.
   Vínculo confirmado, creado por `SolicitudAmistad.crear_vinculo_amistad()` en la
   misma transacción que el pasaje a estado `aceptada`.
@@ -145,6 +155,10 @@ manda con `flask_mail.Message(body=..., html=...)`. Para agregar un mail nuevo:
    desde donde corresponda (hoy solo desde `actualizar()`, al reaccionar al evento
    `solicitud_recibida`).
 
+`actualizar()` atrapa cualquier error del envío y lo registra con
+`current_app.logger.exception(...)` sin propagarlo (RNF-11): si el servidor de
+correo falla, la solicitud igual se crea y el endpoint responde 201.
+
 `enviar_email(destinatario, mensaje)` (sin plantilla) se mantiene aparte, sin
 tocar su firma, como API genérica para el caso en que en algún momento se
 retome CU0010.
@@ -165,4 +179,5 @@ retome CU0010.
 
 | Versión | Fecha | Etapa / Chat | Cambios |
 |---|---|---|---|
+| 1.2 | 25/11/2026 | Implementación | Índice único parcial en `SolicitudAmistad`, control de solicitud cruzada, tolerancia a fallos del correo; cobertura de pruebas actualizada |
 | 1.1 | 20/11/2026 | Implementación | Se agrega el control de versiones |

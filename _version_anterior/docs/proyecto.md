@@ -2,6 +2,8 @@
 
 **Versión:** 1.1 · **Última modificación:** 20/11/2026 · **Etapa:** Gestión del proyecto
 
+> ⚠️ **Desactualizado respecto del código (25/11/2026).** La implementación de `4. Implementacion/` pasó a ser la del repositorio de una compañera del grupo: **CU0001 Iniciar Sesión, CU0006 Registrar Usuario y CU0010 Invitación**, con correcciones de seguridad y frontend nuevo (ver `4. Implementacion/README.md`). Este documento describe la implementación anterior (amistad y notificaciones: CU0011, CU0012 y CU0013), que ya no está en el código. Queda pendiente de realinear: ver `docs/tareas.md`.
+
 Aplicación de gestión de usuarios para la materia Ingeniería de Software.
 Backend Flask + frontend Angular (detalle técnico en [`backend.md`](./backend.md) y
 [`frontend.md`](./frontend.md)).

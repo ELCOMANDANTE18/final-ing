@@ -4,7 +4,7 @@ Trabajo final de la materia **Ingeniería de Software**.
 
 **Alumno:** Victor Gimenez · **Legajo:** 61.174
 
-UMBook es una aplicación web de gestión de usuarios con tres funcionalidades centrales: **iniciar sesión**, **solicitar, aceptar y rechazar amistad** y **notificar por correo la solicitud de amistad recibida**. El backend es una API REST en Flask y el frontend es una aplicación Angular.
+UMBook es una aplicación web de gestión de usuarios con tres funcionalidades implementadas: **registrarse**, **iniciar sesión** e **invitar a otra persona por correo**. El backend es una API REST en Flask y el frontend es una aplicación Angular.
 
 El proyecto se desarrolló siguiendo el **Proceso Unificado**, con sus flujos de trabajo: Requisitos, Análisis, Diseño, Implementación y Prueba.
 
@@ -12,16 +12,17 @@ El proyecto se desarrolló siguiendo el **Proceso Unificado**, con sus flujos de
 
 ## Alcance de esta entrega
 
-Funcionalidades realizadas (diseñadas, implementadas y probadas):
+La implementación toma como base el proyecto de una compañera del grupo, con su acuerdo: **el mismo código, con los errores de seguridad corregidos y un frontend con diseño nuevo**. Sus fichas de caso de uso y sus diagramas de secuencia viven dentro de `4. Implementacion/`. El detalle de qué se tomó y qué se cambió está en [`4. Implementacion/README.md`](4.%20Implementacion/README.md).
 
-| Funcionalidad | Patrón de diseño |
+| Caso de uso | Patrón de diseño |
 |---|---|
-| Registrar usuario | — |
-| Iniciar sesión | — |
-| Solicitar amistad y aceptar / rechazar la solicitud | **State** |
-| Notificar solicitud de amistad recibida | **Observer** sobre un `NotificationService` **Singleton** |
+| CU0001 Iniciar Sesión | — |
+| CU0006 Registrar Usuario | — |
+| CU0010 Invitación a la aplicación | **Singleton** (`NotificationService`) |
 
-Los casos de uso restantes (invitación a la aplicación, búsqueda de usuarios, comentarios, cumpleaños, permisos, etc.) están especificados en `1. Requerimientos/Casos de Uso/` y quedan fuera del alcance de implementación de esta versión. El detalle de qué entra y qué no, y por qué, está en `docs/proyecto.md`.
+Los demás casos de uso del grupo están especificados en `1. Requerimientos/4_Casos de Uso/` y no se implementaron.
+
+> ⚠️ **Pendiente:** varios documentos de las etapas (fichas generadas, análisis, diseño y pruebas en `docs/` y sus entregables) todavía describen la implementación anterior (amistad y notificaciones, CU0011 a CU0013). La lista está en `docs/tareas.md`.
 
 ---
 
@@ -30,11 +31,13 @@ Los casos de uso restantes (invitación a la aplicación, búsqueda de usuarios,
 | Carpeta | Qué contiene |
 |---|---|
 | `enunciado_umbook.pdf` | Enunciado del proyecto de la cátedra |
-| `1. Requerimientos/` | Fichas de los casos de uso (`Casos de Uso/`, con las del grupo y las cinco implementadas) · listado de requisitos no funcionales · lista de actores · modelo de dominio · prototipo de interfaces |
-| `2. Análisis/` | Diagrama de clases de análisis · diagrama de paquetes · diagramas de colaboración de los cinco casos de uso implementados |
-| `3. Diseño/` | Arquitectura y mecanismos · diagramas de capas, de clases integral, de despliegue y de subsistemas · diagramas de secuencia y de estado. Su `README.md` es el índice |
-| `4. Implementacion/codigo/` | El código fuente (`backend/` y `frontend/`), con su propio `README.md` |
-| `5. Pruebas/` | Plan de pruebas, casos de prueba y procedimientos de prueba |
+| `1. Requerimientos/` | `1_Modelo de Dominio/` · `2_Lista de Actores y CU.docx` · `3_Diagrama de Casos de Uso/` · `4_Casos de Uso/` (fichas del grupo y las cinco implementadas) · `5_Requisitos No Funcionales/` · `6_Prototipo de Interfaces/` |
+| `2. Análisis/` | `1_Diagrama de Clases de Análisis.png` · `2_Diagrama de Paquetes.png` · `3_Diagramas de Colaboración/` (los cinco casos de uso implementados) · `4_Diagrama de paquetes y colaboracion.docx` |
+| `3. Diseño/` | `1_Diagrama de Despliegue.png` · `2_Diagrama de Subsistemas.png` · `3_Diagramas de Clases/` (clases de diseño con patrones) · `4_Diagramas de Secuencia/` · `5_Diagramas de Estado/` · `6_Propuesta de Arquitectura/` · `7_Implementacion.docx`. Su `README.md` es el índice |
+| `4. Implementacion/` | `1_Casos de Uso/` y `2_Diagramas de Secuencia/` (de la compañera, tal cual) · `codigo/` (backend y frontend, con su propio `README.md`). Su `README.md` explica el origen y los cambios |
+| `5. Pruebas/` | `1_Plan de Pruebas/` · `2_Procedimientos de Prueba.docx` · `3_Casos de Prueba.xlsx` |
+
+**Numeración.** Dentro de cada carpeta de etapa, los artefactos llevan un número (`1_`, `2_`, …) con **el orden de la corrección de la cátedra** (`correccion_catedra_grupo3.pdf`). Lo que la corrección no pide (prototipo de interfaces, documentos complementarios) va al final. La tabla completa, con lo que marcó la cátedra y el estado actual de cada artefacto, está en [`docs/00_INDICE.md`](docs/00_INDICE.md) §4.
 | `docs/` | Documentación en markdown, con `00_INDICE.md` como punto de entrada |
 
 **Casos de uso y códigos.** Los códigos de los casos de uso implementados (CU0001, CU0006, CU0011, CU0012 y CU0013) y los choques con otras fichas del grupo están en [`docs/CATALOGO_CASOS_DE_USO_UMBook.md`](docs/CATALOGO_CASOS_DE_USO_UMBook.md).
@@ -55,7 +58,7 @@ Las rutas de código que aparecen en `docs/` (por ejemplo `backend/app/...`) son
 
 ## Cómo ejecutar el sistema
 
-Las instrucciones completas —dependencias, configuración, datos de demostración y ejecución de las pruebas— están en `4. Implementacion/codigo/README.md`.
+Las instrucciones completas —dependencias, configuración y ejecución de las pruebas— están en `4. Implementacion/codigo/README.md`.
 
 En resumen: **Python 3 · Flask · SQLAlchemy · SQLite** en el backend (puerto 5000) y **Angular** en el frontend (puerto 4200).
 
