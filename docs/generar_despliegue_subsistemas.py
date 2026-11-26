@@ -190,7 +190,7 @@ SUBSISTEMAS = [
     ("Aplicación General", 2, [
         (["Autenticación y Seguridad", "JWT · hash de claves · @token_required"], None),
         (["Gestión de Correos", "NotificationService «Singleton»"], None),
-        (["Persistencia", "DAO · SQLAlchemy"], None),
+        (["Persistencia", "DAO · SQLAlchemy · migraciones"], None),
         (["Validación de Datos", "esquemas marshmallow"], None),
     ]),
     ("Capa Intermedia", 3, [
@@ -199,6 +199,7 @@ SUBSISTEMAS = [
         (["Flask-SQLAlchemy"], None),
         (["Flask-Mail"], None),
         (["marshmallow"], None),
+        (["Flask-Migrate", "migraciones con Alembic"], None),
         (["Angular 22", "Router · HttpClient · RxJS"], None),
     ]),
     ("Software del Sistema", 3, [

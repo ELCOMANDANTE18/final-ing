@@ -101,13 +101,13 @@ def sesion(L, ox):
     L.flecha([(cx + W_EST / 2, 400), (tx - W_EST / 2, 400)], ["pasan 15 minutos"], (cx + 145, 392),
              ancla="middle")
     L.flecha([(tx, 375), (tx, 200), (cx + W_EST / 2, 200)],
-             ["una petición responde 401", "/ TokenInterceptor: logout()", "y navega a /login"],
-             (tx - 8, 260), ancla="end")
+             ["pide una pantalla protegida", "/ AuthGuard: logout() y /login,", "o una petición responde 401", "/ TokenInterceptor: logout()"],
+             (tx - 8, 240), ancla="end")
 
     L.nota(ox + 180, 500, 470, [
-        "AuthGuard solo mira si hay un token guardado (isAuthenticated()),",
-        "no si venció: con el token vencido deja abrir las pantallas hasta",
-        "la primera petición al backend, que responde 401.",
+        "AuthGuard lee el vencimiento del token (isAuthenticated()): al",
+        "navegar con el token vencido cierra la sesión. Si el usuario se",
+        "queda en una pantalla, lo detecta la primera petición (401).",
     ])
 
 

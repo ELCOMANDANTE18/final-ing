@@ -1,6 +1,6 @@
 # 4. Implementación — UMBook
 
-**Versión:** 2.3 · **Última modificación:** 26/11/2026 · **Etapa:** Implementación
+**Versión:** 2.4 · **Última modificación:** 26/11/2026 · **Etapa:** Implementación
 
 La implementación toma como base el proyecto de una compañera del grupo ([MaguiMaluff/final-software](https://github.com/MaguiMaluff/final-software), commit `fe825751`), con su acuerdo. Se usa **el mismo código, con los errores de seguridad corregidos y un frontend con diseño nuevo**. Sus fichas de caso de uso y sus diagramas de secuencia están acá tal cual.
 
@@ -62,10 +62,14 @@ Para que el código coincida con el modelo de dominio y con la ficha CU0010 del 
 
 - **Timeout en el envío del correo:** Flask-Mail abría la conexión SMTP sin timeout, así que un servidor de correo que no responde dejaba la invitación esperando. Ahora corta a los `MAIL_TIMEOUT` segundos (5 por defecto) y la invitación queda `fallida` (hallazgo H7).
 - **Registro simultáneo con el mismo correo:** respondía 500; ahora responde 409 "Este correo ya está registrado." (hallazgo H8).
+- **Token vencido en el navegador:** `AuthGuard` solo miraba si había token guardado; ahora lee su vencimiento y, si venció, cierra la sesión y manda a `/login` (hallazgo H6).
+- **`AuthService` con una sola convención:** `register_user` devuelve el usuario o `None`, igual que `authenticate` (antes devolvía una tupla; hallazgo H9).
+- **Dirección del backend configurable:** sale de `frontend/src/environments/environment.ts` (estaba escrita en cada servicio; hallazgo H10).
+- **Migraciones:** el esquema sale de las migraciones de Alembic (`backend/migrations/`) en lugar de `db.create_all()`; una base anterior se adopta sin perder datos (hallazgo H11).
 
 ### Pruebas
 
-El original no tenía pruebas automáticas. Se agregaron 37 en `backend/tests/`, que cubren los tres casos de uso y cada corrección de seguridad.
+El original no tenía pruebas automáticas. Se agregaron 42 en `backend/tests/` (pytest), que cubren los tres casos de uso, cada corrección de seguridad y las migraciones, y 11 en el frontend (Vitest) para los servicios y el guard de Angular.
 
 ## Diferencias entre los documentos de la compañera y el código
 
@@ -94,7 +98,7 @@ Sus fichas y diagramas se conservan **tal cual**, como los hizo la compañera. L
 
 | Versión | Fecha | Etapa / Chat | Cambios |
 |---|---|---|---|
-| 2.0 | 25/11/2026 | Implementación | La implementación pasa a ser la del repositorio de la compañera (CU0001, CU0006 y CU0010) con correcciones de seguridad y frontend nuevo; se suman sus fichas y diagramas de secuencia |
 | 2.1 | 25/11/2026 | Implementación | Las invitaciones se guardan con su estado y el correo lleva el enlace de registro (para coincidir con el modelo de dominio y la ficha CU0010); 33 pruebas |
 | 2.2 | 26/11/2026 | Implementación | Diferencias de los tres diagramas y las tres fichas de la compañera con el código, y dónde están las versiones que coinciden (I-01 a I-04) |
 | 2.3 | 26/11/2026 | Implementación | Timeout SMTP y registro simultáneo resueltos (H7, H8); 37 pruebas |
+| 2.4 | 26/11/2026 | Implementación | H6, H9, H10 y H11 resueltos; 42 pruebas del backend y 11 del frontend |

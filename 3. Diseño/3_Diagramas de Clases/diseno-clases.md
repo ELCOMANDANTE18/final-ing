@@ -1,6 +1,6 @@
 # Diagrama de clases de diseño — UMBook (casos implementados)
 
-**Versión:** 1.0 · **Última modificación:** 26/11/2026 · **Etapa:** Diseño
+**Versión:** 1.1 · **Última modificación:** 26/11/2026 · **Etapa:** Diseño
 
 Diagrama de clases de diseño de **la implementación actual** (`4. Implementacion/codigo/`): **CU0001 Iniciar Sesión, CU0006 Registrar Usuario y CU0010 Invitación a la aplicación**. Responde al ítem "Diagrama de clases de diseño (con patrones)" que la cátedra marcó **FALTA** (observación D-03 de `docs/OBSERVACIONES_POR_ETAPA_UMBook.md`).
 
@@ -66,6 +66,10 @@ classDiagram
             +getUserName() string
             +isAuthenticated() boolean
         }
+        class API_URL {
+            <<InjectionToken>>
+            +environment.apiUrl: string
+        }
         class NotificationServiceFE["NotificationService"] {
             <<Injectable>>
             -base: string
@@ -124,7 +128,7 @@ classDiagram
 
     namespace servicios_Flask {
         class AuthService {
-            +register_user(name, email, password)$ tuple
+            +register_user(name, email, password)$ User | None
             +authenticate(email, password)$ User | None
         }
         class InvitationService {
@@ -184,6 +188,8 @@ classDiagram
     AuthGuard ..|> CanActivate
     TokenInterceptor ..|> HttpInterceptor
     AuthServiceFE ..> LoginResponse : devuelve
+    AuthServiceFE ..> API_URL : dirección del backend
+    NotificationServiceFE ..> API_URL : dirección del backend
     AuthGuard ..> WelcomeComponent : protege
     AuthGuard ..> InviteComponent : protege
 
@@ -237,7 +243,9 @@ Otros mecanismos que se ven en el diagrama, sin ser patrones del catálogo de la
 - **Subrayado** (`$` en el Mermaid): atributo u operación estática. Los DAO y los servicios `AuthService` e `InvitationService` solo tienen métodos estáticos.
 - `auth_controller`, `invite_controller` y `token_required` son **módulos o funciones de Python**, no clases. Se dibujan como clases con estereotipo («Blueprint», «Decorator») para mostrar sus operaciones y sus dependencias.
 - «Schema» es un esquema de marshmallow. Sus atributos son los campos que valida, con sus límites (por ejemplo, `password: Str min 8`).
-- `AuthService.register_user` devuelve una tupla `(User | None, str | None)`: el usuario creado, o el mensaje de error si el correo ya está registrado.
+- `AuthService.register_user` y `AuthService.authenticate` devuelven el `User`, o `None` si no se pudo (correo ya registrado; credenciales incorrectas). Antes `register_user` devolvía una tupla (hallazgo H9).
+- `AuthService.isAuthenticated()` (Angular) mira que haya token **y que no esté vencido**: lee el `exp` del JWT con la función `tokenVencido` del mismo archivo (hallazgo H6).
+- `API_URL` es un `InjectionToken` de Angular cuyo valor sale de `src/environments/environment.ts`: la dirección del backend se configura en un solo lugar (hallazgo H10).
 - Asociación (línea continua): una clase guarda una referencia a la otra. Dependencia (línea punteada): la usa sin guardarla. Realización (punteada con triángulo): implementa la interfaz.
 
 ## Qué queda fuera del diagrama
@@ -263,3 +271,4 @@ Otros mecanismos que se ven en el diagrama, sin ser patrones del catálogo de la
 | Versión | Fecha | Etapa / Chat | Cambios |
 |---|---|---|---|
 | 1.0 | 26/11/2026 | Diseño | Versión inicial, a partir del código actual (CU0001, CU0006 y CU0010). Reemplaza al diagrama integral de la implementación anterior (amistad), que pasa a `_version_anterior/` |
+| 1.1 | 26/11/2026 | Diseño | `API_URL` en los servicios de Angular (H10); `register_user` devuelve `User | None` (H9); `isAuthenticated()` mira el vencimiento (H6) |

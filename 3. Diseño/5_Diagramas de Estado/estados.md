@@ -1,6 +1,6 @@
 # Diagramas de estados — UMBook (casos implementados)
 
-**Versión:** 1.0 · **Última modificación:** 26/11/2026 · **Etapa:** Diseño
+**Versión:** 1.1 · **Última modificación:** 26/11/2026 · **Etapa:** Diseño
 
 Lámina `Diagramas de Estado.png` (y `.svg`), generada con `docs/generar_estados.py`. Tiene la forma del `Diagrama_de_Estado.pdf` del grupo (un título y un diagrama por entidad, con el estilo de estados de PlantUML), pero modela **cosas que existen en el código actual**. El PDF del grupo modelaba Solicitud de Amistad, Usuario y Notificación, que no tienen estados en el código; está en `_version_anterior/3. Diseño/5_Diagramas de Estado/` (observación D-05).
 
@@ -30,9 +30,10 @@ El estado es la presencia del `access_token` en `localStorage` y su validez en e
 | Sin sesión | Sesión iniciada | `login()` responde 200 / guarda `access_token` y nombre en `localStorage` | `AuthService.login` (CU0001, paso 7) |
 | Sesión iniciada | Sin sesión | `logout()` (botón "Cerrar sesión") | `AppComponent.logout`, `WelcomeComponent.goToLogin` |
 | Sesión iniciada | Token vencido | pasan 15 minutos | Flask-JWT-Extended: sin `JWT_ACCESS_TOKEN_EXPIRES` en `config.py`, el token dura 15 minutos |
+| Token vencido | Sin sesión | pide una pantalla protegida / `logout()` y navega a `/login` | `AuthGuard.canActivate` → `AuthService.isAuthenticated()`, que lee el `exp` del token |
 | Token vencido | Sin sesión | una petición responde 401 / `logout()` y navega a `/login` | `TokenInterceptor.intercept`; el 401 lo da `@token_required` |
 
-- **Token vencido es un estado propio** porque el frontend no lo detecta: `AuthGuard` usa `isAuthenticated()`, que solo mira si hay token guardado. Con el token vencido se pueden abrir las pantallas hasta la primera petición al backend.
+- **Token vencido es un estado propio** porque el vencimiento no se avisa: el frontend lo detecta recién cuando el usuario navega a una pantalla protegida (`AuthGuard` lee el `exp` del token) o cuando una petición responde 401. Antes `isAuthenticated()` solo miraba si había token, así que se podían abrir las pantallas con el token vencido (hallazgo H6, resuelto).
 - No hay estado final: la aplicación siempre vuelve a Sin sesión.
 
 ## Por qué no hay diagrama de Usuario ni de Notificación
@@ -46,3 +47,4 @@ El estado es la presencia del `access_token` en `localStorage` y su validez en e
 | Versión | Fecha | Etapa / Chat | Cambios |
 |---|---|---|---|
 | 1.0 | 26/11/2026 | Diseño | Versión inicial: Invitación y Sesión del usuario, a partir del código actual, con la forma del PDF del grupo |
+| 1.1 | 26/11/2026 | Diseño | `AuthGuard` detecta el token vencido al navegar (H6) |

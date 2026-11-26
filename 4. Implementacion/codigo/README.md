@@ -30,7 +30,7 @@ source venv/bin/activate
 python -m pip install -r requirements.txt
 
 cp .env.example .env          # completar JWT_SECRET_KEY y los datos de correo
-python run.py                 # crea instance/umbook.db si no existe
+python run.py                 # aplica las migraciones a instance/umbook.db (la crea si no existe)
 ```
 
 > **Nota:** la ruta de esta carpeta tiene espacios (`4. Implementacion`), y los programas sueltos del entorno virtual (`pip`, `pytest`) no funcionan en rutas con espacios. Por eso se usa `python -m pip` y `python -m pytest`.
@@ -44,6 +44,18 @@ En otra terminal, desde `frontend/`:
 ```bash
 npm install
 npx ng serve                  # abre http://localhost:4200
+```
+
+La dirección del backend se configura en `frontend/src/environments/environment.ts` (`apiUrl`, por defecto `http://localhost:5000`).
+
+## Base de datos y migraciones
+
+El esquema sale de las migraciones de Alembic (Flask-Migrate) en `backend/migrations/`: `0001_users` y `0002_invitations`. `python run.py` aplica las que falten al arrancar. Una base creada antes con `db.create_all()` se adopta sin perder datos: se marca con la migración que ya tiene y se aplican las que falten.
+
+Si se cambia un modelo, se genera la migración nueva desde `backend/` y se revisa antes de subirla:
+
+```bash
+python -m flask --app "app:create_app" db migrate -m "descripción del cambio"
 ```
 
 ## Configuración (`backend/.env`)
@@ -76,7 +88,7 @@ Desde `backend/`, con el entorno virtual activo:
 
 ```bash
 python -m pip install -r requirements-dev.txt   # agrega pytest
-python -m pytest                                # tiene que decir "37 passed"
+python -m pytest                                # tiene que decir "42 passed"
 ```
 
 `tests/conftest.py` fija una clave de prueba, apaga el envío de correo y usa una base SQLite temporal, así que las pruebas no tocan el `.env` real ni mandan correos.
@@ -85,9 +97,23 @@ python -m pytest                                # tiene que decir "37 passed"
 |---|---|
 | `test_auth.py` | CU0006 (registro, correo duplicado aun con mayúsculas, clave corta, clave guardada con hash, registro simultáneo con el mismo correo) y CU0001 (login correcto, clave incorrecta, mismo mensaje para correo inexistente, campos vacíos) |
 | `test_invite.py` | CU0010: envío correcto, enlace de registro en el correo, invitación guardada como enviada o fallida, sin sesión, correo inválido o de más de 254 caracteres, falla del servidor de correo sin filtrar detalles, token vencido, inválido o de un usuario inexistente, conexión SMTP con timeout y servidor de correo que no responde |
-| `test_seguridad.py` | Que un token firmado con la clave vieja `super-secret` no sirva, que la app no arranque sin una clave segura, que `MAIL_USE_TLS=true` active TLS, que `run.py` no exponga el depurador y que `NotificationService` sea Singleton |
+| `test_seguridad.py` | Que un token firmado con la clave vieja `super-secret` no sirva, que la app no arranque sin una clave segura, que `MAIL_USE_TLS=true` active TLS, que `run.py` no exponga el depurador, que `NotificationService` sea Singleton, y que las migraciones creen el mismo esquema que los modelos y adopten una base vieja sin perder datos |
 
-El frontend no tiene pruebas automáticas.
+`test_auth.py` también comprueba que `AuthService` devuelva el usuario o `None` en el registro y en el login.
+
+**Frontend** (servicios y guard de Angular, con Vitest y jsdom), desde `frontend/`:
+
+```bash
+npx ng test --watch=false                       # tiene que decir "11 passed"
+```
+
+| Archivo | Qué cubre |
+|---|---|
+| `core/auth.service.spec.ts` | Sesión con token vigente, vencido (se cierra) o ilegible; login y registro contra la dirección configurada |
+| `core/auth.guard.spec.ts` | El guard deja pasar con un token vigente y manda a `/login` sin token o con el token vencido |
+| `core/notification.service.spec.ts` | La invitación va a la dirección configurada; por defecto, la de `environment.ts` |
+
+Los componentes (pantallas) se prueban a mano, con los procedimientos de `5. Pruebas/`.
 
 ## Estructura
 
@@ -97,23 +123,27 @@ backend/
 ├── requirements.txt          dependencias
 ├── requirements-dev.txt      dependencias + pytest
 ├── .env.example              modelo del archivo de configuración
+├── migrations/               migraciones de Alembic (0001_users, 0002_invitations)
 ├── app/
 │   ├── __init__.py             create_app(): arma la aplicación y valida la clave JWT
 │   ├── config.py               única fuente de configuración (lee .env)
 │   ├── controllers/            endpoints: auth_controller (registro y login), invite_controller
 │   ├── services/               auth_service (registro y autenticación), invitation_service (guarda la invitación y su estado),
 │   │                           notification_service (Singleton, envía el correo)
-│   ├── persistence/            models.py (User, Invitation) y daos/ (user_dao.py, invitation_dao.py)
+│   ├── persistence/            models.py (User, Invitation), daos/ (user_dao.py, invitation_dao.py)
+│   │                           y migraciones.py (lleva la base a la última migración)
 │   └── utils/decorators.py     @token_required
 │       utils/mail.py           Flask-Mail con timeout SMTP
 └── tests/                    pruebas automáticas (pytest)
 
 frontend/src/
+├── environments/environment.ts   dirección del backend (apiUrl)
 ├── styles.css                tema "Índigo" (todos los estilos)
 └── app/
     ├── app.module.ts           rutas; /welcome e /invite protegidas con AuthGuard
     ├── app.component.*         barra superior (solo con sesión)
-    ├── core/                   auth.service, notification.service, auth.guard, token.interceptor
+    ├── core/                   auth.service, notification.service, auth.guard, token.interceptor,
+    │                           api-url (InjectionToken) y sus pruebas (*.spec.ts)
     └── features/               login, register, welcome, invite
 ```
 
@@ -132,7 +162,7 @@ En capas: controller → service → DAO → base de datos (SQLite).
 - Las contraseñas se guardan con hash (Werkzeug) y se verifican antes de decidir si el acceso es válido.
 - Mismo mensaje para correo inexistente y clave incorrecta: no se revela qué correos existen.
 - La clave JWT y las credenciales de correo viven en `.env`, nunca en el código.
-- Las rutas privadas del frontend usan `AuthGuard`; un 401 con token cierra la sesión.
+- Las rutas privadas del frontend usan `AuthGuard`, que cierra la sesión si el token venció; un 401 con token también la cierra.
 - Los errores al cliente son genéricos; el detalle queda en el log del servidor.
 
 ## Límites conocidos
@@ -141,5 +171,5 @@ En capas: controller → service → DAO → base de datos (SQLite).
 - **Contenido del correo:** el correo de invitación incluye el nombre que eligió quien invita, sin revisar.
 - **Servidor de desarrollo:** corre sobre el servidor de desarrollo de Flask y de Angular, en local, para la demostración.
 - **Sin HTTPS:** las credenciales viajan por HTTP local (RNF-10, "No cumplido"). Para producción hace falta un servidor con TLS delante.
-- **Frontend sin pruebas automáticas:** las pantallas se prueban a mano (procedimientos de `5. Pruebas/`).
-- **Hallazgos de diseño** (`docs/DISEÑO_UMBook.md` §9): el guard no detecta el token vencido (H6), la dirección del backend está fija en el frontend (H10) y no hay migraciones (H11). El envío SMTP sin timeout (H7) y el registro simultáneo con el mismo correo (H8) están resueltos.
+- **Pantallas sin pruebas automáticas:** los servicios y el guard de Angular tienen pruebas; los componentes se prueban a mano (procedimientos de `5. Pruebas/`).
+- **Hallazgos de diseño** (`docs/DISEÑO_UMBook.md` §9): H6 a H11 están resueltos.

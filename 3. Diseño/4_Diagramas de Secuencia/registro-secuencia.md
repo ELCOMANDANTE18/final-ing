@@ -1,6 +1,6 @@
 # CU0006 — Registrar Usuario — Diagrama de secuencia
 
-**Versión:** 2.0 · **Última modificación:** 26/11/2026 · **Etapa:** Diseño
+**Versión:** 2.1 · **Última modificación:** 26/11/2026 · **Etapa:** Diseño
 
 Curso normal y cursos alternativos de la ficha CU0006 (ca 5.1 y ca 6.1), con los nombres del código actual. Sigue la estética de los diagramas de la compañera (`4. Implementacion/2_Diagramas de Secuencia/caso6-registro.png`) y agrega lo que la observación I-02 marcaba como faltante: el camino de datos inválidos (400) y los mensajes reales de la pantalla.
 
@@ -40,7 +40,7 @@ sequenceDiagram
             B-->>D: fila o ninguna
             D-->>S: User | None
             alt ca 6.1 — El email ya está registrado
-                S-->>C: (None, "Email already registered")
+                S-->>C: None
                 C-->>A: 409 {msg: "Este correo ya está registrado."}
                 A-->>R: error
                 R-->>U: Muestra "Este correo ya está registrado."
@@ -51,7 +51,7 @@ sequenceDiagram
                 D->>B: INSERT INTO users (name, email, password_hash, created_at)
                 B-->>D: id asignado
                 D-->>S: User
-                S-->>C: (User, None)
+                S-->>C: User
                 C-->>A: 201 {id, email}
                 A-->>R: respuesta
                 R-->>U: Muestra "Cuenta creada con éxito. Ya podés iniciar sesión."
@@ -80,3 +80,4 @@ sequenceDiagram
 |---|---|---|---|
 | 1.0 | 20/11/2026 | Diseño | Versión inicial, con los nombres de la implementación anterior |
 | 2.0 | 26/11/2026 | Diseño | Rehecho con los nombres del código actual, numerado y con la estética de los diagramas de la compañera. Cursos alternativos con el código de la ficha (ca 5.1, ca 6.1) |
+| 2.1 | 26/11/2026 | Diseño | `register_user` devuelve `User` o `None` (H9); nota sobre el registro simultáneo (H8) |

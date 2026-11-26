@@ -1,6 +1,6 @@
 # Tareas — UMBook
 
-**Versión:** 1.6 · **Última modificación:** 26/11/2026 · **Etapa:** Gestión del proyecto
+**Versión:** 1.7 · **Última modificación:** 26/11/2026 · **Etapa:** Gestión del proyecto
 
 Actualizado tras construir el proyecto desde cero (no había código previo de la
 compañera en este repo — ver [`construccion.md`](../_version_anterior/docs/construccion.md)).
@@ -62,9 +62,9 @@ compañera en este repo — ver [`construccion.md`](../_version_anterior/docs/co
 
 ## Pendiente antes de la defensa
 
-- [ ] Generar la primera migración real con Flask-Migrate (hoy el esquema sale de
-  `db.create_all()` en `run.py`, sin carpeta `migrations/`) — clave si te toca
-  Gestión de Configuración como tema teórico.
+- [x] **Migraciones con Flask-Migrate (26/11/2026):** `backend/migrations/` con `0001_users` y
+  `0002_invitations`; `run.py` las aplica al arrancar (H11) — clave si te toca Gestión de
+  Configuración como tema teórico.
 - [ ] Si el CU de Aceptar/Rechazar Solicitud exige también un flujo **sin login**
   (clic en un link recibido por mail), falta un token de un solo uso con
   expiración para ese link — no implementado, no estaba en el alcance original de
@@ -90,9 +90,9 @@ compañera en este repo — ver [`construccion.md`](../_version_anterior/docs/co
 - [x] **Fichas `.docx` regeneradas** con el texto 1.2 de `ESPECIFICACIONES_CASOS_DE_USO_UMBook.md`.
 - [x] **Diagrama de casos de uso único:** `0-CU_General.pdf` cumple (un solo diagrama para toda la
   aplicación) pero no lleva códigos; se agrega `Diagrama de Casos de Uso - Implementados.png`.
-- [ ] **Pruebas automáticas que faltan:** contraseña corta en el registro y reversión de la
-  transacción al aceptar (RNF-12). *(El reenvío tras un rechazo ya está cubierto.)* El frontend no tiene pruebas
-  automáticas.
+- [x] **Pruebas automáticas que faltaban:** la contraseña corta en el registro está cubierta
+  (`test_clave_corta_devuelve_400_y_no_crea_el_usuario`) y el frontend tiene 11 pruebas (Vitest)
+  para sus servicios y el guard. La reversión al aceptar una solicitud era de amistad (ya no está).
 - [x] **Diagrama de clases de diseño (26/11/2026):** se entrega uno hecho a partir del código
   actual (CU0001, CU0006, CU0010), con Singleton, DAO y Decorator: `3. Diseño/3_Diagramas de
   Clases/diseno-clases.md`. Los de amistad pasan a `_version_anterior/`.
@@ -136,8 +136,9 @@ CU0001 Iniciar Sesión, CU0006 Registrar Usuario y CU0010 Invitación. Detalle e
   `OBSERVACIONES_POR_ETAPA_UMBook.md`.
 - [x] **H7 y H8 resueltos (26/11/2026):** timeout en la conexión SMTP (`MAIL_TIMEOUT`, 5 s) y
   registro simultáneo con el mismo correo respondiendo 409. 4 pruebas nuevas, 37 en total.
-- [ ] Hallazgos de diseño H6, H9, H10 y H11 (`DISEÑO_UMBook.md` §9): anotados, aceptados para la
-  demostración.
+- [x] **H6, H9, H10 y H11 resueltos (26/11/2026):** token vencido en `AuthGuard`, `AuthService`
+  con una sola convención, dirección del backend en `environment.ts` y migraciones de Alembic.
+  Todos los hallazgos de diseño quedan cerrados.
 - [ ] Los pendientes de arriba sobre amistad (H1, H2, H5, recrear la base, migración) quedan sin
   efecto: ese código ya no está. El respaldo del código anterior está en el historial de git
   (último commit) salvo los arreglos del 25/11, que no se commitearon.
@@ -150,7 +151,7 @@ CU0001 Iniciar Sesión, CU0006 Registrar Usuario y CU0010 Invitación. Detalle e
 
 | Versión | Fecha | Etapa / Chat | Cambios |
 |---|---|---|---|
+| 1.7 | 26/11/2026 | Gestión del proyecto | H6, H9, H10 y H11 resueltos; migraciones y pruebas del frontend |
 | 1.6 | 26/11/2026 | Gestión del proyecto | H7 y H8 resueltos con sus pruebas (37) |
 | 1.5 | 26/11/2026 | Gestión del proyecto | Etapas 4 y 5 realineadas; documentos técnicos viejos archivados; hallazgos H6 a H11 como pendiente |
 | 1.4 | 26/11/2026 | Gestión del proyecto | Diagrama de clases de diseño del código actual (D-03); Etapa 3 realineada (D-01 a D-08) |
-| 1.3 | 25/11/2026 | Gestión del proyecto | Cambio de implementación al código de la compañera (CU0001, CU0006, CU0010) con correcciones de seguridad; documentos de etapa pendientes de realinear |

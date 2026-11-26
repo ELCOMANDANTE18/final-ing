@@ -1,6 +1,6 @@
 # OBSERVACIONES DE CONSISTENCIA POR ETAPA — UMBook
 
-**Versión:** 1.5 · **Última modificación:** 26/11/2026 · **Etapa:** Gestión del proyecto
+**Versión:** 1.6 · **Última modificación:** 26/11/2026 · **Etapa:** Gestión del proyecto
 
 Revisión de cada carpeta de etapa contra **la implementación actual** (`4. Implementacion/`): **CU0001 Iniciar Sesión, CU0006 Registrar Usuario y CU0010 Invitación a la aplicación**, con el código de la compañera corregido. El objetivo es que todo sea uno a uno y tenga sentido para la cátedra.
 
@@ -18,6 +18,7 @@ La revisión (versión 1.0) no modificó ningún artefacto. Las correcciones se 
 | Etapa | Estado | Qué se hizo |
 |---|---|---|
 | Código (M-1, M-2) | ✅ Aplicado | Tabla `invitations` con estado `pendiente` → `enviada` / `fallida`; `InvitationDAO` e `InvitationService`; enlace `FRONTEND_URL/register` en el correo. 33 pruebas (4 nuevas) |
+| Código (H6, H9, H10, H11) | ✅ Aplicado | `AuthGuard` detecta el token vencido; `AuthService` devuelve `User` o `None`; dirección del backend en `environment.ts`; migraciones de Alembic. 5 pruebas nuevas del backend (42) y 11 del frontend (Vitest) |
 | Código (H7, H8) | ✅ Aplicado | Timeout en la conexión SMTP (`MailConTimeout`, `MAIL_TIMEOUT`=5 s) y registro simultáneo con el mismo correo respondiendo 409; 4 pruebas nuevas, 37 en total |
 | 1. Requerimientos | ✅ Corregida | Ver la tabla de abajo |
 | 2. Análisis | ✅ Corregida | Ver la tabla de la Etapa 2 |
@@ -82,12 +83,12 @@ La revisión (versión 1.0) no modificó ningún artefacto. Las correcciones se 
 | # | Estado | Cómo se resolvió |
 |---|---|---|
 | P-01 | ✅ | `PRUEBAS_UMBook.md` 2.0: casos y procedimientos de CU0001, CU0006 y **CU0010** (CP 0010.1 a 0010.9, PR 0010), con los cursos alternativos de las fichas. Los de amistad pasan a `_version_anterior/docs/` |
-| P-02 | ✅ | Cada caso cita las pruebas actuales por nombre: las 31 funciones (37 pruebas, contando los parámetros) están citadas. Plan con 37 pruebas, que hoy pasan todas |
+| P-02 | ✅ | Cada caso cita las pruebas actuales por nombre: las 36 funciones del backend (42 pruebas, contando los parámetros) y las 11 pruebas del frontend están citadas. Hoy pasan todas |
 | P-03 | ✅ | Token corrupto: se espera **401** (CP SEG.2) |
 | P-04 | ✅ | `Modelo_Plan_de_Pruebas.docx` se conserva como modelo del grupo; el plan dice explícitamente que el entregado es `UMBook_Plan_de_Pruebas.docx` y que la herramienta es pytest |
 | P-05 | ✅ | Bloque "Transversal — Seguridad y configuración" (CP SEG.1 a SEG.6) trazado a `test_seguridad.py` y a las pruebas de token de `test_invite.py` |
 
-Entregables regenerados con `docs/generar_entregables.py pruebas`: plan, procedimientos y `3_Casos de Prueba.xlsx` (29 casos). El generador ahora acepta el bloque transversal, toma la versión del `.md` y numera los pasos de cada procedimiento desde 1.
+Entregables regenerados con `docs/generar_entregables.py pruebas`: plan, procedimientos y `3_Casos de Prueba.xlsx` (32 casos). El generador ahora acepta el bloque transversal, toma la versión del `.md` y numera los pasos de cada procedimiento desde 1.
 
 ## Cómo leer este documento
 
@@ -258,7 +259,7 @@ Estas no se pueden resolver solo con el código; conviene decidirlas antes de ap
 
 | Versión | Fecha | Etapa / Chat | Cambios |
 |---|---|---|---|
-| 1.2 | 25/11/2026 | Gestión del proyecto | Etapa 2 corregida; el diagrama de casos de uso pasa a usar los paquetes de Análisis |
 | 1.3 | 26/11/2026 | Gestión del proyecto | Etapa 3 en curso: D-03 resuelto con el diagrama de clases de diseño del código actual; D-01 y D-02 con despliegue y subsistemas rehechos con la forma de los del grupo; D-04 y D-05 con secuencias y estados del código actual; D-06 a D-08 con la propuesta, `7_Implementacion.docx` y el documento de diseño realineados. Etapa 3 corregida |
 | 1.4 | 26/11/2026 | Gestión del proyecto | Etapas 4 y 5 corregidas: diferencias de los documentos de la compañera anotadas, documentos técnicos viejos archivados, pruebas rehechas para CU0001, CU0006, CU0010 y seguridad. Las cinco etapas quedan alineadas con el código |
 | 1.5 | 26/11/2026 | Gestión del proyecto | H7 y H8 corregidos en el código con sus pruebas (37); casos de prueba CP 0006.7 y CP 0010.10 |
+| 1.6 | 26/11/2026 | Gestión del proyecto | H6, H9, H10 y H11 corregidos con sus pruebas (42 del backend, 11 del frontend); casos CP SEG.7 a SEG.9 |

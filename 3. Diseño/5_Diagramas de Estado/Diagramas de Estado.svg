@@ -59,10 +59,11 @@
 <text x="1075.0" y="392.0" font-size="13" text-anchor="middle" fill="#181818">pasan 15 minutos</text>
 <polyline points="1220,375 1220,200 1000.0,200" fill="none" stroke="#181818" stroke-width="1"/>
 <polygon points="1000.0,200 1010.0,196.0 1006.0,200.0 1010.0,204.0" fill="#181818"/>
-<text x="1212.0" y="260.0" font-size="13" text-anchor="end" fill="#181818">una petición responde 401</text>
-<text x="1212.0" y="276.0" font-size="13" text-anchor="end" fill="#181818">/ TokenInterceptor: logout()</text>
-<text x="1212.0" y="292.0" font-size="13" text-anchor="end" fill="#181818">y navega a /login</text>
+<text x="1212.0" y="240.0" font-size="13" text-anchor="end" fill="#181818">pide una pantalla protegida</text>
+<text x="1212.0" y="256.0" font-size="13" text-anchor="end" fill="#181818">/ AuthGuard: logout() y /login,</text>
+<text x="1212.0" y="272.0" font-size="13" text-anchor="end" fill="#181818">o una petición responde 401</text>
+<text x="1212.0" y="288.0" font-size="13" text-anchor="end" fill="#181818">/ TokenInterceptor: logout()</text>
 <path d="M780,500 L1240,500 L1250,510 L1250,562 L780,562 Z" fill="#FEFFDD" stroke="#181818" stroke-width="0.6"/><path d="M1240,500 L1240,510 L1250,510" fill="none" stroke="#181818" stroke-width="0.6"/>
-<text x="788.0" y="520.0" font-size="13" text-anchor="start" fill="#181818">AuthGuard solo mira si hay un token guardado (isAuthenticated()),</text>
-<text x="788.0" y="536.0" font-size="13" text-anchor="start" fill="#181818">no si venció: con el token vencido deja abrir las pantallas hasta</text>
-<text x="788.0" y="552.0" font-size="13" text-anchor="start" fill="#181818">la primera petición al backend, que responde 401.</text></svg>
+<text x="788.0" y="520.0" font-size="13" text-anchor="start" fill="#181818">AuthGuard lee el vencimiento del token (isAuthenticated()): al</text>
+<text x="788.0" y="536.0" font-size="13" text-anchor="start" fill="#181818">navegar con el token vencido cierra la sesión. Si el usuario se</text>
+<text x="788.0" y="552.0" font-size="13" text-anchor="start" fill="#181818">queda en una pantalla, lo detecta la primera petición (401).</text></svg>
