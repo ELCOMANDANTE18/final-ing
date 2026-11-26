@@ -52,3 +52,89 @@ def test_run_no_expone_el_depurador_en_la_red():
 
 def test_notification_service_es_singleton():
     assert NotificationService() is NotificationService()
+
+
+# --- H11: el esquema sale de las migraciones ---
+
+from contextlib import contextmanager
+
+
+@contextmanager
+def _app_con_base(ruta):
+    """App con una base propia en `ruta`, dentro de su contexto. Al salir
+    cierra la sesión y las conexiones (si no, quedan conexiones SQLite abiertas)."""
+    from app import db
+
+    class ConfigBase(Config):
+        SQLALCHEMY_DATABASE_URI = f'sqlite:///{ruta}'
+
+    app = create_app(ConfigBase)
+    with app.app_context():
+        try:
+            yield app
+        finally:
+            db.session.remove()
+            db.engine.dispose()
+
+
+def _tablas(app):
+    from sqlalchemy import inspect
+    from app import db
+    return set(inspect(db.engine).get_table_names())
+
+
+def _version(app):
+    from sqlalchemy import text
+    from app import db
+    with db.engine.connect() as conexion:
+        return conexion.execute(text('SELECT version_num FROM alembic_version')).scalar()
+
+
+def test_las_migraciones_crean_el_mismo_esquema_que_los_modelos(tmp_path):
+    """Una base nueva, armada solo con las migraciones, no difiere en nada de
+    los modelos: ni tablas, ni columnas, ni índices."""
+    from alembic.autogenerate import compare_metadata
+    from alembic.migration import MigrationContext
+    from app import db
+    from app.persistence.migraciones import preparar_base
+
+    with _app_con_base(tmp_path / 'nueva.db') as app:
+        preparar_base()
+        assert _tablas(app) == {'alembic_version', 'users', 'invitations'}
+        with db.engine.connect() as conexion:
+            assert compare_metadata(MigrationContext.configure(conexion), db.metadata) == []
+
+
+def test_una_base_creada_con_create_all_se_adopta_sin_perder_datos(tmp_path):
+    from app import db
+    from app.persistence.daos.user_dao import UserDAO
+    from app.persistence.migraciones import preparar_base
+
+    with _app_con_base(tmp_path / 'vieja.db') as app:
+        db.create_all()
+        UserDAO.create('Ana', 'ana@test.com', 'hash')
+        preparar_base()
+        assert _version(app) == '0002_invitations'
+        assert UserDAO.get_by_email('ana@test.com') is not None
+
+
+def test_una_base_vieja_sin_invitaciones_recibe_la_tabla(tmp_path):
+    """Base de antes de guardar las invitaciones (solo users): se marca como
+    0001 y la migración 0002 agrega la tabla que falta."""
+    from app import db
+    from app.persistence.migraciones import preparar_base
+    from app.persistence.models import User
+
+    with _app_con_base(tmp_path / 'sin_invitaciones.db') as app:
+        User.__table__.create(db.engine)
+        preparar_base()
+        assert 'invitations' in _tablas(app)
+        assert _version(app) == '0002_invitations'
+
+
+def test_run_usa_las_migraciones_y_no_create_all():
+    from pathlib import Path
+    lineas = (Path(__file__).resolve().parent.parent / 'run.py').read_text(encoding='utf-8').splitlines()
+    fuente = '\n'.join(l for l in lineas if not l.strip().startswith('#'))
+    assert 'preparar_base()' in fuente
+    assert 'create_all' not in fuente

@@ -1,12 +1,14 @@
 import os
 
-from app import create_app, db
+from app import create_app
+from app.persistence.migraciones import preparar_base
 
 app = create_app()
 
-# Crea las tablas si no existen (create_all no toca las que ya están).
+# Aplica las migraciones pendientes (migrations/). Antes usaba db.create_all(),
+# que no modifica las tablas existentes (hallazgo H11).
 with app.app_context():
-    db.create_all()
+    preparar_base()
 
 if __name__ == '__main__':
     # Seguridad: antes corría con debug=True en host='0.0.0.0'. El depurador de

@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
@@ -10,7 +12,9 @@ from .utils.mail import MailConTimeout
 db = SQLAlchemy()
 migrate = Migrate()
 jwt = JWTManager()
-mail = MailConTimeout()  # Flask-Mail con timeout SMTP (hallazgo H7)
+mail = MailConTimeout()
+
+MIGRACIONES = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'migrations')  # Flask-Mail con timeout SMTP (hallazgo H7)
 
 # Claves que nunca deben firmar tokens: la que estaba fija en el código y la
 # del archivo de ejemplo.
@@ -33,7 +37,9 @@ def create_app(config_class=Config):
 
     # Inicializar extensiones
     db.init_app(app)
-    migrate.init_app(app, db)
+    # Carpeta fija: las migraciones se encuentran aunque el servidor se
+    # arranque desde otra carpeta (hallazgo H11).
+    migrate.init_app(app, db, directory=MIGRACIONES)
     jwt.init_app(app)
     mail.init_app(app)
 
