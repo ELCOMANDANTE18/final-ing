@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="500" viewBox="0 0 1180 500" font-family="Segoe UI, Helvetica, Arial, sans-serif"><defs><marker id="m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#3730a3"/></marker></defs><rect width="1180" height="500" fill="#fff"/><text x="30.0" y="38.0" font-size="18" font-weight="bold" text-anchor="start" fill="#1f2937">Diagrama de colaboración — CU0006 — Registrar Usuario</text>
+<line x1="130.0" y1="164.0" x2="442.0" y2="170.0" stroke="#1f2937" stroke-width="1.4" />
+<line x1="507.0" y1="170.0" x2="763.0" y2="170.0" stroke="#1f2937" stroke-width="1.4" />
+<line x1="817.0" y1="170.0" x2="1043.0" y2="170.0" stroke="#1f2937" stroke-width="1.4" />
+<line x1="480.0" y1="222.0" x2="480.0" y2="333.0" stroke="#1f2937" stroke-width="1.4" />
+<line x1="268.0" y1="156.0" x2="312.0" y2="156.0" stroke="#3730a3" stroke-width="1.6" marker-end="url(#m)"/>
+<text x="290.0" y="140.0" font-size="12.5" font-weight="normal" text-anchor="middle" fill="#3730a3">1: registrarse(nombre, email, contraseña)</text>
+<line x1="613.0" y1="156.0" x2="657.0" y2="156.0" stroke="#3730a3" stroke-width="1.6" marker-end="url(#m)"/>
+<text x="635.0" y="140.0" font-size="12.5" font-weight="normal" text-anchor="middle" fill="#3730a3">2: registrar(nombre, email, contraseña)</text>
+<line x1="908.0" y1="156.0" x2="952.0" y2="156.0" stroke="#3730a3" stroke-width="1.6" marker-end="url(#m)"/>
+<text x="930.0" y="123.0" font-size="12.5" font-weight="normal" text-anchor="middle" fill="#3730a3">3: existeEmail(email)</text>
+<text x="930.0" y="140.0" font-size="12.5" font-weight="normal" text-anchor="middle" fill="#3730a3">4: crear(nombre, email, contraseñaCifrada)</text>
+<line x1="657.0" y1="184.0" x2="613.0" y2="184.0" stroke="#3730a3" stroke-width="1.6" marker-end="url(#m)"/>
+<text x="635.0" y="208.0" font-size="12.5" font-weight="normal" text-anchor="middle" fill="#3730a3">5: cuenta creada</text>
+<line x1="312.0" y1="184.0" x2="268.0" y2="184.0" stroke="#3730a3" stroke-width="1.6" marker-end="url(#m)"/>
+<text x="290.0" y="208.0" font-size="12.5" font-weight="normal" text-anchor="middle" fill="#3730a3">6: informar(cuenta creada)</text>
+<line x1="494.0" y1="243.0" x2="494.0" y2="287.0" stroke="#3730a3" stroke-width="1.6" marker-end="url(#m)"/>
+<text x="506.0" y="270.0" font-size="12.5" font-weight="normal" text-anchor="start" fill="#3730a3">7: mostrar()</text>
+<circle cx="100" cy="140" r="11" fill="#fff" stroke="#1f2937" stroke-width="2"/>
+<line x1="100.0" y1="151.0" x2="100.0" y2="182.0" stroke="#1f2937" stroke-width="2" />
+<line x1="80.0" y1="162.0" x2="120.0" y2="162.0" stroke="#1f2937" stroke-width="2" />
+<line x1="100.0" y1="182.0" x2="84.0" y2="206.0" stroke="#1f2937" stroke-width="2" />
+<line x1="100.0" y1="182.0" x2="116.0" y2="206.0" stroke="#1f2937" stroke-width="2" />
+<text x="100.0" y="226.0" font-size="13.5" font-weight="bold" text-anchor="middle" fill="#1f2937">Usuario No Registrado</text>
+<circle cx="480" cy="170" r="24" fill="#fff" stroke="#1f2937" stroke-width="2"/>
+<line x1="442.0" y1="150.0" x2="442.0" y2="190.0" stroke="#1f2937" stroke-width="2" />
+<line x1="442.0" y1="170.0" x2="456.0" y2="170.0" stroke="#1f2937" stroke-width="2" />
+<text x="480.0" y="214.0" font-size="13.5" font-weight="bold" text-anchor="middle" fill="#1f2937">PantallaRegistro</text>
+<circle cx="790" cy="170" r="24" fill="#fff" stroke="#1f2937" stroke-width="2"/>
+<path d="M797,139 L789,146 L797,153" fill="none" stroke="#1f2937" stroke-width="2" stroke-linejoin="round"/>
+<text x="790.0" y="214.0" font-size="13.5" font-weight="bold" text-anchor="middle" fill="#1f2937">ControlAutenticacion</text>
+<circle cx="1070" cy="170" r="24" fill="#fff" stroke="#1f2937" stroke-width="2"/>
+<line x1="1046.0" y1="194.0" x2="1094.0" y2="194.0" stroke="#1f2937" stroke-width="2" />
+<text x="1070.0" y="214.0" font-size="13.5" font-weight="bold" text-anchor="middle" fill="#1f2937">Usuario</text>
+<circle cx="480" cy="360" r="24" fill="#fff" stroke="#1f2937" stroke-width="2"/>
+<line x1="442.0" y1="340.0" x2="442.0" y2="380.0" stroke="#1f2937" stroke-width="2" />
+<line x1="442.0" y1="360.0" x2="456.0" y2="360.0" stroke="#1f2937" stroke-width="2" />
+<text x="480.0" y="404.0" font-size="13.5" font-weight="bold" text-anchor="middle" fill="#1f2937">PantallaLogin</text>
+<text x="30.0" y="442.0" font-size="12.5" font-weight="normal" text-anchor="start" fill="#475569" font-style="italic">ca 5.1 y ca 6.1: el mensaje 5 devuelve el error (datos inválidos o email registrado) y no se crea el usuario.</text>
+<circle cx="60" cy="470" r="9" fill="#fff" stroke="#1f2937" stroke-width="1.5"/>
+<line x1="44.0" y1="463.0" x2="44.0" y2="477.0" stroke="#1f2937" stroke-width="1.5" />
+<line x1="44.0" y1="470.0" x2="51.0" y2="470.0" stroke="#1f2937" stroke-width="1.5" />
+<text x="78.0" y="475.0" font-size="12.5" font-weight="normal" text-anchor="start" fill="#1f2937">Interfaz</text>
+<circle cx="190" cy="470" r="9" fill="#fff" stroke="#1f2937" stroke-width="1.5"/>
+<path d="M194,457 L190,461 L194,465" fill="none" stroke="#1f2937" stroke-width="1.5"/>
+<text x="208.0" y="475.0" font-size="12.5" font-weight="normal" text-anchor="start" fill="#1f2937">Control</text>
+<circle cx="320" cy="470" r="9" fill="#fff" stroke="#1f2937" stroke-width="1.5"/>
+<line x1="311.0" y1="479.0" x2="329.0" y2="479.0" stroke="#1f2937" stroke-width="1.5" />
+<text x="338.0" y="475.0" font-size="12.5" font-weight="normal" text-anchor="start" fill="#1f2937">Entidad</text>
+<line x1="430" y1="470" x2="466" y2="470" stroke="#3730a3" stroke-width="1.6" marker-end="url(#m)"/>
+<text x="476.0" y="475.0" font-size="12.5" font-weight="normal" text-anchor="start" fill="#1f2937">n: mensaje, en el orden del curso normal de la ficha</text></svg>
