@@ -101,3 +101,20 @@ def test_crear_un_usuario_con_correo_repetido_devuelve_none_y_la_base_sigue_usab
     assert UserDAO.create('Ana', 'ana@test.com', 'hash') is not None
     assert UserDAO.create('Ana bis', 'ANA@test.com', 'hash') is None
     assert UserDAO.create('Beto', 'beto@test.com', 'hash') is not None
+
+
+# --- H9: AuthService devuelve User o None en los dos métodos ---
+
+def test_auth_service_devuelve_el_usuario_o_none_en_registro_y_login(app):
+    """Antes register_user devolvía una tupla (User, mensaje) y authenticate
+    devolvía User o None. Ahora los dos devuelven User o None."""
+    from app.persistence.models import User
+    from app.services.auth_service import AuthService
+
+    creado = AuthService.register_user('Ana', 'ana@test.com', 'password123')
+    assert isinstance(creado, User)
+    assert AuthService.register_user('Ana', 'ana@test.com', 'password123') is None
+
+    assert AuthService.authenticate('ana@test.com', 'password123') == creado
+    assert AuthService.authenticate('ana@test.com', 'otra-clave') is None
+    assert AuthService.authenticate('nadie@test.com', 'password123') is None

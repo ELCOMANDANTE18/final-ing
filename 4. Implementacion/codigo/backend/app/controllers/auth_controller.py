@@ -31,8 +31,8 @@ def register():
     except ValidationError as err:
         return jsonify({'msg': MSG_FORMULARIO, 'errors': err.messages}), 400
 
-    user, err_msg = AuthService.register_user(data['name'], data['email'], data['password'])
-    if err_msg:
+    user = AuthService.register_user(data['name'], data['email'], data['password'])
+    if user is None:
         # 409, como en el diagrama de secuencia de CU0006 (antes respondía 400).
         return jsonify({'msg': MSG_EMAIL_REGISTRADO}), 409
 
