@@ -1,21 +1,26 @@
 from functools import wraps
 
-from flask import g
+from flask import jsonify
 from flask_jwt_extended import get_jwt_identity, verify_jwt_in_request
 
-from app.persistence.daos.user_dao import UserDao
+from ..persistence.daos.user_dao import UserDAO
 
 
 def token_required(fn):
-    """Valida el JWT y deja el Usuario autenticado en `g.current_user`
-    (endpoints existentes lo referencian como `current_user`, ver
-    imple.md)."""
-
     @wraps(fn)
     def wrapper(*args, **kwargs):
-        verify_jwt_in_request()
-        user_id = get_jwt_identity()
-        g.current_user = UserDao.get_by_id(int(user_id))
-        return fn(*args, **kwargs)
+        try:
+            verify_jwt_in_request()
+            identity = int(get_jwt_identity())
+        except Exception:
+            # Seguridad: antes se devolvía str(e), que le contaba al cliente por
+            # qué falló la validación del token (firma, formato, vencimiento).
+            return jsonify({'msg': 'Sesión inválida o vencida. Iniciá sesión de nuevo.'}), 401
 
+        user = UserDAO.get_by_id(identity)
+        if not user:
+            return jsonify({'msg': 'Sesión inválida o vencida. Iniciá sesión de nuevo.'}), 401
+
+        kwargs['current_user'] = user
+        return fn(*args, **kwargs)
     return wrapper

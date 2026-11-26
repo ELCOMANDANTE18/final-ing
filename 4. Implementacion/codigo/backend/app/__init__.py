@@ -1,27 +1,52 @@
 from flask import Flask
+from flask_cors import CORS
+from flask_jwt_extended import JWTManager
+from flask_mail import Mail
+from flask_migrate import Migrate
+from flask_sqlalchemy import SQLAlchemy
 
-from app.config import Config
-from app.extensions import cors, db, jwt, mail, migrate
+from .config import Config
+
+db = SQLAlchemy()
+migrate = Migrate()
+jwt = JWTManager()
+mail = Mail()
+
+# Claves que nunca deben firmar tokens: la que estaba fija en el código y la
+# del archivo de ejemplo.
+_CLAVES_INSEGURAS = {'super-secret', 'cambiar-por-un-valor-random-largo'}
 
 
 def create_app(config_class=Config):
     app = Flask(__name__)
+
+    # Configuración de la aplicación (antes se cargaba a mano acá, con la
+    # clave JWT fija en el código; ahora sale de Config, que lee el .env).
     app.config.from_object(config_class)
 
+    clave = app.config.get('JWT_SECRET_KEY')
+    if not clave or clave in _CLAVES_INSEGURAS:
+        raise RuntimeError(
+            'Falta JWT_SECRET_KEY en backend/.env (o tiene un valor de ejemplo). '
+            'Generar uno con: python -c "import secrets; print(secrets.token_hex(32))"'
+        )
+
+    # Inicializar extensiones
     db.init_app(app)
     migrate.init_app(app, db)
     jwt.init_app(app)
     mail.init_app(app)
-    cors.init_app(app, resources={r"/*": {"origins": app.config["CORS_ORIGIN"]}})
 
-    from app.services.notification_service import NotificationService
+    # Configurar CORS
+    CORS(app, resources={r"/*": {"origins": app.config['CORS_ORIGIN']}})
 
-    NotificationService.get_instance().init_app(mail)
+    # Importar modelos para migraciones
+    from .persistence import models  # noqa: F401
 
-    from app.controllers.auth_controller import auth_bp
-    from app.controllers.amistad_controller import amistad_bp
-
-    app.register_blueprint(auth_bp)
-    app.register_blueprint(amistad_bp)
+    # Registrar blueprints
+    from .controllers.auth_controller import auth_bp
+    from .controllers.invite_controller import invite_bp
+    app.register_blueprint(auth_bp, url_prefix='/auth')
+    app.register_blueprint(invite_bp, url_prefix='/invite')
 
     return app

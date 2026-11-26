@@ -1,73 +1,40 @@
 import threading
 
-from flask import render_template
+from flask import current_app
 from flask_mail import Message
 
-from app.services.observer import Observador
+from .. import mail
 
 
-class NotificationService(Observador):
-    """Singleton (double-checked locking) + Observador. Ya existía como
-    Singleton puro (envío de invitaciones, CU0010); acá se le suma la
-    interfaz Observador para que también reaccione a eventos de otros
-    Observable (Usuario) sin que el service que dispara el evento conozca
-    al Notificador."""
+class NotificationService:
+    """Singleton (doble verificación con candado): una sola instancia envía
+    todos los correos de la aplicación."""
 
     _instance = None
     _lock = threading.Lock()
 
-    def __init__(self):
-        if NotificationService._instance is not None:
-            raise RuntimeError("Usar NotificationService.get_instance(), no el constructor.")
-        self._mail = None
+    def __new__(cls, *args, **kwargs):
+        if not cls._instance:
+            with cls._lock:
+                if not cls._instance:
+                    cls._instance = super().__new__(cls)
+        return cls._instance
 
-    @staticmethod
-    def get_instance() -> "NotificationService":
-        if NotificationService._instance is None:
-            with NotificationService._lock:
-                if NotificationService._instance is None:
-                    NotificationService._instance = NotificationService()
-        return NotificationService._instance
-
-    def init_app(self, mail) -> None:
-        self._mail = mail
-
-    # --- Observador ---
-    def actualizar(self, evento: dict) -> None:
-        """Reacciona a eventos publicados por notificar_observadores() de
-        un Usuario. Hoy el único evento que dispara acción es
-        "solicitud_recibida" (CU Notificar Solicitud de Amistad Recibida)."""
-        if evento.get("tipo") == "solicitud_recibida":
-            self._enviar_email_plantilla(
-                destinatario=evento["receptor_email"],
-                asunto=f"{evento['emisor_nombre']} te envió una solicitud de amistad",
-                plantilla="solicitud_recibida",
-                contexto={"emisor_nombre": evento["emisor_nombre"]},
-            )
-
-    def _enviar_email_plantilla(
-        self, destinatario: str, asunto: str, plantilla: str, contexto: dict
-    ) -> None:
-        """Renderiza `templates/emails/<plantilla>.html` y `.txt` (mismo
-        contexto para las dos) y arma el mail con ambas versiones — la
-        mayoría de los clientes de mail muestran la HTML, la .txt es el
-        fallback para los que no rendereizan HTML."""
-        if self._mail is None:
-            raise RuntimeError("NotificationService no inicializado: falta init_app(mail).")
-        msg = Message(
-            subject=asunto,
-            recipients=[destinatario],
-            body=render_template(f"emails/{plantilla}.txt", **contexto),
-            html=render_template(f"emails/{plantilla}.html", **contexto),
+    def send_invitation(self, recipient_email, inviter_name):
+        subject = '¡Te invitaron a UMBook!'
+        # Enlace a la pantalla de registro (CU0006), como dice CU0010.
+        register_url = f"{current_app.config['FRONTEND_URL'].rstrip('/')}/register"
+        body = (
+            f'Hola, {inviter_name} te invitó a sumarte a UMBook.\n\n'
+            f'Para crear tu cuenta, entrá a este enlace: {register_url}'
         )
-        self._mail.send(msg)
-
-    # --- API preexistente (CU0010), no se le cambia la firma ---
-    def enviar_email(self, destinatario: str, mensaje: str) -> None:
-        if self._mail is None:
-            raise RuntimeError("NotificationService no inicializado: falta init_app(mail).")
-        msg = Message(subject="UMBook", recipients=[destinatario], body=mensaje)
-        self._mail.send(msg)
-
-    def notificar(self, evento: dict) -> None:
-        self.actualizar(evento)
+        msg = Message(
+            subject=subject,
+            recipients=[recipient_email],
+            body=body,
+            sender=current_app.config['MAIL_DEFAULT_SENDER'],
+        )
+        # Si el envío falla, la excepción sube al controller, que la registra
+        # en el log y responde con un mensaje genérico (CU0010, ca 5.1).
+        mail.send(msg)
+        current_app.logger.info('Invitación enviada a %s', recipient_email)

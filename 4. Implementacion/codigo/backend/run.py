@@ -1,12 +1,17 @@
 import os
 
-from app import create_app
-from app.extensions import db
+from app import create_app, db
 
 app = create_app()
 
-if __name__ == "__main__":
-    with app.app_context():
-        os.makedirs(os.path.join(app.instance_path), exist_ok=True)
-        db.create_all()
-    app.run(debug=True, port=5000)
+# Crea las tablas si no existen (create_all no toca las que ya están).
+with app.app_context():
+    db.create_all()
+
+if __name__ == '__main__':
+    # Seguridad: antes corría con debug=True en host='0.0.0.0'. El depurador de
+    # Werkzeug permite ejecutar código desde el navegador, y en 0.0.0.0 queda
+    # expuesto a cualquiera de la red. Ahora escucha solo en esta máquina y el
+    # modo debug se activa a propósito con FLASK_DEBUG=1.
+    debug = os.getenv('FLASK_DEBUG', '0') == '1'
+    app.run(host='127.0.0.1', port=5000, debug=debug)
