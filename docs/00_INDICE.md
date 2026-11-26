@@ -50,7 +50,7 @@ El repositorio contiene **dos clases de documentos**:
 | `DISEÑO_UMBook.md` | Diseño | 2.2 | Capas, estructura, mecanismos, patrones, despliegue, subsistemas, diferencias con la propuesta y hallazgos |
 | `PRUEBAS_UMBook.md` | Prueba | 2.2 | Plan, casos y procedimientos de los tres casos y de seguridad, trazados a las 42 pruebas del backend y las 11 del frontend |
 | `OBSERVACIONES_POR_ETAPA_UMBook.md` | Gestión del proyecto | 1.6 | Revisión de cada etapa contra el código y cómo se resolvió cada observación |
-| `tareas.md` | Gestión del proyecto | 1.7 | Lo resuelto y lo pendiente |
+| `tareas.md` | Gestión del proyecto | 2.0 | Lo pendiente antes de la defensa, lo resuelto y los límites declarados |
 
 Los documentos técnicos de la implementación anterior (`proyecto.md`, `backend.md`, `frontend.md`, `construccion.md` y `prompt-construccion.md`) están en `_version_anterior/docs/`. Lo vigente está en `4. Implementacion/README.md` y `4. Implementacion/codigo/README.md`.
 
