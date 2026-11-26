@@ -1,0 +1,169 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1720" height="1480" viewBox="0 0 1720 1480" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+<defs><marker id="abierta" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10" fill="none" stroke="#1f2937" stroke-width="1.5"/></marker><marker id="hueca" viewBox="0 0 12 12" refX="12" refY="6" markerWidth="14" markerHeight="14" orient="auto-start-reverse"><path d="M0,0 L12,6 L0,12 Z" fill="#fff" stroke="#1f2937" stroke-width="1.3"/></marker></defs>
+<rect width="1720" height="1480" fill="#fff"/>
+<rect x="300" y="40" width="1080" height="1240" rx="6" fill="none" stroke="#1f2937" stroke-width="2"/>
+<text x="840" y="72" font-size="20" font-weight="bold" text-anchor="middle" fill="#1f2937" >UMBook</text>
+<rect x="330" y="113" width="430" height="322" fill="#f8fafc" stroke="#64748b" stroke-width="1.2"/>
+<rect x="330" y="95" width="169.79999999999998" height="20" fill="#f8fafc" stroke="#64748b" stroke-width="1.2"/>
+<text x="337" y="110" font-size="12.5" font-weight="bold" text-anchor="start" fill="#334155" >Gestión de Usuarios</text>
+<rect x="330" y="483" width="430" height="322" fill="#f8fafc" stroke="#64748b" stroke-width="1.2"/>
+<rect x="330" y="465" width="186.2" height="20" fill="#f8fafc" stroke="#64748b" stroke-width="1.2"/>
+<text x="337" y="480" font-size="12.5" font-weight="bold" text-anchor="start" fill="#334155" >Gestión de Relaciones</text>
+<rect x="330" y="853" width="430" height="382" fill="#f8fafc" stroke="#64748b" stroke-width="1.2"/>
+<rect x="330" y="835" width="178.0" height="20" fill="#f8fafc" stroke="#64748b" stroke-width="1.2"/>
+<text x="337" y="850" font-size="12.5" font-weight="bold" text-anchor="start" fill="#334155" >Gestión de Contenido</text>
+<rect x="920" y="113" width="430" height="142" fill="#f8fafc" stroke="#64748b" stroke-width="1.2"/>
+<rect x="920" y="95" width="128.79999999999998" height="20" fill="#f8fafc" stroke="#64748b" stroke-width="1.2"/>
+<text x="927" y="110" font-size="12.5" font-weight="bold" text-anchor="start" fill="#334155" >Administración</text>
+<rect x="920" y="303" width="430" height="82" fill="#f8fafc" stroke="#64748b" stroke-width="1.2"/>
+<rect x="920" y="285" width="161.6" height="20" fill="#f8fafc" stroke="#64748b" stroke-width="1.2"/>
+<text x="927" y="300" font-size="12.5" font-weight="bold" text-anchor="start" fill="#334155" >Control de Accesos</text>
+<rect x="920" y="853" width="430" height="322" fill="#f8fafc" stroke="#64748b" stroke-width="1.2"/>
+<rect x="920" y="835" width="128.79999999999998" height="20" fill="#f8fafc" stroke="#64748b" stroke-width="1.2"/>
+<text x="927" y="850" font-size="12.5" font-weight="bold" text-anchor="start" fill="#334155" >Notificaciones</text>
+<line x1="160" y1="150" x2="355" y2="150" stroke="#1f2937" stroke-width="1.1"/>
+<line x1="160" y1="320" x2="355" y2="210" stroke="#1f2937" stroke-width="1.1"/>
+<line x1="160" y1="690" x2="355" y2="270" stroke="#1f2937" stroke-width="1.1"/>
+<line x1="160" y1="690" x2="355" y2="330" stroke="#1f2937" stroke-width="1.1"/>
+<line x1="160" y1="690" x2="355" y2="390" stroke="#1f2937" stroke-width="1.1"/>
+<line x1="160" y1="690" x2="355" y2="520" stroke="#1f2937" stroke-width="1.1"/>
+<line x1="160" y1="690" x2="355" y2="580" stroke="#1f2937" stroke-width="1.1"/>
+<line x1="160" y1="690" x2="355" y2="640" stroke="#1f2937" stroke-width="1.1"/>
+<line x1="160" y1="690" x2="355" y2="700" stroke="#1f2937" stroke-width="1.1"/>
+<line x1="160" y1="690" x2="355" y2="760" stroke="#1f2937" stroke-width="1.1"/>
+<line x1="160" y1="690" x2="355" y2="890" stroke="#1f2937" stroke-width="1.1"/>
+<line x1="160" y1="690" x2="355" y2="950" stroke="#1f2937" stroke-width="1.1"/>
+<line x1="160" y1="690" x2="355" y2="1010" stroke="#1f2937" stroke-width="1.1"/>
+<line x1="160" y1="690" x2="355" y2="1070" stroke="#1f2937" stroke-width="1.1"/>
+<line x1="160" y1="690" x2="355" y2="1130" stroke="#1f2937" stroke-width="1.1"/>
+<line x1="160" y1="690" x2="355" y2="1190" stroke="#1f2937" stroke-width="1.1"/>
+<line x1="1560" y1="200" x2="1325" y2="150" stroke="#1f2937" stroke-width="1.1"/>
+<line x1="1560" y1="200" x2="1325" y2="210" stroke="#1f2937" stroke-width="1.1"/>
+<line x1="1560" y1="200" x2="1325" y2="340" stroke="#1f2937" stroke-width="1.1"/>
+<line x1="1560" y1="890" x2="1325" y2="890" stroke="#1f2937" stroke-width="1.1"/>
+<line x1="1560" y1="890" x2="1325" y2="950" stroke="#1f2937" stroke-width="1.1"/>
+<polyline points="1590,282 1590,305 1690,305 1690,1360 130,1360 130,772" fill="none" stroke="#1f2937" stroke-width="1.3" marker-end="url(#hueca)"/>
+<line x1="735.0" y1="1190.0" x2="945.0" y2="950.0" stroke="#1f2937" stroke-width="1.1" stroke-dasharray="6 4" marker-end="url(#abierta)"/>
+<rect x="820.5" y="1048.0" width="60" height="15" fill="#fff"/>
+<text x="850.5" y="1060.0" font-size="11" font-weight="normal" text-anchor="middle" fill="#1f2937" font-style="italic">«include»</text>
+<line x1="735.0" y1="1190.0" x2="945.0" y2="1010.0" stroke="#1f2937" stroke-width="1.1" stroke-dasharray="6 4" marker-end="url(#abierta)"/>
+<rect x="820.5" y="1081.0" width="60" height="15" fill="#fff"/>
+<text x="850.5" y="1093.0" font-size="11" font-weight="normal" text-anchor="middle" fill="#1f2937" font-style="italic">«include»</text>
+<line x1="735.0" y1="1190.0" x2="945.0" y2="1070.0" stroke="#1f2937" stroke-width="1.1" stroke-dasharray="6 4" marker-end="url(#abierta)"/>
+<rect x="820.5" y="1114.0" width="60" height="15" fill="#fff"/>
+<text x="850.5" y="1126.0" font-size="11" font-weight="normal" text-anchor="middle" fill="#1f2937" font-style="italic">«include»</text>
+<line x1="735.0" y1="1190.0" x2="945.0" y2="1130.0" stroke="#1f2937" stroke-width="1.1" stroke-dasharray="6 4" marker-end="url(#abierta)"/>
+<rect x="820.5" y="1147.0" width="60" height="15" fill="#fff"/>
+<text x="850.5" y="1159.0" font-size="11" font-weight="normal" text-anchor="middle" fill="#1f2937" font-style="italic">«include»</text>
+<path d="M715,501 C790,500 790,410 735,392" fill="none" stroke="#1f2937" stroke-width="1.1" stroke-dasharray="6 4" marker-end="url(#abierta)"/>
+<text x="775" y="459.0" font-size="11" font-weight="normal" text-anchor="start" fill="#1f2937" font-style="italic">«extend»</text>
+<ellipse cx="545" cy="150" rx="190" ry="25" fill="#e0e7ff" stroke="#4338ca" stroke-width="2.4"/>
+<text x="545" y="147" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#4338ca" >CU0006</text>
+<text x="545" y="163" font-size="13" font-weight="normal" text-anchor="middle" fill="#1f2937" >Registrar Usuario</text>
+<ellipse cx="545" cy="210" rx="190" ry="25" fill="#e0e7ff" stroke="#4338ca" stroke-width="2.4"/>
+<text x="545" y="207" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#4338ca" >CU0001</text>
+<text x="545" y="223" font-size="13" font-weight="normal" text-anchor="middle" fill="#1f2937" >Iniciar Sesión</text>
+<ellipse cx="545" cy="270" rx="190" ry="25" fill="#e0e7ff" stroke="#4338ca" stroke-width="2.4"/>
+<text x="545" y="267" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#4338ca" >CU0010</text>
+<text x="545" y="283" font-size="13" font-weight="normal" text-anchor="middle" fill="#1f2937" >Invitación a la aplicación</text>
+<ellipse cx="545" cy="330" rx="190" ry="25" fill="#fff" stroke="#1f2937" stroke-width="1.4"/>
+<text x="545" y="327" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#475569" >CU0019</text>
+<text x="545" y="343" font-size="13" font-weight="normal" text-anchor="middle" fill="#1f2937" >Modificar Perfil</text>
+<ellipse cx="545" cy="390" rx="190" ry="25" fill="#fff" stroke="#1f2937" stroke-width="1.4"/>
+<text x="545" y="387" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#475569" >CU0018</text>
+<text x="545" y="403" font-size="13" font-weight="normal" text-anchor="middle" fill="#1f2937" >Buscar Usuarios</text>
+<ellipse cx="545" cy="520" rx="190" ry="25" fill="#fff" stroke="#1f2937" stroke-width="1.4"/>
+<text x="545" y="517" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#475569" >CU0005</text>
+<text x="545" y="533" font-size="13" font-weight="normal" text-anchor="middle" fill="#1f2937" >Solicitar Amistad</text>
+<ellipse cx="545" cy="580" rx="190" ry="25" fill="#fff" stroke="#1f2937" stroke-width="1.4"/>
+<text x="545" y="577" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#475569" >CU0002</text>
+<text x="545" y="593" font-size="13" font-weight="normal" text-anchor="middle" fill="#1f2937" >Aceptar / Rechazar solicitud de amistad</text>
+<ellipse cx="545" cy="640" rx="190" ry="25" fill="#fff" stroke="#1f2937" stroke-width="1.4"/>
+<text x="545" y="637" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#475569" >CU0016</text>
+<text x="545" y="653" font-size="13" font-weight="normal" text-anchor="middle" fill="#1f2937" >Eliminar Amigos</text>
+<ellipse cx="545" cy="700" rx="190" ry="25" fill="#fff" stroke="#1f2937" stroke-width="1.4"/>
+<text x="545" y="697" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#475569" >CU0012</text>
+<text x="545" y="713" font-size="13" font-weight="normal" text-anchor="middle" fill="#1f2937" >Crear grupos de amigos</text>
+<ellipse cx="545" cy="760" rx="190" ry="25" fill="#fff" stroke="#1f2937" stroke-width="1.4"/>
+<text x="545" y="757" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#475569" >CU0015</text>
+<text x="545" y="773" font-size="13" font-weight="normal" text-anchor="middle" fill="#1f2937" >Mostrar usuarios con amigos en común</text>
+<ellipse cx="545" cy="890" rx="190" ry="25" fill="#fff" stroke="#1f2937" stroke-width="1.4"/>
+<text x="545" y="887" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#475569" >CU0013</text>
+<text x="545" y="903" font-size="13" font-weight="normal" text-anchor="middle" fill="#1f2937" >Hacer publicaciones en la página</text>
+<ellipse cx="545" cy="950" rx="190" ry="25" fill="#fff" stroke="#1f2937" stroke-width="1.4"/>
+<text x="545" y="947" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#475569" >CU0004</text>
+<text x="545" y="963" font-size="13" font-weight="normal" text-anchor="middle" fill="#1f2937" >Publicar en el Muro</text>
+<ellipse cx="545" cy="1010" rx="190" ry="25" fill="#fff" stroke="#1f2937" stroke-width="1.4"/>
+<text x="545" y="1007" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#475569" >CU0014</text>
+<text x="545" y="1023" font-size="13" font-weight="normal" text-anchor="middle" fill="#1f2937" >Comentar Publicación</text>
+<ellipse cx="545" cy="1070" rx="190" ry="25" fill="#fff" stroke="#1f2937" stroke-width="1.4"/>
+<text x="545" y="1067" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#475569" >CU0011</text>
+<text x="545" y="1083" font-size="13" font-weight="normal" text-anchor="middle" fill="#1f2937" >Eliminar comentarios</text>
+<ellipse cx="545" cy="1130" rx="190" ry="25" fill="#fff" stroke="#1f2937" stroke-width="1.4"/>
+<text x="545" y="1127" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#475569" >CU0007</text>
+<text x="545" y="1143" font-size="13" font-weight="normal" text-anchor="middle" fill="#1f2937" >Gestionar Álbum</text>
+<ellipse cx="545" cy="1190" rx="190" ry="25" fill="#fff" stroke="#1f2937" stroke-width="1.4"/>
+<text x="545" y="1187" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#475569" >CU0020</text>
+<text x="545" y="1203" font-size="13" font-weight="normal" text-anchor="middle" fill="#1f2937" >Consultar Página Principal</text>
+<ellipse cx="1135" cy="150" rx="190" ry="25" fill="#fff" stroke="#1f2937" stroke-width="1.4"/>
+<text x="1135" y="147" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#475569" >CU0003</text>
+<text x="1135" y="163" font-size="13" font-weight="normal" text-anchor="middle" fill="#1f2937" >Gestionar usuarios, comentarios y fotos</text>
+<ellipse cx="1135" cy="210" rx="190" ry="25" fill="#fff" stroke="#1f2937" stroke-width="1.4"/>
+<text x="1135" y="207" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#475569" >CU0008</text>
+<text x="1135" y="223" font-size="13" font-weight="normal" text-anchor="middle" fill="#1f2937" >Gestionar Comentarios</text>
+<ellipse cx="1135" cy="340" rx="190" ry="25" fill="#fff" stroke="#1f2937" stroke-width="1.4"/>
+<text x="1135" y="337" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#475569" >CU0017</text>
+<text x="1135" y="353" font-size="13" font-weight="normal" text-anchor="middle" fill="#1f2937" >Gestionar permisos en el sitio</text>
+<ellipse cx="1135" cy="890" rx="190" ry="25" fill="#fff" stroke="#1f2937" stroke-width="1.4"/>
+<text x="1135" y="887" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#475569" >CU0023</text>
+<text x="1135" y="903" font-size="13" font-weight="normal" text-anchor="middle" fill="#1f2937" >Enviar notificación de cumpleaños por email</text>
+<ellipse cx="1135" cy="950" rx="190" ry="25" fill="#fff" stroke="#1f2937" stroke-width="1.4"/>
+<text x="1135" y="947" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#475569" >CU0009</text>
+<text x="1135" y="963" font-size="13" font-weight="normal" text-anchor="middle" fill="#1f2937" >Notificación de Cumpleaños</text>
+<ellipse cx="1135" cy="1010" rx="190" ry="25" fill="#fff" stroke="#1f2937" stroke-width="1.4"/>
+<text x="1135" y="1007" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#475569" >CU0021</text>
+<text x="1135" y="1023" font-size="13" font-weight="normal" text-anchor="middle" fill="#1f2937" >Notificar solicitud de amistad recibida</text>
+<ellipse cx="1135" cy="1070" rx="190" ry="25" fill="#fff" stroke="#1f2937" stroke-width="1.4"/>
+<text x="1135" y="1067" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#475569" >CU0022</text>
+<text x="1135" y="1083" font-size="13" font-weight="normal" text-anchor="middle" fill="#1f2937" >Notificar comentario en foto propia</text>
+<ellipse cx="1135" cy="1130" rx="190" ry="25" fill="#fff" stroke="#1f2937" stroke-width="1.4"/>
+<text x="1135" y="1127" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#475569" >CU0024</text>
+<text x="1135" y="1143" font-size="13" font-weight="normal" text-anchor="middle" fill="#1f2937" >Notificar actualización de perfil de amigo</text>
+<circle cx="130" cy="120" r="13" fill="#fff" stroke="#1f2937" stroke-width="2"/>
+<line x1="130" y1="133" x2="130" y2="172" stroke="#1f2937" stroke-width="2"/>
+<line x1="106" y1="146" x2="154" y2="146" stroke="#1f2937" stroke-width="2"/>
+<line x1="130" y1="172" x2="110" y2="202" stroke="#1f2937" stroke-width="2"/>
+<line x1="130" y1="172" x2="150" y2="202" stroke="#1f2937" stroke-width="2"/>
+<text x="130" y="222" font-size="14" font-weight="bold" text-anchor="middle" fill="#1f2937" >Usuario No Registrado</text>
+<circle cx="130" cy="290" r="13" fill="#fff" stroke="#1f2937" stroke-width="2"/>
+<line x1="130" y1="303" x2="130" y2="342" stroke="#1f2937" stroke-width="2"/>
+<line x1="106" y1="316" x2="154" y2="316" stroke="#1f2937" stroke-width="2"/>
+<line x1="130" y1="342" x2="110" y2="372" stroke="#1f2937" stroke-width="2"/>
+<line x1="130" y1="342" x2="150" y2="372" stroke="#1f2937" stroke-width="2"/>
+<text x="130" y="392" font-size="14" font-weight="bold" text-anchor="middle" fill="#1f2937" >Usuario Registrado</text>
+<circle cx="130" cy="660" r="13" fill="#fff" stroke="#1f2937" stroke-width="2"/>
+<line x1="130" y1="673" x2="130" y2="712" stroke="#1f2937" stroke-width="2"/>
+<line x1="106" y1="686" x2="154" y2="686" stroke="#1f2937" stroke-width="2"/>
+<line x1="130" y1="712" x2="110" y2="742" stroke="#1f2937" stroke-width="2"/>
+<line x1="130" y1="712" x2="150" y2="742" stroke="#1f2937" stroke-width="2"/>
+<text x="130" y="762" font-size="14" font-weight="bold" text-anchor="middle" fill="#1f2937" >Usuario Autenticado</text>
+<circle cx="1590" cy="170" r="13" fill="#fff" stroke="#1f2937" stroke-width="2"/>
+<line x1="1590" y1="183" x2="1590" y2="222" stroke="#1f2937" stroke-width="2"/>
+<line x1="1566" y1="196" x2="1614" y2="196" stroke="#1f2937" stroke-width="2"/>
+<line x1="1590" y1="222" x2="1570" y2="252" stroke="#1f2937" stroke-width="2"/>
+<line x1="1590" y1="222" x2="1610" y2="252" stroke="#1f2937" stroke-width="2"/>
+<text x="1590" y="272" font-size="14" font-weight="bold" text-anchor="middle" fill="#1f2937" >Administrador</text>
+<circle cx="1590" cy="860" r="13" fill="#fff" stroke="#1f2937" stroke-width="2"/>
+<line x1="1590" y1="873" x2="1590" y2="912" stroke="#1f2937" stroke-width="2"/>
+<line x1="1566" y1="886" x2="1614" y2="886" stroke="#1f2937" stroke-width="2"/>
+<line x1="1590" y1="912" x2="1570" y2="942" stroke="#1f2937" stroke-width="2"/>
+<line x1="1590" y1="912" x2="1610" y2="942" stroke="#1f2937" stroke-width="2"/>
+<text x="1590" y="962" font-size="14" font-weight="bold" text-anchor="middle" fill="#1f2937" >Sistema</text>
+<rect x="300" y="1402" width="1080" height="58" rx="4" fill="#fff" stroke="#cbd5e1"/>
+<ellipse cx="350" cy="1431" rx="34" ry="14" fill="#e0e7ff" stroke="#4338ca" stroke-width="2.4"/>
+<text x="395" y="1436" font-size="13" font-weight="normal" text-anchor="start" fill="#1f2937" >Implementado en esta versión (CU0001, CU0006 y CU0010)</text>
+<ellipse cx="860" cy="1431" rx="34" ry="14" fill="#fff" stroke="#1f2937" stroke-width="1.4"/>
+<text x="905" y="1436" font-size="13" font-weight="normal" text-anchor="start" fill="#1f2937" >No implementado en esta versión</text>
+<line x1="1140" y1="1431" x2="1185" y2="1431" stroke="#1f2937" stroke-width="1.3" marker-end="url(#hueca)"/>
+<text x="1195" y="1436" font-size="13" font-weight="normal" text-anchor="start" fill="#1f2937" >Generalización</text>
+</svg>
