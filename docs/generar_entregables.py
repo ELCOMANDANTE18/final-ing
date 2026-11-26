@@ -2,18 +2,19 @@
 """Genera los entregables .docx y .xlsx a partir de los .md de docs/.
 
   ESPECIFICACIONES_CASOS_DE_USO_UMBook.md
-      -> "1. Requerimientos/Casos de Uso/CUxxxx_Nombre.docx"   (una ficha por caso de uso)
+      -> "1. Requerimientos/4_Casos de Uso/CUxxxx_Nombre.docx"   (una ficha por caso de uso)
   REQUISITOS_NO_FUNCIONALES_UMBook.md
-      -> "1. Requerimientos/UMBook_RNF.docx"
+      -> "1. Requerimientos/5_Requisitos No Funcionales/UMBook_RNF.docx"
   PRUEBAS_UMBook.md
-      -> "5. Pruebas/UMBook_Plan_de_Pruebas.docx"              (sección 0)
-      -> "5. Pruebas/UMBook_Casos_de_Prueba.xlsx"              (sección 1)
-      -> "5. Pruebas/UMBook_Procedimientos_de_Prueba.docx"     (sección 2)
+      -> "5. Pruebas/1_Plan de Pruebas/UMBook_Plan_de_Pruebas.docx"              (sección 0)
+      -> "5. Pruebas/3_Casos de Prueba.xlsx"              (sección 1)
+      -> "5. Pruebas/2_Procedimientos de Prueba.docx"     (sección 2)
 
 Los .md son la fuente: si un entregable difiere, hay que volver a generarlo.
 
 Uso (desde cualquier carpeta):
-    python3 docs/generar_entregables.py
+    python3 docs/generar_entregables.py                 # todo
+    python3 docs/generar_entregables.py fichas rnf      # solo algunas partes
 
 Requisito: pip install python-docx openpyxl
 """
@@ -30,15 +31,12 @@ from openpyxl.styles import Alignment, Font, PatternFill
 
 RAIZ = Path(__file__).resolve().parent.parent
 DOCS = RAIZ / "docs"
-CASOS = RAIZ / "1. Requerimientos" / "Casos de Uso"
+CASOS = RAIZ / "1. Requerimientos" / "4_Casos de Uso"
 PRUEBAS = RAIZ / "5. Pruebas"
 
 FICHAS = {  # código -> nombre del archivo
     "CU0001": "CU0001_Iniciar_Sesión.docx",
     "CU0006": "CU0006_Registrar_Usuario.docx",
-    "CU0011": "CU0011_Solicitar_Amistad.docx",
-    "CU0012": "CU0012_Aceptar_Rechazar_Solicitud.docx",
-    "CU0013": "CU0013_Notificar_Solicitud_Recibida.docx",
 }
 
 INLINE = re.compile(r"(\*\*.+?\*\*|`.+?`|\*.+?\*)")
@@ -161,8 +159,13 @@ def md_a_docx(lineas, destino: Path):
             agregar_texto(p, re.sub(r"^\s*[-*] ", "", l))
             i += 1
         elif re.match(r"^\s*\d+\. ", l):
-            p = doc.add_paragraph(style="List Number")
-            agregar_texto(p, re.sub(r"^\s*\d+\. ", "", l))
+            # Se usa el número escrito en el .md: la lista automática de Word
+            # continúa la numeración entre secciones (PR 0006 empezaba en 10).
+            num, texto = re.match(r"^\s*(\d+)\. (.*)", l).groups()
+            p = doc.add_paragraph()
+            p.paragraph_format.left_indent = Pt(18)
+            p.paragraph_format.first_line_indent = Pt(-14)
+            agregar_texto(p, f"{num}. {texto}")
             i += 1
         else:
             p = doc.add_paragraph()
@@ -181,7 +184,7 @@ def encabezado_ficha(codigo, nombre):
         "",
         "**Elaboró:** Victor Gimenez · **Aprobó:** · **Revisó:**",
         "",
-        "**Fecha:** 20/11/2026 · **Fecha:** · **Fecha:**",
+        "**Fecha:** 25/11/2026 · **Fecha:** · **Fecha:**",
         "",
     ]
 
@@ -200,7 +203,7 @@ def generar_fichas():
 
 def generar_rnf():
     rnf = (DOCS / "REQUISITOS_NO_FUNCIONALES_UMBook.md").read_text(encoding="utf-8")
-    md_a_docx(rnf.splitlines(), RAIZ / "1. Requerimientos" / "UMBook_RNF.docx")
+    md_a_docx(rnf.splitlines(), RAIZ / "1. Requerimientos" / "5_Requisitos No Funcionales" / "UMBook_RNF.docx")
 
 
 # ---------------------------------------------------------------- pruebas
@@ -215,16 +218,15 @@ def seccion(texto: str, numero: int) -> str:
 
 def generar_pruebas():
     texto = (DOCS / "PRUEBAS_UMBook.md").read_text(encoding="utf-8")
-    ficha = [
-        "**Versión:** 1.0 · **Última modificación:** 20/11/2026 · **Etapa:** Prueba",
-        "",
-    ]
+    # La ficha de versión de los entregables es la del propio .md.
+    version = re.search(r"(?m)^\*\*Versión:\*\*.*$", texto)
+    ficha = [version.group(0) if version else "", ""]
     bajar = lambda cuerpo: [re.sub(r"^### ", "## ", l) for l in cuerpo.splitlines()]
 
     md_a_docx(["# PLAN DE PRUEBAS — UMBook", ""] + ficha + bajar(seccion(texto, 0)),
-              PRUEBAS / "UMBook_Plan_de_Pruebas.docx")
+              PRUEBAS / "1_Plan de Pruebas" / "UMBook_Plan_de_Pruebas.docx")
     md_a_docx(["# PROCEDIMIENTOS DE PRUEBA — UMBook", ""] + ficha + bajar(seccion(texto, 2)),
-              PRUEBAS / "UMBook_Procedimientos_de_Prueba.docx")
+              PRUEBAS / "2_Procedimientos de Prueba.docx")
     generar_casos_xlsx(seccion(texto, 1))
 
 
@@ -248,7 +250,7 @@ def generar_casos_xlsx(cuerpo: str):
     i = 0
     while i < len(lineas):
         l = lineas[i]
-        m = re.match(r"### (CU\d{4}) — (.+)", l)
+        m = re.match(r"### (.+?) — (.+)", l)  # "CU0001 — Iniciar Sesión" o "Transversal — Seguridad"
         if m:
             caso = f"{m.group(1)} {m.group(2).strip()}"
         elif l.startswith("|") and not es_separador(l) and not l.startswith("| Id "):
@@ -263,17 +265,19 @@ def generar_casos_xlsx(cuerpo: str):
         for c in fila:
             c.alignment = Alignment(wrap_text=True, vertical="top")
     ws.freeze_panes = "A5"
-    destino = PRUEBAS / "UMBook_Casos_de_Prueba.xlsx"
+    destino = PRUEBAS / "3_Casos de Prueba.xlsx"
     wb.save(destino)
     print("OK  ", destino.relative_to(RAIZ), f"({ws.max_row - 4} casos)")
 
 
-def main() -> int:
-    generar_fichas()
-    generar_rnf()
-    generar_pruebas()
+def main(partes=()) -> int:
+    """Sin argumentos genera todo; si no, solo las partes pedidas:
+    fichas, rnf, pruebas."""
+    todas = {"fichas": generar_fichas, "rnf": generar_rnf, "pruebas": generar_pruebas}
+    for nombre in (partes or todas):
+        todas[nombre]()
     return 0
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(main(tuple(sys.argv[1:])))
